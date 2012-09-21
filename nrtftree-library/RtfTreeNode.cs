@@ -407,6 +407,17 @@ namespace Net.Sgoliver.NRtfTree
             /// <returns>Primer nodo grupo de la lista de nodos hijos del nodo actual cuya primera palabra clave es la indicada como parámetro.</returns>
             public RtfTreeNode SelectSingleChildGroup(string keyword)
             {
+                return SelectSingleChildGroup(keyword, false);
+            }
+
+            /// <summary>
+            /// Devuelve el primer nodo grupo de la lista de nodos hijos del nodo actual cuya primera palabra clave es la indicada como parámetro.
+            /// </summary>
+            /// <param name="keyword">Palabra clave buscada.</param>
+            /// <param name="ignoreSpecial">Si está activo se ignorarán los nodos de control '\*' previos a algunas palabras clave.</param>
+            /// <returns>Primer nodo grupo de la lista de nodos hijos del nodo actual cuya primera palabra clave es la indicada como parámetro.</returns>
+            public RtfTreeNode SelectSingleChildGroup(string keyword, bool ignoreSpecial)
+            {
                 int i = 0;
                 bool found = false;
                 RtfTreeNode node = null;
@@ -415,9 +426,11 @@ namespace Net.Sgoliver.NRtfTree
                 {
                     while (i < children.Count && !found)
                     {
-                        if (children[i].NodeType == RtfNodeType.Group &&
-                            children[i].HasChildNodes() &&
-                            children[i].FirstChild.NodeKey == keyword)
+                        if (children[i].NodeType == RtfNodeType.Group && children[i].HasChildNodes() &&
+                            (
+                             (children[i].FirstChild.NodeKey == keyword) ||
+                             (ignoreSpecial && children[i].ChildNodes[0].NodeKey == "*" && children[i].ChildNodes[1].NodeKey == keyword))
+                            )
                         {
                             node = children[i];
                             found = true;
@@ -511,6 +524,17 @@ namespace Net.Sgoliver.NRtfTree
             /// <returns>Primer nodo grupo del árbol, a partir del nodo actual, cuya primera palabra clave es la indicada como parámetro.</returns>
             public RtfTreeNode SelectSingleGroup(string keyword)
             {
+                return SelectSingleGroup(keyword, false);
+            }
+
+            /// <summary>
+            /// Devuelve el primer nodo grupo del árbol, a partir del nodo actual, cuya primera palabra clave es la indicada como parámetro.
+            /// </summary>
+            /// <param name="keyword">Palabra clave buscada.</param>
+            /// <param name="ignoreSpecial">Si está activo se ignorarán los nodos de control '\*' previos a algunas palabras clave.</param>
+            /// <returns>Primer nodo grupo del árbol, a partir del nodo actual, cuya primera palabra clave es la indicada como parámetro.</returns>
+            public RtfTreeNode SelectSingleGroup(string keyword, bool ignoreSpecial)
+            {
                 int i = 0;
                 bool found = false;
                 RtfTreeNode node = null;
@@ -519,16 +543,18 @@ namespace Net.Sgoliver.NRtfTree
                 {
                     while (i < children.Count && !found)
                     {
-                        if (children[i].NodeType == RtfNodeType.Group &&
-                            children[i].HasChildNodes() &&
-                            children[i].FirstChild.NodeKey == keyword)
+                        if (children[i].NodeType == RtfNodeType.Group && children[i].HasChildNodes() &&
+                            (
+                             (children[i].FirstChild.NodeKey == keyword) ||
+                             (ignoreSpecial && children[i].ChildNodes[0].NodeKey == "*" && children[i].ChildNodes[1].NodeKey == keyword))
+                            )
                         {
                             node = children[i];
                             found = true;
                         }
                         else
                         {
-                            node = children[i].SelectSingleGroup(keyword);
+                            node = children[i].SelectSingleGroup(keyword, ignoreSpecial);
 
                             if (node != null)
                             {
@@ -613,20 +639,33 @@ namespace Net.Sgoliver.NRtfTree
             /// <returns>Colección de nodos grupo, a partir del nodo actual, cuya primera palabra clave es la indicada como parámetro.</returns>
             public RtfNodeCollection SelectGroups(string keyword)
             {
+                return SelectGroups(keyword, false);
+            }
+
+            /// <summary>
+            /// Devuelve todos los nodos grupo, a partir del nodo actual, cuya primera palabra clave es la indicada como parámetro.
+            /// </summary>
+            /// <param name="keyword">Palabra clave buscada.</param>
+            /// <param name="ignoreSpecial">Si está activo se ignorarán los nodos de control '\*' previos a algunas palabras clave.</param>
+            /// <returns>Colección de nodos grupo, a partir del nodo actual, cuya primera palabra clave es la indicada como parámetro.</returns>
+            public RtfNodeCollection SelectGroups(string keyword, bool ignoreSpecial)
+            {
                 RtfNodeCollection nodes = new RtfNodeCollection();
 
                 if (children != null)
                 {
                     foreach (RtfTreeNode node in children)
                     {
-                        if (node.NodeType == RtfNodeType.Group &&
-                            node.HasChildNodes() &&
-                            node.FirstChild.NodeKey == keyword)
+                        if (node.NodeType == RtfNodeType.Group && node.HasChildNodes() &&
+                            (
+                             (node.FirstChild.NodeKey == keyword) ||
+                             (ignoreSpecial && node.ChildNodes[0].NodeKey == "*" && node.ChildNodes[1].NodeKey == keyword))
+                            )
                         {
                             nodes.Add(node);
                         }
 
-                        nodes.AddRange(node.SelectGroups(keyword));
+                        nodes.AddRange(node.SelectGroups(keyword, ignoreSpecial));
                     }
                 }
 
@@ -714,15 +753,28 @@ namespace Net.Sgoliver.NRtfTree
             /// <returns>Colección de nodos grupo de la lista de nodos hijos del nodo actual cuya primera palabra clave es la indicada como parámetro.</returns>
             public RtfNodeCollection SelectChildGroups(string keyword)
             {
+                return SelectChildGroups(keyword, false);
+            }
+
+            /// <summary>
+            /// Devuelve todos los nodos grupos de la lista de nodos hijos del nodo actual cuya primera palabra clave es la indicada como parámetro.
+            /// </summary>
+            /// <param name="keyword">Palabra clave buscada.</param>
+            /// <param name="ignoreSpecial">Si está activo se ignorarán los nodos de control '\*' previos a algunas palabras clave.</param>
+            /// <returns>Colección de nodos grupo de la lista de nodos hijos del nodo actual cuya primera palabra clave es la indicada como parámetro.</returns>
+            public RtfNodeCollection SelectChildGroups(string keyword, bool ignoreSpecial)
+            {
                 RtfNodeCollection nodes = new RtfNodeCollection();
 
                 if (children != null)
                 {
                     foreach (RtfTreeNode node in children)
                     {
-                        if (node.NodeType == RtfNodeType.Group &&
-                            node.HasChildNodes() &&
-                            node.FirstChild.NodeKey == keyword)
+                        if (node.NodeType == RtfNodeType.Group && node.HasChildNodes() &&
+                            (
+                             (node.FirstChild.NodeKey == keyword) ||
+                             (ignoreSpecial && node.ChildNodes[0].NodeKey == "*" && node.ChildNodes[1].NodeKey == keyword))
+                            )
                         {
                             nodes.Add(node);
                         }
