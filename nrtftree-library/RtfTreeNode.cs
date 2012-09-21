@@ -1405,6 +1405,78 @@ namespace Net.Sgoliver.NRtfTree
             }
 
             /// <summary>
+            /// Devuelve el siguiente nodo del árbol. 
+            /// </summary>
+            public RtfTreeNode NextNode
+            {
+                get
+                {
+                    RtfTreeNode res = null;
+
+                    if (this.NodeType == RtfNodeType.Root)
+                    {
+                        res = this.FirstChild;
+                    }
+                    else if (parent != null && parent.children != null)
+                    {
+                        if (this.NodeType == RtfNodeType.Group && this.children.Count > 0)
+                        {
+                            res = this.FirstChild;
+                        }
+                        else
+                        {
+                            if (this.Index < (parent.children.Count - 1))
+                            {
+                                res = this.NextSibling;
+                            }
+                            else
+                            {
+                                res = parent.NextSibling;
+                            }
+                        }
+                    }
+
+                    return res;
+                }
+            }
+
+            /// <summary>
+            /// Devuelve el nodo anterior del árbol.
+            /// </summary>
+            public RtfTreeNode PreviousNode
+            {
+                get
+                {
+                    RtfTreeNode res = null;
+
+                    if (this.NodeType == RtfNodeType.Root)
+                    {
+                        res = null;
+                    }
+                    else if (parent != null && parent.children != null)
+                    {
+                        if (this.Index > 0)
+                        {
+                            if (this.PreviousSibling.NodeType == RtfNodeType.Group)
+                            {
+                                res = this.PreviousSibling.LastChild;
+                            }
+                            else
+                            {
+                                res = this.PreviousSibling;
+                            }
+                        }
+                        else
+                        {
+                            res = parent;
+                        }
+                    }
+
+                    return res;
+                }
+            }
+
+            /// <summary>
             /// Devuelve el código RTF del nodo actual y todos sus nodos hijos.
             /// </summary>
             public string Rtf

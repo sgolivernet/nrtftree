@@ -166,5 +166,52 @@ namespace Net.Sgoliver.NRtfTree.Test
             Assert.That(node2.NextSibling, Is.SameAs(node3));
             Assert.That(node2.Index, Is.EqualTo(1));
         }
+
+        [Test]
+        public void AdjacentNodes()
+        {
+            //Creación de un árbol sencillo
+
+            RtfTree tree = new RtfTree();
+
+            RtfTreeNode mainGroup = new RtfTreeNode(RtfNodeType.Group);
+            RtfTreeNode rtfNode = new RtfTreeNode(RtfNodeType.Keyword, "rtf", true, 0);
+            mainGroup.AppendChild(rtfNode);
+
+            RtfTreeNode newGroup = new RtfTreeNode(RtfNodeType.Group);
+            RtfTreeNode node1 = new RtfTreeNode(RtfNodeType.Keyword, "ul", false, 0);
+            RtfTreeNode node2 = new RtfTreeNode(RtfNodeType.Text, "Test", false, 0);
+            RtfTreeNode node3 = new RtfTreeNode(RtfNodeType.Keyword, "ulnone", false, 0);
+
+            newGroup.AppendChild(node1);
+            newGroup.AppendChild(node2);
+            newGroup.AppendChild(node3);
+
+            mainGroup.AppendChild(newGroup);
+
+            tree.RootNode.AppendChild(mainGroup);
+
+            RtfTreeNode node4 = new RtfTreeNode(RtfNodeType.Text, "fin", false, 0);
+
+            mainGroup.AppendChild(node4);
+
+            Assert.That(tree.RootNode.NextNode, Is.SameAs(mainGroup));
+            Assert.That(mainGroup.NextNode, Is.SameAs(rtfNode));
+            Assert.That(rtfNode.NextNode, Is.SameAs(newGroup));
+            Assert.That(newGroup.NextNode, Is.SameAs(node1));
+            Assert.That(node1.NextNode, Is.SameAs(node2));
+            Assert.That(node2.NextNode, Is.SameAs(node3));
+            Assert.That(node3.NextNode, Is.SameAs(node4));
+            Assert.That(node4.NextNode, Is.Null);
+
+            Assert.That(node4.PreviousNode, Is.SameAs(node3));
+            Assert.That(node3.PreviousNode, Is.SameAs(node2));
+            Assert.That(node2.PreviousNode, Is.SameAs(node1));
+            Assert.That(node1.PreviousNode, Is.SameAs(newGroup));
+            Assert.That(newGroup.PreviousNode, Is.SameAs(rtfNode));
+            Assert.That(rtfNode.PreviousNode, Is.SameAs(mainGroup));
+            Assert.That(mainGroup.PreviousNode, Is.SameAs(tree.RootNode));
+            Assert.That(tree.RootNode.PreviousNode, Is.Null);
+        }
     }
 }

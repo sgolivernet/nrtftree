@@ -79,7 +79,7 @@ namespace Net.Sgoliver.NRtfTree.Test
         }
 
         [Test]
-        public void NodeText()
+        public void TextExtraction()
         {
             RtfTree tree = new RtfTree();
 
