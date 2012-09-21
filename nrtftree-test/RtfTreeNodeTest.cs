@@ -77,5 +77,19 @@ namespace Net.Sgoliver.NRtfTree.Test
             Assert.That(node.ToString(), Is.EqualTo("[Keyword, b, True, 3]"));
             Assert.That(node2.ToString(), Is.EqualTo("[Root, , False, 0]"));
         }
+
+        [Test]
+        public void NodeText()
+        {
+            RtfTree tree = new RtfTree();
+
+            int res = tree.LoadRtfFile("..\\..\\testdocs\\testdoc4.rtf");
+
+            RtfTreeNode node1 = tree.MainGroup.SelectSingleGroup("ul");
+            RtfTreeNode node2 = tree.MainGroup.SelectSingleGroup("cf");
+
+            Assert.That(node1.Text, Is.EqualTo("underline1"));
+            Assert.That(node2.Text, Is.EqualTo("blue1 luctus. Fusce in interdum ipsum. Cum sociis natoque penatibus et italic1 dis parturient montes, nascetur ridiculus mus."));
+        }
     }
 }

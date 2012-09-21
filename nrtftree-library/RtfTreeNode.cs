@@ -934,6 +934,18 @@ namespace Net.Sgoliver.NRtfTree
             #region Metodos Privados
 
             /// <summary>
+            /// Decodifica un caracter especial indicado por su código decimal
+            /// </summary>
+            /// <param name="code">Código del caracter especial (\')</param>
+            /// <param name="enc">Codificación utilizada para decodificar el caracter especial.</param>
+            /// <returns>Caracter especial decodificado.</returns>
+            private string DecodeControlChar(int code, Encoding enc)
+            {
+                //Contributed by Jan Stuchlík
+                return enc.GetString(new byte[] { (byte)code });
+            }
+
+            /// <summary>
             /// Obtiene el Texto RTF a partir de la representación en árbol del nodo actual.
             /// </summary>
             /// <returns>Texto RTF del nodo.</returns>
@@ -1365,6 +1377,51 @@ namespace Net.Sgoliver.NRtfTree
                         res = parent.children.IndexOf(this);
 
                     return res;
+                }
+            }
+
+            /// <summary>
+            /// Devuelve el fragmento de texto del documento contenido en el nodo actual.
+            /// </summary>
+            public string Text
+            {
+                get
+                {
+                    StringBuilder res = new StringBuilder("");
+
+                    if (this.NodeType == RtfNodeType.Group)
+                    {
+                        int indkw = this.FirstChild.NodeKey.Equals("*") ? 1 : 0;
+
+                        if (!this.ChildNodes[indkw].NodeKey.Equals("pict") &&
+                            !this.ChildNodes[indkw].NodeKey.Equals("object") &&
+                            !this.ChildNodes[indkw].NodeKey.Equals("fldinst"))
+                        {
+                            if (ChildNodes != null)
+                            {
+                                foreach (RtfTreeNode node in ChildNodes)
+                                {
+                                    res.Append(node.Text);
+                                }
+                            }
+                        }
+                    }
+                    else if (this.NodeType == RtfNodeType.Control)
+                    {
+                        if (this.NodeKey == "'")
+                            res.Append(DecodeControlChar(this.Parameter, this.tree.GetEncoding()));
+                    }
+                    else if (this.NodeType == RtfNodeType.Text)
+                    {
+                        res.Append(this.NodeKey);
+                    }
+                    else if (this.NodeType == RtfNodeType.Keyword)
+                    {
+                        if (this.NodeKey.Equals("par"))
+                            res.AppendLine("");
+                    }
+
+                    return res.ToString();
                 }
             }
 

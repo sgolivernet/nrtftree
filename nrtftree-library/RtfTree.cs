@@ -594,7 +594,7 @@ namespace Net.Sgoliver.NRtfTree
             /// <param name="code">Código del caracter especial (\')</param>
             /// <param name="enc">Codificación utilizada para decodificar el caracter especial.</param>
             /// <returns>Caracter especial decodificado.</returns>
-            private static string DecodeControlChar(int code, Encoding enc)
+            private string DecodeControlChar(int code, Encoding enc)
             {
                 //Contributed by Jan Stuchlík
                 return enc.GetString(new byte[] {(byte)code});                
@@ -697,65 +697,24 @@ namespace Net.Sgoliver.NRtfTree
             /// <returns>Texto plano del documento.</returns>
             private string ConvertToText()
             {
-                RtfTreeNode pardNode =
-                    this.RootNode.FirstChild.SelectSingleChildNode("pard");
-
-                int pPard = this.RootNode.FirstChild.ChildNodes.IndexOf(pardNode);
-
-                Encoding enc = this.GetEncoding();
-
-                return ConvertToTextAux(this.RootNode.FirstChild, pPard, enc);
-            }
-
-            /// <summary>
-            /// Extrae el texto de un nodo RTF (Auxiliar de ConvertToText())
-            /// </summary>
-            /// <param name="curNode">Nodo actual.</param>
-            /// <param name="prim">Nodo a partir del que convertir.</param>
-            /// <param name="enc">Codificación del documento.</param>
-            /// <returns>Texto plano del documento.</returns>
-            private string ConvertToTextAux(RtfTreeNode curNode, int prim, Encoding enc)
-            {
                 StringBuilder res = new StringBuilder("");
 
-                RtfTreeNode nprin = curNode;
+                RtfTreeNode pardNode =
+                    this.MainGroup.SelectSingleChildNode("pard");
 
-                RtfTreeNode nodo = new RtfTreeNode();
-
-                for (int i = prim; i < nprin.ChildNodes.Count; i++)
+                for (int i = pardNode.Index; i < MainGroup.ChildNodes.Count; i++)
                 {
-                    nodo = nprin.ChildNodes[i];
-
-                    if (nodo.NodeType == RtfNodeType.Group)
-                    {
-                        int indkw = nodo.FirstChild.NodeKey.Equals("*") ? 1 : 0;
-
-                        if (!nodo.ChildNodes[indkw].NodeKey.Equals("pict") &&
-                            !nodo.ChildNodes[indkw].NodeKey.Equals("object") &&
-                            !nodo.ChildNodes[indkw].NodeKey.Equals("fldinst"))
-                        {
-                            res.Append(ConvertToTextAux(nodo, 0, enc));
-                        }
-                    }
-                    else if (nodo.NodeType == RtfNodeType.Control)
-                    {
-                        if (nodo.NodeKey == "'")
-                            res.Append(DecodeControlChar(nodo.Parameter, enc));
-                    }
-                    else if (nodo.NodeType == RtfNodeType.Text)
-                    {
-                        res.Append(nodo.NodeKey);
-                    }
-                    else if (nodo.NodeType == RtfNodeType.Keyword)
-                    {
-                        if (nodo.NodeKey.Equals("par"))
-                            res.AppendLine("");
-                    }
+                    res.Append(MainGroup.ChildNodes[i].Text);
                 }
 
                 return res.ToString();
             }
 
+            /// <summary>
+            /// Parsea el nodo con la tabla de estilos del documento.
+            /// </summary>
+            /// <param name="ssnode">Nodo con la tabla de estilos.</param>
+            /// <returns>Tabla de estilos del documento.</returns>
             private RtfStyleSheet ParseStyleSheet(RtfTreeNode ssnode)
             {
                 RtfStyleSheet rss = new RtfStyleSheet();
