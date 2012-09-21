@@ -85,11 +85,32 @@ namespace Net.Sgoliver.NRtfTree.Test
 
             int res = tree.LoadRtfFile("..\\..\\testdocs\\testdoc4.rtf");
 
-            RtfTreeNode node1 = tree.MainGroup.SelectSingleGroup("ul");
-            RtfTreeNode node2 = tree.MainGroup.SelectSingleGroup("cf");
+            RtfTreeNode simpleGroup = tree.MainGroup.SelectSingleGroup("ul");
+            RtfTreeNode nestedGroups = tree.MainGroup.SelectSingleGroup("cf");
+            RtfTreeNode keyword = tree.MainGroup.SelectSingleChildNode("b");
+            RtfTreeNode control = tree.MainGroup.SelectSingleChildNode("'");
+            RtfTreeNode root = tree.RootNode;
 
-            Assert.That(node1.Text, Is.EqualTo("underline1"));
-            Assert.That(node2.Text, Is.EqualTo("blue1 luctus. Fusce in interdum ipsum. Cum sociis natoque penatibus et italic1 dis parturient montes, nascetur ridiculus mus."));
+            Assert.That(simpleGroup.Text, Is.EqualTo("underline1"));
+            Assert.That(nestedGroups.Text, Is.EqualTo("blue1 luctus. Fusce in interdum ipsum. Cum sociis natoque penatibus et italic1 dis parturient montes, nascetur ridiculus mus."));
+            Assert.That(keyword.Text, Is.EqualTo(""));
+            Assert.That(control.Text, Is.EqualTo("é"));
+            Assert.That(root.Text, Is.EqualTo(""));
+
+            Assert.That(simpleGroup.RawText, Is.EqualTo("underline1"));
+            Assert.That(nestedGroups.RawText, Is.EqualTo("blue1 luctus. Fusce in interdum ipsum. Cum sociis natoque penatibus et italic1 dis parturient montes, nascetur ridiculus mus."));
+            Assert.That(keyword.RawText, Is.EqualTo(""));
+            Assert.That(control.RawText, Is.EqualTo("é"));
+            Assert.That(root.RawText, Is.EqualTo(""));
+
+            RtfTreeNode fontsGroup = tree.MainGroup.SelectSingleGroup("fonttbl");
+            RtfTreeNode generatorGroup = tree.MainGroup.SelectSingleGroup("*");
+
+            Assert.That(fontsGroup.Text, Is.EqualTo(""));
+            Assert.That(generatorGroup.Text, Is.EqualTo(""));
+
+            Assert.That(fontsGroup.RawText, Is.EqualTo("Times New Roman;Arial;Arial;"));
+            Assert.That(generatorGroup.RawText, Is.EqualTo("Msftedit 5.41.15.1515;"));
         }
     }
 }

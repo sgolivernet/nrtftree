@@ -1112,6 +1112,57 @@ namespace Net.Sgoliver.NRtfTree
                 }
             }
 
+            /// <summary>
+            /// Obtiene el texto contenido en el nodo actual.
+            /// </summary>
+            /// <param name="raw">Si este parámetro está activado se extraerá todo el texto contenido en el nodo, independientemente de si éste
+            /// forma parte del texto real del documento.</param>
+            /// <returns>Texto extraido del nodo.</returns>
+            private string GetText(bool raw)
+            {
+                StringBuilder res = new StringBuilder("");
+
+                if (this.NodeType == RtfNodeType.Group)
+                {
+                    int indkw = this.FirstChild.NodeKey.Equals("*") ? 1 : 0;
+
+                    if (raw ||
+                       (!this.ChildNodes[indkw].NodeKey.Equals("fonttbl") &&
+                        !this.ChildNodes[indkw].NodeKey.Equals("colortbl") &&
+                        !this.ChildNodes[indkw].NodeKey.Equals("stylesheet") &&
+                        !this.ChildNodes[indkw].NodeKey.Equals("generator") &&
+                        !this.ChildNodes[indkw].NodeKey.Equals("info") &&
+                        !this.ChildNodes[indkw].NodeKey.Equals("pict") &&
+                        !this.ChildNodes[indkw].NodeKey.Equals("object") &&
+                        !this.ChildNodes[indkw].NodeKey.Equals("fldinst")))
+                    {
+                        if (ChildNodes != null)
+                        {
+                            foreach (RtfTreeNode node in ChildNodes)
+                            {
+                                res.Append(node.GetText(raw));
+                            }
+                        }
+                    }
+                }
+                else if (this.NodeType == RtfNodeType.Control)
+                {
+                    if (this.NodeKey == "'")
+                        res.Append(DecodeControlChar(this.Parameter, this.tree.GetEncoding()));
+                }
+                else if (this.NodeType == RtfNodeType.Text)
+                {
+                    res.Append(this.NodeKey);
+                }
+                else if (this.NodeType == RtfNodeType.Keyword)
+                {
+                    if (this.NodeKey.Equals("par"))
+                        res.AppendLine("");
+                }
+
+                return res.ToString();
+            }
+
             #endregion
 
             #region Propiedades
@@ -1387,41 +1438,18 @@ namespace Net.Sgoliver.NRtfTree
             {
                 get
                 {
-                    StringBuilder res = new StringBuilder("");
+                    return GetText(false);
+                }
+            }
 
-                    if (this.NodeType == RtfNodeType.Group)
-                    {
-                        int indkw = this.FirstChild.NodeKey.Equals("*") ? 1 : 0;
-
-                        if (!this.ChildNodes[indkw].NodeKey.Equals("pict") &&
-                            !this.ChildNodes[indkw].NodeKey.Equals("object") &&
-                            !this.ChildNodes[indkw].NodeKey.Equals("fldinst"))
-                        {
-                            if (ChildNodes != null)
-                            {
-                                foreach (RtfTreeNode node in ChildNodes)
-                                {
-                                    res.Append(node.Text);
-                                }
-                            }
-                        }
-                    }
-                    else if (this.NodeType == RtfNodeType.Control)
-                    {
-                        if (this.NodeKey == "'")
-                            res.Append(DecodeControlChar(this.Parameter, this.tree.GetEncoding()));
-                    }
-                    else if (this.NodeType == RtfNodeType.Text)
-                    {
-                        res.Append(this.NodeKey);
-                    }
-                    else if (this.NodeType == RtfNodeType.Keyword)
-                    {
-                        if (this.NodeKey.Equals("par"))
-                            res.AppendLine("");
-                    }
-
-                    return res.ToString();
+            /// <summary>
+            /// Devuelve todo el texto contenido en el nodo actual.
+            /// </summary>
+            public string RawText
+            {
+                get
+                {
+                    return GetText(true);
                 }
             }
 
