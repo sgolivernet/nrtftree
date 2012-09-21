@@ -17,13 +17,11 @@
 
 /********************************************************************************
  * Library:		NRtfTree
- * Version:     v0.3.0
- * Date:		01/05/2009
- * Copyright:   2006-2009 Salvador Gomez
- * E-mail:      sgoliver.net@gmail.com
+ * Version:     v0.3
+ * Date:		20/09/2012
+ * Copyright:   2006-2012 Salvador Gomez
  * Home Page:	http://www.sgoliver.net
- * SF Project:	http://nrtftree.sourceforge.net
- *				http://sourceforge.net/projects/nrtftree
+ * GitHub:	    https://github.com/sgolivernet/nrtftree
  * Class:		RtfTree
  * Description:	Representa un documento RTF en forma de árbol.
  * ******************************************************************************/
