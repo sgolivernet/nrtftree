@@ -1,0 +1,14 @@
+NRtfTree es una librería .NET escrita íntegramente en C# y dirigida a facilitar el tratamiento estructurado de documentos con formato RTF. 
+
+NRtfTree se distribuye bajo licencia LGPL. 
+
+NRtfTree te ayudará a:
+
+* Abrir y leer documentos RTF.
+* Analizar el contenido de ficheros RTF.
+* Añadir, modificar o eliminar elementos del documento (p.e. texto, palabras de control, símbolos de control, ...)
+* Crear nuevos documentos RTF.
+
+Puedes encontrar información actualizada sobre NRtfTree visitando la web original del proyecto:
+
+http://www.sgoliver.net/blog/?page_id=57
