@@ -1,0 +1,105 @@
+﻿ROOT
+  GROUP
+    rtf 1
+    ansi
+    ansicpg 1252
+    deff 0
+    deflang 3082
+    GROUP
+      fonttbl
+      GROUP
+        f 0
+        froman
+        fprq 2
+        fcharset 0
+        Times New Roman;
+      GROUP
+        f 1
+        fswiss
+        fprq 2
+        fcharset 0
+        Arial;
+      GROUP
+        f 2
+        fswiss
+        fcharset 0
+        Arial;
+    GROUP
+      colortbl
+      ;
+      red 0
+      green 0
+      blue 128
+      ;
+      red 255
+      green 0
+      blue 0
+      ;
+    GROUP
+      *
+      generator
+      Msftedit 5.41.15.1515;
+    viewkind 4
+    uc 1
+    pard
+    qj
+    lang 2057
+    ul
+    b
+    i
+    f 0
+    fs 28
+    Bold Italic Underline Size 14
+    ulnone
+    b 0
+    i 0
+    fs 24
+    par
+    par
+    fs 22
+    Times New Roman 11. Adipiscing elit. 
+    lang 3082
+    Integer quis eros at tortor 
+    ul
+    underline1
+    ulnone
+    . Quisque viverra tellus id mauris 
+    cf 1
+    b
+    blue1
+    cf 0
+    b 0
+     luctus. Fusce in interdum ipsum. Cum sociis natoque penatibus et 
+    i
+    italic1 
+    i 0
+    dis parturient montes, nascetur ridiculus mus.
+    fs 24
+     Special characters: tést1 añu {\test2}.
+    par
+    par
+    f 1
+    Arial 12. Ac leo justo, vitae rutrum elit. Nam purus odio, 
+    b
+    bold1
+    b 0
+    . Etiam vitae 
+    cf 2
+    red1
+    cf 0
+    . Aenean molestie, quis 
+    cf 1
+    b
+    blue2
+    cf 0
+    b 0
+     leo placerat in. 
+    i
+    Italic2
+    i 0
+     malesuada eleifend nunc vitae cursus. Praesent dapibus aliquet sem, ac pharetra ipsum tempus id.
+    f 2
+    fs 20
+    sgo -1
+    ést.
+    par

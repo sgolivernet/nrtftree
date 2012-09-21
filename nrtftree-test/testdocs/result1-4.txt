@@ -1,0 +1,105 @@
+﻿ROOT
+  GROUP
+    Keyword: rtf 1
+    Keyword: ansi
+    Keyword: ansicpg 1252
+    Keyword: deff 0
+    Keyword: deflang 3082
+    GROUP
+      Keyword: fonttbl
+      GROUP
+        Keyword: f 0
+        Keyword: froman
+        Keyword: fprq 2
+        Keyword: fcharset 0
+        Text: Times New Roman;
+      GROUP
+        Keyword: f 1
+        Keyword: fswiss
+        Keyword: fprq 2
+        Keyword: fcharset 0
+        Text: Arial;
+      GROUP
+        Keyword: f 2
+        Keyword: fswiss
+        Keyword: fcharset 0
+        Text: Arial;
+    GROUP
+      Keyword: colortbl
+      Text: ;
+      Keyword: red 0
+      Keyword: green 0
+      Keyword: blue 128
+      Text: ;
+      Keyword: red 255
+      Keyword: green 0
+      Keyword: blue 0
+      Text: ;
+    GROUP
+      Control: *
+      Keyword: generator
+      Text: Msftedit 5.41.15.1515;
+    Keyword: viewkind 4
+    Keyword: uc 1
+    Keyword: pard
+    Keyword: qj
+    Keyword: lang 2057
+    Keyword: ul
+    Keyword: b
+    Keyword: i
+    Keyword: f 0
+    Keyword: fs 28
+    Text: Bold Italic Underline Size 14
+    Keyword: ulnone
+    Keyword: b 0
+    Keyword: i 0
+    Keyword: fs 24
+    Keyword: par
+    Keyword: par
+    Keyword: fs 22
+    Text: Times New Roman 11. Adipiscing elit. 
+    Keyword: lang 3082
+    Text: Integer quis eros at tortor 
+    Keyword: ul
+    Text: underline1
+    Keyword: ulnone
+    Text: . Quisque viverra tellus id mauris 
+    Keyword: cf 1
+    Keyword: b
+    Text: blue1
+    Keyword: cf 0
+    Keyword: b 0
+    Text:  luctus. Fusce in interdum ipsum. Cum sociis natoque penatibus et 
+    Keyword: i
+    Text: italic1 
+    Keyword: i 0
+    Text: dis parturient montes, nascetur ridiculus mus.
+    Keyword: fs 24
+    Text:  Special characters: tést1 añu {\test2}.
+    Keyword: par
+    Keyword: par
+    Keyword: f 1
+    Text: Arial 12. Ac leo justo, vitae rutrum elit. Nam purus odio, 
+    Keyword: b
+    Text: bold1
+    Keyword: b 0
+    Text: . Etiam vitae 
+    Keyword: cf 2
+    Text: red1
+    Keyword: cf 0
+    Text: . Aenean molestie, quis 
+    Keyword: cf 1
+    Keyword: b
+    Text: blue2
+    Keyword: cf 0
+    Keyword: b 0
+    Text:  leo placerat in. 
+    Keyword: i
+    Text: Italic2
+    Keyword: i 0
+    Text:  malesuada eleifend nunc vitae cursus. Praesent dapibus aliquet sem, ac pharetra ipsum tempus id.
+    Keyword: f 2
+    Keyword: fs 20
+    Keyword: sgo -1
+    Text: ést.
+    Keyword: par

@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{7114E863-9D7D-4507-B38B-B859A0C1B836}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>nrtftree_library</RootNamespace>
+    <AssemblyName>nrtftree-library</AssemblyName>
+    <TargetFrameworkVersion>v3.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ImageNode.cs" />
+    <Compile Include="InfoGroup.cs" />
+    <Compile Include="ObjectNode.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RtfCharFormat.cs" />
+    <Compile Include="RtfColorTable.cs" />
+    <Compile Include="RtfDocument.cs" />
+    <Compile Include="RtfDocumentFormat.cs" />
+    <Compile Include="RtfFontTable.cs" />
+    <Compile Include="RtfLex.cs" />
+    <Compile Include="RtfMerger.cs" />
+    <Compile Include="RtfNodeCollection.cs" />
+    <Compile Include="RtfNodeType.cs" />
+    <Compile Include="RtfParFormat.cs" />
+    <Compile Include="RtfReader.cs" />
+    <Compile Include="RtfStyleSheet.cs" />
+    <Compile Include="RtfStyleSheetTable.cs" />
+    <Compile Include="RtfStyleSheetType.cs" />
+    <Compile Include="RtfToken.cs" />
+    <Compile Include="RtfTokenType.cs" />
+    <Compile Include="RtfTree.cs" />
+    <Compile Include="RtfTreeNode.cs" />
+    <Compile Include="SarParser.cs" />
+    <Compile Include="TextAlignment.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

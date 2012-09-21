@@ -1,0 +1,22 @@
+Title     : Test NRtfTree Title
+Subject   : Test NRtfTree Subject
+Author    : Sgoliver (Author)
+Manager   : Sgoliver (Admin)
+Company   : www.sgoliver.net
+Operator  : None
+Category  : Demos (Category)
+Keywords  : test;nrtftree;sgoliver
+Comment   : 
+DComment  : This is a test comment.
+HLinkBase : 
+Created   : 28/05/2008 18:52:00
+Revised   : 29/06/2009 20:23:00
+Printed   : 01/01/0001 0:00:00
+Backup    : 01/01/0001 0:00:00
+Version   : 6
+IVersion  : 24579
+Editing   : 4
+Num Pages : 1
+Num Words : 12
+Num Chars : 59
+Id        : -1

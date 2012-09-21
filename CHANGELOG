@@ -1,0 +1,140 @@
+﻿Librería NRtfTree
+
+Sgoliver .Net (http://www.sgoliver.net)
+
+Proyecto en Sourceforge: http://nrtftree.sourceforge.net - http://sourceforge.net/projects/nrtftree
+
+Version 0.3 Final (04/08/2009)
+------------------------------
+
+[Nuevo] Se incluye un nuevo proyecto de test (NUnit) con pruebas automatizadas de la librería.
+[Actualizado] Modificado el formato de los números de versión de la librería a "major.minor.build.revision".
+[Actualizado] Actualizado el proyecto de ejemplo SimpleDemo, ahora convertido en una aplicación de consola.
+[Corregido] Eliminado un fragmento de código redundante en la clase RtfLex que debe ayudar a mejorar aún más el rendimiento de la librería al cargar un documento RTF.
+[Corregido] Corregido un error en las propiedades ScaleX y ScaleY de la clase ImageNode que hacía que los valores devueltos no fueran correctos.
+[Corregido] La propiedad Rtf de la clase RtfTreeNode insertaba bajo ciertas circunstancias espacios en blanco incorrectos cuando la propiedad MergeSpecialCharacters se encontraba activada.
+[Corregido] La propiedad Text de la clase RtfTree devolvía como parte del texto el contenido de las imágenes, objetos y campos del documento RTF.
+[Corregido] Para dejar coherente el conjunto de métodos disponibles en la clase RtfTreeNode se ha añadido el método SelectSingleChildGroup(), que se había olvidado en la versión anterior.
+
+
+Versión 0.3.0 beta 2 (12/07/2009)
+---------------------------------
+
+[Nuevo] Optimización de velocidad y consumo de memoria.
+[Nuevo] Nueva clase RtfMerger.
+[Nuevo] Nueva clase RtfDocFormat.
+[Nuevo] Nueva clase RtfParFormat.
+[Nuevo] Nueva enumeración TextAlignment.
+[Nuevo] Nueva clase RtfStyleSheetTable.
+[Nuevo] Nueva clase RtfStyleSheet.
+[Nuevo] Nueva clase RtfStyleSheetType.
+[Nuevo] Novedades de la clase RtfTree:
+          - Nuevo método CloneTree().
+          - Nueva propiedad MainGroup.
+          - Nuevo método GetStyleSheetTable().
+[Nuevo] Novedades de la clase RtfTreeNode:
+          - Nueva propiedad Index.
+          - Nuevo método SelectGroups(string keyword).
+          - Nuevo método SelectSingleGroup(string keyword).
+          - Nuevo método SelectChildGroups(string keyword).
+          - Nuevo método FindText(string txt).
+          - Nuevo método ReplaceText(string txt).
+          - Nuevo indizador this[int childIndex].
+[Nuevo] Novedades de la clase RtfNodeCollection:
+          - Nuevo método IndexOf(string keyword).
+          - Nuevo método IndexOf(RtfTreeNode node, int startIndex).
+          - Nuevo método IndexOf(string keyword, int startIndex).
+[Nuevo] Novedades de la clase RtfDocument:
+          - Nuevo método UpdateDocFormat(RtfDocFormat fmt).
+          - Nuevo método UpdateCharFormat(RtfCharFormat fmt).
+          - Nuevo método UpdateParFormat(RtfParFormat fmt).
+          - Nuevos métodos SetFormatXXX().
+          - Nuevo método AddNewLine(int n).
+          - Nuevo método AddNewParagraph().
+          - Nuevo método AddNewParagraph(int n).
+          - Nuevo método ResetFormat().
+          - Nuevo método ResetCharFormat().
+          - Nuevo método ResetParFormat().
+[Nuevo] Novedades de la clase ImageNode:
+          - Nueva propiedad Bitmap.
+[Nuevo] Nuevas aplicaciones de ejemplo:
+          - Nueva carpeta Examples para los ejemplos.
+          - Nueva aplicación: Rtf2Html.
+[Actualizado] Actualizados los métodos GetColorTable() y GetFontTable() para que devuelvan objetos de tipo RtfColorTable y RtfFontTable.
+[Actualizado] Actualizada la clase RtfTextFormat para que utilice propiedades, en vez de accederse directamente a los atributos privados.
+[Actualizado] La clase RtfTextFormat pasa a llamarse RtfCharFormat.
+[Actualizado] Los nodos sin hijos pasan a tener a null la propiedad ChildNodes.
+[Corregido] Error en la inicialización de un objeto StringBuilder que provocaba una excepción de memoria.
+[Corregido] Error en el tratamiento de la tabla de fuentes, se accedía por posición dentro de la tabla en vez de por el índice de fuente indicado en el código RTF.
+[Corregido] Error en la generación de código RTF a partir de un árbol, se generaba un espacio en blanco incorrecto después de cada grupo rtf. Método implicado GetRtfInm().
+[Corregido] Error en la generación de código RTF a partir de un árbol, no se generaban correctamente los caracteres ‘{’, ‘}’ y ‘\’ precediéndolos del caracter ‘\’. Método implicado AppendEncoded().
+
+
+Versión 0.3.0 beta 1 (02/09/2007)
+---------------------------------
+
+[Nuevo] Cambio de licencia. A partir de esta versión la librería se distribuye bajo licencia LGPL.
+[Nuevo] Librería compilada para .NET Framework 2.0
+[Nuevo] Nueva propiedad RtfTree.MergeSpecialCharacters (valor por defecto: false). Con esta propiedad activada, si se encuentra un caracter especial (\') éste se convertirá a un nodo de tipo texto y se intentará combinar con los nodos tipo texto adyacentes, de forma que se obtenga un único nodo.
+[Nuevo] Nueva propiedad RtfTreeNode.Tree. Devuelve una referencia al árbol propietario del nodo.
+[Nuevo] Nuevo método RtfTree.GetEncoding(). Devuelve la codificación utilizada en el documento.
+[Nuevo] Nuevo método RtfTreeNode.ToString()
+[Nuevo] Nuevo método InfoGroup.ToString()
+[Nuevo] Nuevos métodos en RtfNodeCollection: Insert() y RemoveRange()
+[Nuevo] Nuevo método RtfTreeNode.InsertChild()
+[Nuevo] Se sobrecargan los métodos Select, quedando tan sólo: SelectNodes(), SelectChildNodes(), SelectSingleNode() y SelectSingleChildNode(), con tres sobrecargas cada uno.
+[Nuevo] Nuevos métodos RtfTreeNode.SelectSiblig() (3 sobrecargas)
+[Nuevo] Nueva propiedad RtfTree.Text Devuelve el texto plano del documento.
+[Nuevo] Nuevas clases RtfDocument, RtfColorTable, RtfFontTable y RtfTextFormat. RtfDocument pretende dar un soporte básico para generar fácilmente documentos RTF sin tener que conocer detalles de bajo nivel.
+[Corregido] Ahora los nodos de tipo Root y Group se inicializan con los valores de clave "ROOT" y "GROUP" respectivamente.
+[Corregido] La propiedad NRtfTreeNode.Rtf no devolvía la última '}' al mostrar el código RTF de un grupo.
+[Corregido] No se trataban correctamente los caracteres especiales '\', '{' y '}' como parte del texto.
+[Corregido] Se provocaba una excepción en la aplicación de ejemplo cuando se intentaba mostrar el InfoGroup de un documento sin nodo de información.
+[Corregido] Cuando se añade un nuevo nodo con los métodod AppendChild() o InsertChild() se deben actualizar las propiedades Root y Tree del nuevo nodo y todos sus hijos.
+
+
+Versión 0.2.1 (10/12/2006)
+--------------------------
+
+- Bug en SaveRtf(). En los caracteres especiales a veces se escribían números hexadecimales de un sólo dígito. Deben ser siempre dos.
+  Ejemplo -->  Mal: \'1  --> Bien: \'01
+- Modificada la url de la página personal y las webs del proyecto.
+
+
+Versión 0.2.0 (17/12/2005)
+--------------------------
+
+- Cambios generales:
+	* Se ha distribuido el código en dos espacios de nombres:
+		- Net.Sgoliver.NRtfTree.Core --> Clases base
+		- Net.Sgoliver.NRtfTree.Util --> Clases especializadas (ImageNode, ObjectNode, InfoGroup)
+
+- Clase RtfTreeNode:
+	* Nuevas propiedades: LastChild, NextSibling, PreviousSibling y Rtf.
+	* Nuevos métodos privados: getRtf() y getRtfInm() [Se han pasado desde RtfTree a RtfTreeNode].
+	* Nuevos métodos públicos: CloneNode(), HasChildNodes(), SelectSingleNode(), SelectSingleChildNode(), SelectChildNodes(), SelectNodes(), SelectSingleChildNodeType()
+	* Cambiada la implementacion de la propiedad Rtf para usar StringBuilder.
+	* Nuevo indizador para acceder a los nodos hijos. Tiene la misma función que SelectSingleChildNode()
+
+- Clase RtfTree:
+	* Eliminados los métodos privados getRtf() y getRtfInm() [Se han pasado desde RtfTree a RtfTreeNode]
+	* Uitlización de StringBuilder en el método toSringInm()
+	* Nuevos métodos públicos: ToStringEx(), SaveRtf(), GetColorTable() y GetFontTable() y GetInfoGroup().
+	* Modificado el método toStringInm() para añadir el parámetro 'showNodeTypes'.
+	* Se modifican los dos constructores para cerrar el stream después de parsear el documento completo.
+
+- Clase RtfNodeCollection:
+	* Nuevos métodos públicos: IndexOf(), AddRange()
+
+- Clase RtfLex:
+	* Utilizacion de StringBuilder en ParseText() y ParseKeyword().
+	* Fusionados los dos constructores en uno sólo que recibe un parámetro de tipo TextReader.
+	* Modificado el método parseText() para ignorar retornos de carro, tabuladores y caracteres nulos.
+
+- Nueva clases ImageNode, ObjectNode, InfoGroup.
+
+
+Versión 0.1
+-----------
+
+- Primera versión estable de la librería. Contiene tan sólo las clases base.

@@ -1,0 +1,8 @@
+NRtfTree Library (LGPL) is a set of classes written entirely in C# that may be used to manage RTF documents in your own applications. 
+
+NRtfTree will help you:
+
+* Open and parse RTF files.
+* Analyze the content of RTF files.
+* Add, modify and remove document elements (i.e. text, control words, control symbols).
+* Create new RTF documents.
