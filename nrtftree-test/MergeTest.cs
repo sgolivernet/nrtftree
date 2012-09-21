@@ -55,8 +55,15 @@ namespace Net.Sgoliver.NRtfTree.Test
             merger.AddPlaceHolder("$doc1$", "..\\..\\testdocs\\merge-doc1.rtf");
             merger.AddPlaceHolder("$doc2$", "..\\..\\testdocs\\merge-doc2.rtf");
 
+            Assert.That(merger.Placeholders.Count, Is.EqualTo(2));
+
             merger.AddPlaceHolder("$doc3$", "..\\..\\testdocs\\merge-doc2.rtf");
+
+            Assert.That(merger.Placeholders.Count, Is.EqualTo(3));
+
             merger.RemovePlaceHolder("$doc3$");
+
+            Assert.That(merger.Placeholders.Count, Is.EqualTo(2));
 
             merger.MergeRtfDoc();
 

@@ -44,11 +44,17 @@ namespace Net.Sgoliver.NRtfTree
         /// </summary>
         public class RtfMerger
         {
+            #region Atributos privados
+
             private RtfTree baseRtfDoc = null;
             private string destFilePath;
             private bool removeLastPar;
 
             private Dictionary<string, RtfTree> placeHolder = null;
+
+            #endregion
+
+            #region Constructores
 
             /// <summary>
             /// Constructor de la clase RtfMerger. 
@@ -71,6 +77,10 @@ namespace Net.Sgoliver.NRtfTree
                 //Se crea la lista de parámetros de sustitución (placeholders)
                 placeHolder = new Dictionary<string, RtfTree>();
             }
+
+            #endregion
+
+            #region Métodos Públicos
 
             /// <summary>
             /// Asocia un nuevo parámetro de sustitución (placeholder) con la ruta del documento a insertar.
@@ -117,6 +127,25 @@ namespace Net.Sgoliver.NRtfTree
                         baseRtfDoc.SaveRtf(destFilePath);
                 }
             }
+
+            #endregion
+
+            #region Propiedades
+
+            /// <summary>
+            /// Devuelve la lista de parámetros de sustitución con el formato: [string, RtfTree]
+            /// </summary>
+            public Dictionary<string, RtfTree> Placeholders
+            {
+                get
+                {
+                    return placeHolder;
+                }
+            }
+
+            #endregion
+
+            #region Métodos Privados
 
             /// <summary>
             /// Analiza el texto del documento en busca de parámetros de reemplazo y combina los documentos.
@@ -429,6 +458,8 @@ namespace Net.Sgoliver.NRtfTree
                     }
                 }
             }
+
+            #endregion
         }
     }
 }
