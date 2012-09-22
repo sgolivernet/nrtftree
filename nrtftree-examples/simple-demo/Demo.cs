@@ -416,14 +416,15 @@ namespace Net.Sgoliver.NRtfTree
 
             private static void MergeDocuments()
             {
-                RtfMerger merger = new RtfMerger("..\\..\\testdocs\\test-doc3.rtf", "..\\..\\testdocs\\merge-result.rtf", true);
+                RtfMerger merger = new RtfMerger("..\\..\\testdocs\\test-doc3.rtf", true);
 
                 merger.AddPlaceHolder("[TagTextRTF1]", "..\\..\\testdocs\\merge1.rtf");
                 merger.AddPlaceHolder("[TagTextRTF2]", "..\\..\\testdocs\\merge2.rtf");
 
                 Console.WriteLine("Processing...");
 
-                merger.MergeRtfDoc();
+                RtfTree tree = merger.Merge();
+                tree.SaveRtf("..\\..\\testdocs\\merge-result.rtf");
 
                 Console.WriteLine("File 'merge-result.txt' created.");
 

@@ -47,7 +47,6 @@ namespace Net.Sgoliver.NRtfTree
             #region Atributos privados
 
             private RtfTree baseRtfDoc = null;
-            private string destFilePath;
             private bool removeLastPar;
 
             private Dictionary<string, RtfTree> placeHolder = null;
@@ -60,16 +59,12 @@ namespace Net.Sgoliver.NRtfTree
             /// Constructor de la clase RtfMerger. 
             /// </summary>
             /// <param name="sSourceDocFullPathName">Ruta del documento plantilla.</param>
-            /// <param name="sDestFileFullPathName">Ruta del documento resultante.</param>
             /// <param name="bolRemoveLastParCmd">Indica si se debe eliminar el último nodo \par de los documentos insertados en la plantilla.</param>
-            public RtfMerger(string sSourceDocFullPathName, string sDestFileFullPathName, bool bolRemoveLastParCmd)
+            public RtfMerger(string sSourceDocFullPathName, bool bolRemoveLastParCmd)
             {
                 //Se carga el documento origen
                 baseRtfDoc = new RtfTree();
                 baseRtfDoc.LoadRtfFile(sSourceDocFullPathName);
-
-                //Se guarda la ruta del documento destino
-                destFilePath = sDestFileFullPathName;
 
                 //Indicativo de eliminación del último nodo \par para documentos insertados
                 removeLastPar = bolRemoveLastParCmd;
@@ -110,8 +105,9 @@ namespace Net.Sgoliver.NRtfTree
 
             /// <summary>
             /// Realiza la combinación de los documentos RTF.
+            /// <returns>Devuelve el árbol RTF resultado de la fusión.</returns>
             /// </summary>
-            public void MergeRtfDoc()
+            public RtfTree Merge()
             {
                 //Se obtiene el grupo principal del árbol
                 RtfTreeNode parentNode = baseRtfDoc.MainGroup;
@@ -121,11 +117,9 @@ namespace Net.Sgoliver.NRtfTree
                 {
                     //Se analiza el texto del documento en busca de parámetros de reemplazo y se combinan los documentos
                     analizeTextContent(parentNode);
-
-                    //Se salva el documento resultante
-                    if (destFilePath != null)
-                        baseRtfDoc.SaveRtf(destFilePath);
                 }
+
+                return baseRtfDoc;
             }
 
             #endregion
