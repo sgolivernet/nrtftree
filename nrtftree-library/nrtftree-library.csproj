@@ -51,6 +51,7 @@
     <Compile Include="RtfNodeCollection.cs" />
     <Compile Include="RtfNodeType.cs" />
     <Compile Include="RtfParFormat.cs" />
+    <Compile Include="RtfPullParser.cs" />
     <Compile Include="RtfReader.cs" />
     <Compile Include="RtfStyleSheet.cs" />
     <Compile Include="RtfStyleSheetTable.cs" />
