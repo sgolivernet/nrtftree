@@ -1210,7 +1210,7 @@ namespace Net.Sgoliver.NRtfTree
                     else if (this.NodeKey.Equals("tab"))
                         res.Append("\t");
                     else if (this.NodeKey.Equals("line"))
-                        res.Append("\n");
+                        res.AppendLine("");
                     else if (this.NodeKey.Equals("lquote"))
                         res.Append("‘");
                     else if (this.NodeKey.Equals("rquote"))
