@@ -46,11 +46,6 @@ namespace Net.Sgoliver.NRtfTree
             #region Atributos privados
 
             /// <summary>
-            /// Ruta del fichero a generar.
-            /// </summary>
-            private string path;
-
-            /// <summary>
             /// Codificación del documento.
             /// </summary>
             private Encoding encoding;
@@ -64,11 +59,6 @@ namespace Net.Sgoliver.NRtfTree
             /// Tabla de colores del documento.
             /// </summary>
             private RtfColorTable colorTable;
-
-            /// <summary>
-            /// Árbol RTF del documento.
-            /// </summary>
-            private RtfTree tree;
 
             /// <summary>
             /// Grupo principal del documento.
@@ -97,11 +87,9 @@ namespace Net.Sgoliver.NRtfTree
             /// <summary>
             /// Constructor de la clase RtfDocument.
             /// </summary>
-            /// <param name="path">Ruta del fichero a generar.</param>
             /// <param name="enc">Codificación del documento a generar.</param>
-            public RtfDocument(string path, Encoding enc)
+            public RtfDocument(Encoding enc)
             {
-                this.path = path;
                 this.encoding = enc;
 
                 fontTable = new RtfFontTable();
@@ -114,7 +102,6 @@ namespace Net.Sgoliver.NRtfTree
                 currentParFormat = new RtfParFormat();
                 docFormat = new RtfDocumentFormat();
 
-                tree = new RtfTree();
                 mainGroup = new RtfTreeNode(RtfNodeType.Group);
 
                 InitializeTree();
@@ -124,9 +111,9 @@ namespace Net.Sgoliver.NRtfTree
             /// Constructor de la clase RtfDocument. Se utilizará la codificación por defecto del sistema.
             /// </summary>
             /// <param name="path">Ruta del fichero a generar.</param>
-            public RtfDocument(string path) : this(path, Encoding.Default)
+            public RtfDocument() : this(Encoding.Default)
             {
-
+                ;
             }
 
             #endregion
@@ -134,18 +121,12 @@ namespace Net.Sgoliver.NRtfTree
             #region Metodos Publicos
 
             /// <summary>
-            /// Cierra el documento RTF.
+            /// Guarda el documento como fichero RTF en la ruta indicada.
             /// </summary>
-            public void Close()
+            /// <param name="path">Ruta del fichero a crear.</param>
+            public void Save(string path)
             {
-                InsertFontTable();
-                InsertColorTable();
-                InsertGenerator();
-                InsertDocSettings();
-
-                mainGroup.AppendChild(new RtfTreeNode(RtfNodeType.Keyword, "par", false, 0));
-                tree.RootNode.AppendChild(mainGroup);
-
+                RtfTree tree = GetTree();
                 tree.SaveRtf(path);
             }
 
@@ -537,7 +518,63 @@ namespace Net.Sgoliver.NRtfTree
 
             #endregion
 
+            #region Propiedades
+
+            /// <summary>
+            /// Obtiene el texto plano contenido en el documento RTF
+            /// </summary>
+            public string Text
+            {
+                get 
+                {
+                    return GetTree().Text;
+                }
+            }
+
+            /// <summary>
+            /// Obtiene el código RTF del documento RTF
+            /// </summary>
+            public string Rtf
+            {
+                get
+                {
+                    return GetTree().Rtf;
+                }
+            }
+
+            /// <summary>
+            /// Obtiene el árbol RTF del documento actual
+            /// </summary>
+            public RtfTree Tree
+            {
+                get
+                {
+                    return GetTree();
+                }
+            }
+
+            #endregion
+
             #region Metodos Privados
+
+            /// <summary>
+            /// Obtiene el árbol RTF equivalente al documento actual.
+            /// <returns>Árbol RTF equivalente al documento en el estado actual.</returns>
+            /// </summary>
+            private RtfTree GetTree()
+            {
+                RtfTree tree = new RtfTree();
+                tree.RootNode.AppendChild(mainGroup.CloneNode());
+
+                InsertFontTable(tree);
+                InsertColorTable(tree);
+                InsertGenerator(tree);
+                InsertDocSettings(tree);
+
+                tree.MainGroup.AppendChild(new RtfTreeNode(RtfNodeType.Keyword, "par", false, 0));
+
+                return tree;
+            }
 
             /// <summary>
             /// Obtiene el código hexadecimal de un entero.
@@ -559,7 +596,7 @@ namespace Net.Sgoliver.NRtfTree
             /// <summary>
             /// Inserta el código RTF de la tabla de fuentes en el documento.
             /// </summary>
-            private void InsertFontTable()
+            private void InsertFontTable(RtfTree tree)
             {
                 RtfTreeNode ftGroup = new RtfTreeNode(RtfNodeType.Group);
                 
@@ -575,13 +612,13 @@ namespace Net.Sgoliver.NRtfTree
                     ftGroup.AppendChild(ftFont);
                 }
 
-                mainGroup.InsertChild(5, ftGroup);
+                tree.MainGroup.InsertChild(5, ftGroup);
             }
 
             /// <summary>
             /// Inserta el código RTF de la tabla de colores en el documento.
             /// </summary>
-            private void InsertColorTable()
+            private void InsertColorTable(RtfTree tree)
             {
                 RtfTreeNode ctGroup = new RtfTreeNode(RtfNodeType.Group);
 
@@ -595,13 +632,13 @@ namespace Net.Sgoliver.NRtfTree
                     ctGroup.AppendChild(new RtfTreeNode(RtfNodeType.Text, ";", false, 0));
                 }
 
-                mainGroup.InsertChild(6, ctGroup);
+                tree.MainGroup.InsertChild(6, ctGroup);
             }
 
             /// <summary>
             /// Inserta el código RTF de la aplicación generadora del documento.
             /// </summary>
-            private void InsertGenerator()
+            private void InsertGenerator(RtfTree tree)
             {
                 RtfTreeNode genGroup = new RtfTreeNode(RtfNodeType.Group);
 
@@ -609,7 +646,7 @@ namespace Net.Sgoliver.NRtfTree
                 genGroup.AppendChild(new RtfTreeNode(RtfNodeType.Keyword, "generator", false, 0));
                 genGroup.AppendChild(new RtfTreeNode(RtfNodeType.Text, "NRtfTree Library 0.3.0;", false, 0));
 
-                mainGroup.InsertChild(7, genGroup);
+                tree.MainGroup.InsertChild(7, genGroup);
             }
 
             /// <summary>
@@ -693,21 +730,21 @@ namespace Net.Sgoliver.NRtfTree
             /// <summary>
             /// Inserta las propiedades de formato del documento
             /// </summary>
-            private void InsertDocSettings()
+            private void InsertDocSettings(RtfTree tree)
             {
-                int indInicioTexto = mainGroup.ChildNodes.IndexOf("pard");
+                int indInicioTexto = tree.MainGroup.ChildNodes.IndexOf("pard");
 
                 //Generic Properties
                 
-                mainGroup.InsertChild(indInicioTexto, new RtfTreeNode(RtfNodeType.Keyword, "viewkind", true, 4));
-                mainGroup.InsertChild(indInicioTexto++, new RtfTreeNode(RtfNodeType.Keyword, "uc", true, 1));
+                tree.MainGroup.InsertChild(indInicioTexto, new RtfTreeNode(RtfNodeType.Keyword, "viewkind", true, 4));
+                tree.MainGroup.InsertChild(indInicioTexto++, new RtfTreeNode(RtfNodeType.Keyword, "uc", true, 1));
 
                 //RtfDocumentFormat Properties
 
-                mainGroup.InsertChild(indInicioTexto++, new RtfTreeNode(RtfNodeType.Keyword, "margl", true, calcTwips(docFormat.MarginL)));
-                mainGroup.InsertChild(indInicioTexto++, new RtfTreeNode(RtfNodeType.Keyword, "margr", true, calcTwips(docFormat.MarginR)));
-                mainGroup.InsertChild(indInicioTexto++, new RtfTreeNode(RtfNodeType.Keyword, "margt", true, calcTwips(docFormat.MarginT)));
-                mainGroup.InsertChild(indInicioTexto++, new RtfTreeNode(RtfNodeType.Keyword, "margb", true, calcTwips(docFormat.MarginB)));
+                tree.MainGroup.InsertChild(indInicioTexto++, new RtfTreeNode(RtfNodeType.Keyword, "margl", true, calcTwips(docFormat.MarginL)));
+                tree.MainGroup.InsertChild(indInicioTexto++, new RtfTreeNode(RtfNodeType.Keyword, "margr", true, calcTwips(docFormat.MarginR)));
+                tree.MainGroup.InsertChild(indInicioTexto++, new RtfTreeNode(RtfNodeType.Keyword, "margt", true, calcTwips(docFormat.MarginT)));
+                tree.MainGroup.InsertChild(indInicioTexto++, new RtfTreeNode(RtfNodeType.Keyword, "margb", true, calcTwips(docFormat.MarginB)));
             }
 
             /// <summary>

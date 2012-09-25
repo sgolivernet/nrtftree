@@ -54,7 +54,7 @@ namespace Net.Sgoliver.NRtfTree.Test
         [Test]
         public void CreateSimpleDocument()
         {
-            RtfDocument doc = new RtfDocument("..\\..\\testdocs\\rtfdocument.rtf");
+            RtfDocument doc = new RtfDocument();
 
             RtfCharFormat charFormat = new RtfCharFormat();
             charFormat.Color = Color.DarkBlue;
@@ -78,6 +78,11 @@ namespace Net.Sgoliver.NRtfTree.Test
             doc.AddText("Donec ac leo justo, vitae rutrum elit. Nulla tellus elit, imperdiet luctus porta vel, consectetur quis turpis. Nam purus odio, dictum vitae sollicitudin nec, tempor eget mi.");
             doc.AddText("Etiam vitae porttitor enim. Aenean molestie facilisis magna, quis tincidunt leo placerat in. Maecenas malesuada eleifend nunc vitae cursus.");
             doc.AddNewParagraph(2);
+
+            doc.Save("..\\..\\testdocs\\rtfdocument1.rtf");
+
+            string text1 = doc.Text;
+            string rtfcode1 = doc.Rtf;
 
             doc.AddText("Second Paragraph", charFormat);
             doc.AddNewParagraph(2);
@@ -109,22 +114,50 @@ namespace Net.Sgoliver.NRtfTree.Test
             doc.AddNewLine(2);
             doc.AddText("Stop.");
 
-            doc.Close();
+            string text2 = doc.Text;
+            string rtfcode2 = doc.Rtf;
+
+            doc.Save("..\\..\\testdocs\\rtfdocument2.rtf");
 
             StreamReader sr = null;
-            sr = new StreamReader("..\\..\\testdocs\\rtfdocument.rtf");
+            sr = new StreamReader("..\\..\\testdocs\\rtfdocument1.rtf");
             string rtf1 = sr.ReadToEnd();
+            sr.Close();
+
+            sr = null;
+            sr = new StreamReader("..\\..\\testdocs\\rtfdocument2.rtf");
+            string rtf2 = sr.ReadToEnd();
             sr.Close();
 
             sr = new StreamReader("..\\..\\testdocs\\rtf4.txt");
             string rtf4 = sr.ReadToEnd();
             sr.Close();
 
+            sr = new StreamReader("..\\..\\testdocs\\rtf6.txt");
+            string rtf6 = sr.ReadToEnd();
+            sr.Close();
+
+            sr = new StreamReader("..\\..\\testdocs\\doctext1.txt");
+            string doctext1 = sr.ReadToEnd();
+            sr.Close();
+
+            sr = new StreamReader("..\\..\\testdocs\\doctext2.txt");
+            string doctext2 = sr.ReadToEnd();
+            sr.Close();
+
             //Se adapta el lenguaje al del PC donde se ejecutan los tests
             int deflangInd = rtf4.IndexOf("\\deflang3082");
             rtf4 = rtf4.Substring(0, deflangInd) + "\\deflang" + CultureInfo.CurrentCulture.LCID + rtf4.Substring(deflangInd + 8 + CultureInfo.CurrentCulture.LCID.ToString().Length);
 
-            Assert.That(rtf1, Is.EqualTo(rtf4));
+            //Se adapta el lenguaje al del PC donde se ejecutan los tests
+            int deflangInd2 = rtf6.IndexOf("\\deflang3082");
+            rtf6 = rtf6.Substring(0, deflangInd2) + "\\deflang" + CultureInfo.CurrentCulture.LCID + rtf6.Substring(deflangInd2 + 8 + CultureInfo.CurrentCulture.LCID.ToString().Length);
+
+            Assert.That(rtf1, Is.EqualTo(rtf6));
+            Assert.That(rtf2, Is.EqualTo(rtf4));
+
+            Assert.That(text1, Is.EqualTo(doctext1));
+            Assert.That(text2, Is.EqualTo(doctext2));
         }
     }
 }
