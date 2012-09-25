@@ -105,9 +105,10 @@ namespace Net.Sgoliver.NRtfTree.Test
             imgNode.SaveImage("..\\..\\testdocs\\img-result.png");
 
             FileStream fs1 = new FileStream("..\\..\\testdocs\\img-result.png", FileMode.Open);
-            FileStream fs2 = new FileStream("..\\..\\testdocs\\image.png", FileMode.Open);
+            FileStream fs2 = new FileStream("..\\..\\testdocs\\image1.png", FileMode.Open);
+            FileStream fs3 = new FileStream("..\\..\\testdocs\\image2.png", FileMode.Open);
 
-            Assert.That(fs1, Is.EqualTo(fs2));
+            Assert.That(fs1, Is.EqualTo(fs2) | Is.EqualTo(fs3));
         }
     }
 }
