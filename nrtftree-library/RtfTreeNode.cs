@@ -264,37 +264,32 @@ namespace Net.Sgoliver.NRtfTree
             /// <summary>
             /// Realiza una copia exacta del nodo actual.
             /// </summary>
-            /// <param name="cloneChildren">Si este parámetro recibe el valor true se clonarán también todos los nodos hijo del nodo actual.</param>
             /// <returns>Devuelve una copia exacta del nodo actual.</returns>
-            public RtfTreeNode CloneNode(bool cloneChildren)
+            public RtfTreeNode CloneNode()
             {
                 RtfTreeNode clon = new RtfTreeNode();
 
                 clon.key = this.key;
                 clon.hasParam = this.hasParam;
                 clon.param = this.param;
-                clon.parent = this.parent;
-                clon.root = this.root;
-                clon.tree = this.tree;
+                clon.parent = null;
+                clon.root = null;
+                clon.tree = null;
                 clon.type = this.type;
 
-                //Si cloneChildren=false se copia directamente la lista de hijos
-                if (!cloneChildren)
-                {
-                    clon.children = this.children;
-                }
-                else  //En caso contrario se clonan también cada uno de los hijos, propagando el parámetro cloneChildren=true
-                {
-                    clon.children = null;
+                //Se clonan también cada uno de los hijos
+                clon.children = null;
 
-                    if (this.children != null)
+                if (this.children != null)
+                {
+                    clon.children = new RtfNodeCollection();
+
+                    foreach (RtfTreeNode child in this.children)
                     {
-                        clon.children = new RtfNodeCollection();
+                        RtfTreeNode childclon = child.CloneNode();
+                        childclon.parent = clon;
 
-                        foreach (RtfTreeNode child in this.children)
-                        {
-                            clon.children.Add(child.CloneNode(true));
-                        }
+                        clon.children.Add(childclon);
                     }
                 }
 

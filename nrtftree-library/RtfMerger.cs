@@ -426,7 +426,7 @@ namespace Net.Sgoliver.NRtfTree
                 for (int i = indPard + 1; i < treeToCopyParent.RootNode.FirstChild.ChildNodes.Count; i++)
                 {
                     RtfTreeNode newNode = 
-                        treeToCopyParent.RootNode.FirstChild.ChildNodes[i].CloneNode(true);
+                        treeToCopyParent.RootNode.FirstChild.ChildNodes[i].CloneNode();
 
                     newGroup.AppendChild(newNode);
                 }

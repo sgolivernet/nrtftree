@@ -104,7 +104,7 @@ namespace Net.Sgoliver.NRtfTree
             {
                 RtfTree clon = new RtfTree();
 
-                clon.rootNode = this.rootNode.CloneNode(true);
+                clon.rootNode = this.rootNode.CloneNode();
 
                 return clon;
             }
@@ -796,7 +796,7 @@ namespace Net.Sgoliver.NRtfTree
 
                         for (int i = 2; i < node.ChildNodes.Count; i++)
                         {
-                            rss.KeyCode.Add(node.ChildNodes[i].CloneNode(true));
+                            rss.KeyCode.Add(node.ChildNodes[i].CloneNode());
                         }
                     }
                     else if (node.NodeType == RtfNodeType.Text)
