@@ -1201,6 +1201,8 @@ namespace Net.Sgoliver.NRtfTree
                 {
                     if (this.NodeKey == "'")
                         res.Append(DecodeControlChar(this.Parameter, this.tree.GetEncoding()));
+                    else if (this.NodeKey == "~")  // non-breaking space
+                        res.Append(" ");
                 }
                 else if (this.NodeType == RtfNodeType.Text)
                 {
@@ -1210,6 +1212,20 @@ namespace Net.Sgoliver.NRtfTree
                 {
                     if (this.NodeKey.Equals("par"))
                         res.AppendLine("");
+                    else if (this.NodeKey.Equals("tab"))
+                        res.Append("\t");
+                    else if (this.NodeKey.Equals("line"))
+                        res.Append("\n");
+                    else if (this.NodeKey.Equals("lquote"))
+                        res.Append("‘");
+                    else if (this.NodeKey.Equals("rquote"))
+                        res.Append("’");
+                    else if (this.NodeKey.Equals("ldblquote"))
+                        res.Append("“");
+                    else if (this.NodeKey.Equals("rdblquote"))
+                        res.Append("”");
+                    else if (this.NodeKey.Equals("emdash"))
+                        res.Append("—");
                 }
 
                 return res.ToString();

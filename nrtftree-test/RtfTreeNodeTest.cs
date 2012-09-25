@@ -112,5 +112,17 @@ namespace Net.Sgoliver.NRtfTree.Test
             Assert.That(fontsGroup.RawText, Is.EqualTo("Times New Roman;Arial;Arial;"));
             Assert.That(generatorGroup.RawText, Is.EqualTo("Msftedit 5.41.15.1515;"));
         }
+
+        [Test]
+        public void TextExtractionSpecial()
+        {
+            RtfTree tree = new RtfTree();
+
+            int res = tree.LoadRtfFile("..\\..\\testdocs\\testdoc5.rtf");
+
+            Assert.That(tree.Text, Is.EqualTo("Esto es una ‘prueba’\n\t y otra “prueba” y otra—prueba." + Environment.NewLine));
+            Assert.That(tree.MainGroup.Text, Is.EqualTo("Esto es una ‘prueba’\n\t y otra “prueba” y otra—prueba." + Environment.NewLine));
+            Assert.That(tree.MainGroup.RawText, Is.EqualTo("Arial;Msftedit 5.41.15.1515;Esto es una ‘prueba’\n\t y otra “prueba” y otra—prueba." + Environment.NewLine));
+        }
     }
 }
