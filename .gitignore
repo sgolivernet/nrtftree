@@ -1,4 +1,15 @@
 #################
+## Project
+#################
+
+/nrtftree-test/testdocs/rtfdocument1.rtf
+/nrtftree-test/testdocs/rtfdocument2.rtf
+/nrtftree-test/testdocs/img-result.png
+/nrtftree-test/testdocs/objbindata-result.dat
+/nrtftree-test/testdocs/merge-result.rtf
+
+
+#################
 ## Visual Studio
 #################
 
