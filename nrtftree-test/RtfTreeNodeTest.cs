@@ -124,5 +124,15 @@ namespace Net.Sgoliver.NRtfTree.Test
             Assert.That(tree.MainGroup.Text, Is.EqualTo("Esto es una ‘prueba’\r\n\t y otra “prueba” y otra—prueba." + Environment.NewLine));
             Assert.That(tree.MainGroup.RawText, Is.EqualTo("Arial;Msftedit 5.41.15.1515;Esto es una ‘prueba’\r\n\t y otra “prueba” y otra—prueba." + Environment.NewLine));
         }
+
+        [Test]
+        public void TextExtractionUnicode()
+        {
+            RtfTree tree = new RtfTree();
+
+            int res = tree.LoadRtfFile("..\\..\\testdocs\\unicodedoc.rtf");
+
+            Assert.That(tree.Text, Is.EqualTo("Prueba Unicode: Вова Петя\r\nSin ignorar caracteres: Вова Петя\r\n"));
+        }
     }
 }

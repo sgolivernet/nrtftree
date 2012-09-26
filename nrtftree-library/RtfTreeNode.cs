@@ -1167,6 +1167,18 @@ namespace Net.Sgoliver.NRtfTree
             /// <returns>Texto extraido del nodo.</returns>
             private string GetText(bool raw)
             {
+                return GetText(raw, 1);
+            }
+
+            /// <summary>
+            /// Obtiene el texto contenido en el nodo actual.
+            /// </summary>
+            /// <param name="raw">Si este parámetro está activado se extraerá todo el texto contenido en el nodo, independientemente de si éste
+            /// forma parte del texto real del documento.</param>
+            /// <param name="ignoreNchars">Ignore next N chars following \uN keyword</param>
+            /// <returns>Texto extraido del nodo.</returns>
+            private string GetText(bool raw, int ignoreNchars)
+            {
                 StringBuilder res = new StringBuilder("");
 
                 if (this.NodeType == RtfNodeType.Group)
@@ -1185,9 +1197,13 @@ namespace Net.Sgoliver.NRtfTree
                     {
                         if (ChildNodes != null)
                         {
+                            int uc = ignoreNchars;
                             foreach (RtfTreeNode node in ChildNodes)
                             {
-                                res.Append(node.GetText(raw));
+                                res.Append(node.GetText(raw, uc));
+
+                                if (node.NodeType == RtfNodeType.Keyword && node.NodeKey.Equals("uc"))
+                                    uc = node.Parameter;
                             }
                         }
                     }
@@ -1201,7 +1217,17 @@ namespace Net.Sgoliver.NRtfTree
                 }
                 else if (this.NodeType == RtfNodeType.Text)
                 {
-                    res.Append(this.NodeKey);
+                    string newtext = this.NodeKey;
+
+                    //Si el elemento anterior era un caracater Unicode (\uN) ignoramos los siguientes N caracteres
+                    //según la última etiqueta \ucN
+                    if (this.PreviousNode.NodeType == RtfNodeType.Keyword &&
+                        this.PreviousNode.NodeKey.Equals("u"))
+                    {
+                        newtext = newtext.Substring(ignoreNchars);
+                    }
+
+                    res.Append(newtext);
                 }
                 else if (this.NodeType == RtfNodeType.Keyword)
                 {
@@ -1221,6 +1247,10 @@ namespace Net.Sgoliver.NRtfTree
                         res.Append("”");
                     else if (this.NodeKey.Equals("emdash"))
                         res.Append("—");
+                    else if (this.NodeKey.Equals("u"))
+                    {
+                        res.Append(Char.ConvertFromUtf32(this.Parameter));
+                    }
                 }
 
                 return res.ToString();
