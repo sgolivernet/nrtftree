@@ -680,9 +680,20 @@ namespace Net.Sgoliver.NRtfTree
                     }
                     else
                     {
-                        byte[] bytes = encoding.GetBytes(new char[] { text[i] });
+                        if (text[i] == '\t')
+                        {
+                            mainGroup.AppendChild(new RtfTreeNode(RtfNodeType.Keyword, "tab", false, 0));
+                        }
+                        else if (text[i] == '\n')
+                        {
+                            mainGroup.AppendChild(new RtfTreeNode(RtfNodeType.Keyword, "line", false, 0));
+                        }
+                        else
+                        {
+                            byte[] bytes = encoding.GetBytes(new char[] { text[i] });
 
-                        mainGroup.AppendChild(new RtfTreeNode(RtfNodeType.Control, "'", true, bytes[0]));
+                            mainGroup.AppendChild(new RtfTreeNode(RtfNodeType.Control, "'", true, bytes[0]));
+                        }
 
                         i++;
                     }

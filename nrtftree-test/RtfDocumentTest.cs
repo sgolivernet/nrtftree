@@ -110,9 +110,9 @@ namespace Net.Sgoliver.NRtfTree.Test
 
             doc.SetLeftIndentation(0);
 
-            doc.AddText("Test Doc.");
-            doc.AddNewLine(2);
-            doc.AddText("Stop.");
+            doc.AddText("Test Doc.\n");
+            doc.AddNewLine(1);
+            doc.AddText("\tStop.");
 
             string text2 = doc.Text;
             string rtfcode2 = doc.Rtf;
