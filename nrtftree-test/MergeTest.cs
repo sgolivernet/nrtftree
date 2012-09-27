@@ -49,9 +49,9 @@ namespace Net.Sgoliver.NRtfTree.Test
         }
 
         [Test]
-        public void MergeDocuments()
+        public void MergeDocumentsFile()
         {
-            RtfMerger merger = new RtfMerger("..\\..\\testdocs\\merge-template.rtf", true);
+            RtfMerger merger = new RtfMerger("..\\..\\testdocs\\merge-template.rtf");
             merger.AddPlaceHolder("$doc1$", "..\\..\\testdocs\\merge-doc1.rtf");
             merger.AddPlaceHolder("$doc2$", "..\\..\\testdocs\\merge-doc2.rtf");
 
@@ -66,10 +66,57 @@ namespace Net.Sgoliver.NRtfTree.Test
             Assert.That(merger.Placeholders.Count, Is.EqualTo(2));
 
             RtfTree tree = merger.Merge();
-            tree.SaveRtf("..\\..\\testdocs\\merge-result.rtf");
+            tree.SaveRtf("..\\..\\testdocs\\merge-result-1.rtf");
 
             StreamReader sr = null;
-            sr = new StreamReader("..\\..\\testdocs\\merge-result.rtf");
+            sr = new StreamReader("..\\..\\testdocs\\merge-result-1.rtf");
+            string rtf1 = sr.ReadToEnd();
+            sr.Close();
+
+            sr = new StreamReader("..\\..\\testdocs\\rtf3.txt");
+            string rtf3 = sr.ReadToEnd();
+            sr.Close();
+
+            Assert.That(rtf1, Is.EqualTo(rtf3));
+        }
+
+        [Test]
+        public void MergeDocumentsInMemory()
+        {
+            RtfMerger merger = new RtfMerger();
+
+            RtfTree tree = new RtfTree();
+            tree.LoadRtfFile("..\\..\\testdocs\\merge-template.rtf");
+
+            merger.Template = tree;
+
+            RtfTree ph1 = new RtfTree();
+            ph1.LoadRtfFile("..\\..\\testdocs\\merge-doc1.rtf");
+
+            RtfTree ph2 = new RtfTree();
+            ph2.LoadRtfFile("..\\..\\testdocs\\merge-doc2.rtf");
+
+            merger.AddPlaceHolder("$doc1$", ph1);
+            merger.AddPlaceHolder("$doc2$", ph2);
+
+            Assert.That(merger.Placeholders.Count, Is.EqualTo(2));
+
+            RtfTree ph3 = new RtfTree();
+            ph3.LoadRtfFile("..\\..\\testdocs\\merge-doc2.rtf");
+
+            merger.AddPlaceHolder("$doc3$", ph3);
+
+            Assert.That(merger.Placeholders.Count, Is.EqualTo(3));
+
+            merger.RemovePlaceHolder("$doc3$");
+
+            Assert.That(merger.Placeholders.Count, Is.EqualTo(2));
+
+            RtfTree resTree = merger.Merge();
+            resTree.SaveRtf("..\\..\\testdocs\\merge-result-2.rtf");
+
+            StreamReader sr = null;
+            sr = new StreamReader("..\\..\\testdocs\\merge-result-2.rtf");
             string rtf1 = sr.ReadToEnd();
             sr.Close();
 

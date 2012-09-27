@@ -416,7 +416,7 @@ namespace Net.Sgoliver.NRtfTree
 
             private static void MergeDocuments()
             {
-                RtfMerger merger = new RtfMerger("..\\..\\testdocs\\test-doc3.rtf", true);
+                RtfMerger merger = new RtfMerger("..\\..\\testdocs\\test-doc3.rtf");
 
                 merger.AddPlaceHolder("[TagTextRTF1]", "..\\..\\testdocs\\merge1.rtf");
                 merger.AddPlaceHolder("[TagTextRTF2]", "..\\..\\testdocs\\merge2.rtf");

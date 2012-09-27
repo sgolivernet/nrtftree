@@ -58,17 +58,22 @@ namespace Net.Sgoliver.NRtfTree
             /// <summary>
             /// Constructor de la clase RtfMerger. 
             /// </summary>
-            /// <param name="sSourceDocFullPathName">Ruta del documento plantilla.</param>
-            /// <param name="bolRemoveLastParCmd">Indica si se debe eliminar el último nodo \par de los documentos insertados en la plantilla.</param>
-            public RtfMerger(string sSourceDocFullPathName, bool bolRemoveLastParCmd)
+            /// <param name="templatePath">Ruta del documento plantilla.</param>
+            public RtfMerger(string templatePath)
             {
                 //Se carga el documento origen
                 baseRtfDoc = new RtfTree();
-                baseRtfDoc.LoadRtfFile(sSourceDocFullPathName);
+                baseRtfDoc.LoadRtfFile(templatePath);
 
-                //Indicativo de eliminación del último nodo \par para documentos insertados
-                removeLastPar = bolRemoveLastParCmd;
+                //Se crea la lista de parámetros de sustitución (placeholders)
+                placeHolder = new Dictionary<string, RtfTree>();
+            }
 
+            /// <summary>
+            /// Constructor de la clase RtfMerger. 
+            /// </summary>
+            public RtfMerger()
+            {
                 //Se crea la lista de parámetros de sustitución (placeholders)
                 placeHolder = new Dictionary<string, RtfTree>();
             }
@@ -95,6 +100,16 @@ namespace Net.Sgoliver.NRtfTree
             }
 
             /// <summary>
+            /// Asocia un nuevo parámetro de sustitución (placeholder) con la ruta del documento a insertar.
+            /// </summary>
+            /// <param name="ph">Nombre del placeholder.</param>
+            /// <param name="docTree">Árbol RTF del documento a insertar.</param>
+            public void AddPlaceHolder(string ph, RtfTree docTree)
+            {
+                placeHolder.Add(ph, docTree);
+            }
+
+            /// <summary>
             /// Desasocia un parámetro de sustitución (placeholder) con la ruta del documento a insertar.
             /// </summary>
             /// <param name="ph">Nombre del placeholder.</param>
@@ -105,10 +120,14 @@ namespace Net.Sgoliver.NRtfTree
 
             /// <summary>
             /// Realiza la combinación de los documentos RTF.
+            /// <param name="removeLastPar">Indica si se debe eliminar el último nodo \par de los documentos insertados en la plantilla.</param>
             /// <returns>Devuelve el árbol RTF resultado de la fusión.</returns>
             /// </summary>
-            public RtfTree Merge()
+            public RtfTree Merge(bool removeLastPar)
             {
+                //Indicativo de eliminación del último nodo \par para documentos insertados
+                this.removeLastPar = removeLastPar;
+
                 //Se obtiene el grupo principal del árbol
                 RtfTreeNode parentNode = baseRtfDoc.MainGroup;
 
@@ -120,6 +139,15 @@ namespace Net.Sgoliver.NRtfTree
                 }
 
                 return baseRtfDoc;
+            }
+
+            /// <summary>
+            /// Realiza la combinación de los documentos RTF.
+            /// <returns>Devuelve el árbol RTF resultado de la fusión.</returns>
+            /// </summary>
+            public RtfTree Merge()
+            {
+                return Merge(true);
             }
 
             #endregion
@@ -134,6 +162,21 @@ namespace Net.Sgoliver.NRtfTree
                 get
                 {
                     return placeHolder;
+                }
+            }
+
+            /// <summary>
+            /// Obtiene o establece el árbol RTF del documento plantilla.
+            /// </summary>
+            public RtfTree Template
+            {
+                get
+                {
+                    return baseRtfDoc;
+                }
+                set
+                {
+                    baseRtfDoc = value;
                 }
             }
 
