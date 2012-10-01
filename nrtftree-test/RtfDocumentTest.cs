@@ -110,7 +110,7 @@ namespace Net.Sgoliver.NRtfTree.Test
 
             doc.SetLeftIndentation(0);
 
-            doc.AddText("Test Doc.\n");
+            doc.AddText("Test Doc. Петяв ñáéíó\n");
             doc.AddNewLine(1);
             doc.AddText("\tStop.");
 
@@ -142,7 +142,7 @@ namespace Net.Sgoliver.NRtfTree.Test
             sr.Close();
 
             sr = new StreamReader("..\\..\\testdocs\\doctext2.txt");
-            string doctext2 = sr.ReadToEnd();
+            string doctext2 = sr.ReadToEnd() + " Петяв ñáéíó\r\n\r\n\tStop.\r\n";
             sr.Close();
 
             //Se adapta el lenguaje al del PC donde se ejecutan los tests

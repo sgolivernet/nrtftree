@@ -690,9 +690,17 @@ namespace Net.Sgoliver.NRtfTree
                         }
                         else
                         {
-                            byte[] bytes = encoding.GetBytes(new char[] { text[i] });
+                            if (code <= 255)
+                            {
+                                byte[] bytes = encoding.GetBytes(new char[] { text[i] });
 
-                            mainGroup.AppendChild(new RtfTreeNode(RtfNodeType.Control, "'", true, bytes[0]));
+                                mainGroup.AppendChild(new RtfTreeNode(RtfNodeType.Control, "'", true, bytes[0]));
+                            }
+                            else
+                            {
+                                mainGroup.AppendChild(new RtfTreeNode(RtfNodeType.Keyword, "u", true, code));
+                                mainGroup.AppendChild(new RtfTreeNode(RtfNodeType.Text, "?", false, 0));
+                            }
                         }
 
                         i++;
