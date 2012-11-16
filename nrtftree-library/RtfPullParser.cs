@@ -66,16 +66,43 @@ namespace Net.Sgoliver.NRtfTree
             /// <summary>
             /// Constructor de la clase.
             /// </summary>
-            /// <param name="path">Ruta del fichero a parsear.</param>
-            public RtfPullParser(string path)
+            public RtfPullParser()
             {
+                currentEvent = START_DOCUMENT;
+            }
+
+            /// <summary>
+            /// Carga un fichero en formato RTF
+            /// </summary>
+            /// <param name="path">Ruta del fichero.</param>
+            public int LoadRtfFile(string path)
+            {
+                int res = 0;
+
                 //Se abre el fichero de entrada
                 rtf = new StreamReader(path);
 
                 //Se crea el analizador léxico para RTF
                 lex = new RtfLex(rtf);
 
-                currentEvent = START_DOCUMENT;
+                return res;
+            }
+
+            /// <summary>
+            /// Carga una cadena de Texto con formato RTF.
+            /// </summary>
+            /// <param name="path">Cadena de Texto que contiene el documento.</param>
+            public int LoadRtfText(string text)
+            {
+                int res = 0;
+
+                //Se abre el fichero de entrada
+                rtf = new StringReader(text);
+
+                //Se crea el analizador léxico para RTF
+                lex = new RtfLex(rtf);
+
+                return res;
             }
 
             #endregion

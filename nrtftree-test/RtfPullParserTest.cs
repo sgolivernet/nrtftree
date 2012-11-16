@@ -52,8 +52,26 @@ namespace Net.Sgoliver.NRtfTree.Test
         [Test]
         public void ParseSimpleDocument()
         {
-            RtfPullParser parser = new RtfPullParser("..\\..\\testdocs\\testdoc1.rtf");
+            RtfPullParser parser = new RtfPullParser();
+            parser.LoadRtfFile("..\\..\\testdocs\\testdoc1.rtf");
 
+            parserTests(parser);
+        }
+
+        [Test]
+        public void ParseSimpleRtfText()
+        {
+            RtfTree tree = new RtfTree();
+            tree.LoadRtfFile("..\\..\\testdocs\\testdoc1.rtf");
+
+            RtfPullParser parser = new RtfPullParser();
+            parser.LoadRtfText(tree.Rtf);
+
+            parserTests(parser);
+        }
+
+        private static void parserTests(RtfPullParser parser)
+        {
             int eventType = parser.GetEventType();
             Assert.That(eventType, Is.EqualTo(RtfPullParser.START_DOCUMENT));
 
