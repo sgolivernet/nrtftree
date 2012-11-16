@@ -35,6 +35,9 @@ namespace Net.Sgoliver.NRtfTree
 {
     namespace Core
     {
+        /// <summary>
+        /// Pull parser para documentos RTF.
+        /// </summary>
         public class RtfPullParser
         {
             #region Constantes
@@ -60,6 +63,10 @@ namespace Net.Sgoliver.NRtfTree
 
             #region Construtores
 
+            /// <summary>
+            /// Constructor de la clase.
+            /// </summary>
+            /// <param name="path">Ruta del fichero a parsear.</param>
             public RtfPullParser(string path)
             {
                 //Se abre el fichero de entrada
@@ -75,11 +82,19 @@ namespace Net.Sgoliver.NRtfTree
 
             #region Métodos Públicos
 
+            /// <summary>
+            /// Obtiene el tipo de evento actual.
+            /// </summary>
+            /// <returns>Tipo de evento actual.</returns>
             public int GetEventType()
             {
                 return currentEvent;
             }
 
+            /// <summary>
+            /// Obtiene el siguiente elemento del documento.
+            /// </summary>
+            /// <returns>Siguiente elemento del documento.</returns>
             public int Next()
             {
                 tok = lex.NextToken();
@@ -109,21 +124,37 @@ namespace Net.Sgoliver.NRtfTree
                 return currentEvent;
             }
 
+            /// <summary>
+            /// Obtiene la palabra clave / símbolo control del elemento actual.
+            /// </summary>
+            /// <returns>Palabra clave / símbolo control del elemento actual.</returns>
             public string GetName()
             {
                 return tok.Key;
             }
 
+            /// <summary>
+            /// Obtiene el parámetro del elemento actual.
+            /// </summary>
+            /// <returns>Parámetro del elemento actual.</returns>
             public int GetParam()
             {
                 return tok.Parameter;
             }
 
+            /// <summary>
+            /// Consulta si el elemento actual tiene parámetro.
+            /// </summary>
+            /// <returns>Devuelve TRUE si el elemento actual tiene parámetro.</returns>
             public bool HasParam()
             {
                 return tok.HasParameter;
             }
 
+            /// <summary>
+            /// Obtiene el texto del elemento actual.
+            /// </summary>
+            /// <returns>Texto del elemento actual.</returns>
             public string GetText()
             {
                 return tok.Key;
