@@ -26,9 +26,7 @@
  * Description:	Tabla de Colores de un documento RTF.
  * ******************************************************************************/
 
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Drawing;
 
 namespace Net.Sgoliver.NRtfTree
@@ -43,7 +41,7 @@ namespace Net.Sgoliver.NRtfTree
             /// <summary>
             /// Lista interna de colores.
             /// </summary>
-            List<int> colors;
+            private List<int> colors;
 
             /// <summary>
             /// Constructor de la clase RtfColorTable.

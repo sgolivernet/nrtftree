@@ -26,11 +26,8 @@
  * Description:	Representa la tabla de hojas de estilo de un documento RTF.
  * ******************************************************************************/
 
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Collections;
-using Net.Sgoliver.NRtfTree.Core;
 
 namespace Net.Sgoliver.NRtfTree
 {
@@ -137,7 +134,7 @@ namespace Net.Sgoliver.NRtfTree
                 IEnumerator fntIndex = stylesheets.GetEnumerator();
 
                 fntIndex.Reset();
-                while (fntIndex.MoveNext() == true)
+                while (fntIndex.MoveNext())
                 {
                     if (((KeyValuePair<int, RtfStyleSheet>)fntIndex.Current).Value.Name.Equals(name))
                     {
@@ -159,7 +156,7 @@ namespace Net.Sgoliver.NRtfTree
                 IEnumerator fntIndex = stylesheets.GetEnumerator();
 
                 fntIndex.Reset();
-                while (fntIndex.MoveNext() == true)
+                while (fntIndex.MoveNext())
                 {
                     if ((int)((KeyValuePair<int, RtfStyleSheet>)fntIndex.Current).Key > intIndex)
                         intIndex = (int)((KeyValuePair<int, RtfStyleSheet>)fntIndex.Current).Key;

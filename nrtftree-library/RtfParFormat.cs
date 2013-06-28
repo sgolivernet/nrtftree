@@ -26,10 +26,6 @@
  * Description:	Representa un formato de párrafo.
  * ******************************************************************************/
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace Net.Sgoliver.NRtfTree
 {
     namespace Util

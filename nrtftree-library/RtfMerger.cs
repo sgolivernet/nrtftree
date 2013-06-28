@@ -27,12 +27,8 @@
  * Notes:       Originally contributed by Fabio Borghi.
  * ******************************************************************************/
 
-using System;
 using System.Collections.Generic;
-using System.Text;
 using Net.Sgoliver.NRtfTree.Util;
-using System.Text.RegularExpressions;
-using System.Runtime.InteropServices;
 using System.Drawing;
 
 namespace Net.Sgoliver.NRtfTree
@@ -252,7 +248,7 @@ namespace Net.Sgoliver.NRtfTree
             private void mergeCore(RtfTreeNode parentNode, int iNdIndex, RtfTree docToInsert, string strCompletePlaceholder, int intPlaceHolderNodePos)
             {
                 //Si el documento a insertar no está vacío
-                if (docToInsert.RootNode.HasChildNodes() == true)
+                if (docToInsert.RootNode.HasChildNodes())
                 {
                     int currentIndex = iNdIndex + 1;
 
@@ -385,7 +381,7 @@ namespace Net.Sgoliver.NRtfTree
                             parentNode.ChildNodes[iNdIndex].NodeKey == "stshfbi" ||
                             parentNode.ChildNodes[iNdIndex].NodeKey == "deff" ||
                             parentNode.ChildNodes[iNdIndex].NodeKey == "af") &&
-                            parentNode.ChildNodes[iNdIndex].HasParameter == true)
+                            parentNode.ChildNodes[iNdIndex].HasParameter)
                         {
                             parentNode.ChildNodes[iNdIndex].Parameter = getFontID(ref fontDestTbl, fontToCopyTbl[parentNode.ChildNodes[iNdIndex].Parameter]);
                         }
@@ -434,7 +430,7 @@ namespace Net.Sgoliver.NRtfTree
                              parentNode.ChildNodes[iNdIndex].NodeKey == "highlight" ||
                              parentNode.ChildNodes[iNdIndex].NodeKey == "clcbpat" ||
                              parentNode.ChildNodes[iNdIndex].NodeKey == "clcfpat") &&
-                             parentNode.ChildNodes[iNdIndex].HasParameter == true)
+                             parentNode.ChildNodes[iNdIndex].HasParameter)
                         {
                             parentNode.ChildNodes[iNdIndex].Parameter = getColorID(colorDestTbl, colorToCopyTbl[parentNode.ChildNodes[iNdIndex].Parameter]);
                         }

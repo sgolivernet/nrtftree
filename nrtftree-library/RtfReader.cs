@@ -26,7 +26,6 @@
  * Description:	Analizador secuencial de documentos RTF.
  * ******************************************************************************/
 
-using System;
 using System.IO;
 
 namespace Net.Sgoliver.NRtfTree

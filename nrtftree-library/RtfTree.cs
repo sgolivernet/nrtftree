@@ -27,7 +27,6 @@
  * ******************************************************************************/
 
 using System;
-using System.Collections;
 using System.IO;
 using System.Text;
 using System.Drawing;
@@ -104,7 +103,7 @@ namespace Net.Sgoliver.NRtfTree
             {
                 RtfTree clon = new RtfTree();
 
-                clon.rootNode = this.rootNode.CloneNode();
+                clon.rootNode = rootNode.CloneNode();
 
                 return clon;
             }
@@ -173,7 +172,7 @@ namespace Net.Sgoliver.NRtfTree
                 StreamWriter sw = new StreamWriter(filePath);
 
                 //Se trasforma el árbol RTF a Texto y se escribe al fichero
-                sw.Write(this.RootNode.Rtf);
+                sw.Write(RootNode.Rtf);
 
                 //Se cierra el fichero
                 sw.Flush();
@@ -215,7 +214,7 @@ namespace Net.Sgoliver.NRtfTree
                 RtfFontTable tablaFuentes = new RtfFontTable();
 
 				//Nodo raiz del documento
-				RtfTreeNode root = this.rootNode;
+				RtfTreeNode root = rootNode;
 
 				//Grupo principal del documento
 				RtfTreeNode nprin = root.FirstChild;
@@ -269,7 +268,7 @@ namespace Net.Sgoliver.NRtfTree
                 RtfColorTable tablaColores = new RtfColorTable();
 
                 //Nodo raiz del documento
-                RtfTreeNode root = this.rootNode;
+                RtfTreeNode root = rootNode;
 
                 //Grupo principal del documento
                 RtfTreeNode nprin = root.FirstChild;
@@ -363,7 +362,7 @@ namespace Net.Sgoliver.NRtfTree
             {
                 InfoGroup info = null;
 
-                RtfTreeNode infoNode = this.RootNode.SelectSingleNode("info");
+                RtfTreeNode infoNode = RootNode.SelectSingleNode("info");
 
                 //Si existe el nodo "\info" exraemos toda la información.
                 if (infoNode != null)
@@ -373,91 +372,91 @@ namespace Net.Sgoliver.NRtfTree
                     info = new InfoGroup();
 
                     //Title
-                    if ((auxnode = this.rootNode.SelectSingleNode("title")) != null)
+                    if ((auxnode = rootNode.SelectSingleNode("title")) != null)
                         info.Title = auxnode.NextSibling.NodeKey;
 
                     //Subject
-                    if ((auxnode = this.rootNode.SelectSingleNode("subject")) != null)
+                    if ((auxnode = rootNode.SelectSingleNode("subject")) != null)
                         info.Subject = auxnode.NextSibling.NodeKey;
 
                     //Author
-                    if ((auxnode = this.rootNode.SelectSingleNode("author")) != null)
+                    if ((auxnode = rootNode.SelectSingleNode("author")) != null)
                         info.Author = auxnode.NextSibling.NodeKey;
 
                     //Manager
-                    if ((auxnode = this.rootNode.SelectSingleNode("manager")) != null)
+                    if ((auxnode = rootNode.SelectSingleNode("manager")) != null)
                         info.Manager = auxnode.NextSibling.NodeKey;
 
                     //Company
-                    if ((auxnode = this.rootNode.SelectSingleNode("company")) != null)
+                    if ((auxnode = rootNode.SelectSingleNode("company")) != null)
                         info.Company = auxnode.NextSibling.NodeKey;
 
                     //Operator
-                    if ((auxnode = this.rootNode.SelectSingleNode("operator")) != null)
+                    if ((auxnode = rootNode.SelectSingleNode("operator")) != null)
                         info.Operator = auxnode.NextSibling.NodeKey;
 
                     //Category
-                    if ((auxnode = this.rootNode.SelectSingleNode("category")) != null)
+                    if ((auxnode = rootNode.SelectSingleNode("category")) != null)
                         info.Category = auxnode.NextSibling.NodeKey;
 
                     //Keywords
-                    if ((auxnode = this.rootNode.SelectSingleNode("keywords")) != null)
+                    if ((auxnode = rootNode.SelectSingleNode("keywords")) != null)
                         info.Keywords = auxnode.NextSibling.NodeKey;
 
                     //Comments
-                    if ((auxnode = this.rootNode.SelectSingleNode("comment")) != null)
+                    if ((auxnode = rootNode.SelectSingleNode("comment")) != null)
                         info.Comment = auxnode.NextSibling.NodeKey;
 
                     //Document comments
-                    if ((auxnode = this.rootNode.SelectSingleNode("doccomm")) != null)
+                    if ((auxnode = rootNode.SelectSingleNode("doccomm")) != null)
                         info.DocComment = auxnode.NextSibling.NodeKey;
 
                     //Hlinkbase (The base address that is used for the path of all relative hyperlinks inserted in the document)
-                    if ((auxnode = this.rootNode.SelectSingleNode("hlinkbase")) != null)
+                    if ((auxnode = rootNode.SelectSingleNode("hlinkbase")) != null)
                         info.HlinkBase = auxnode.NextSibling.NodeKey;
 
                     //Version
-                    if ((auxnode = this.rootNode.SelectSingleNode("version")) != null)
+                    if ((auxnode = rootNode.SelectSingleNode("version")) != null)
                         info.Version = auxnode.Parameter;
 
                     //Internal Version
-                    if ((auxnode = this.rootNode.SelectSingleNode("vern")) != null)
+                    if ((auxnode = rootNode.SelectSingleNode("vern")) != null)
                         info.InternalVersion = auxnode.Parameter;
 
                     //Editing Time
-                    if ((auxnode = this.rootNode.SelectSingleNode("edmins")) != null)
+                    if ((auxnode = rootNode.SelectSingleNode("edmins")) != null)
                         info.EditingTime = auxnode.Parameter;
 
                     //Number of Pages
-                    if ((auxnode = this.rootNode.SelectSingleNode("nofpages")) != null)
+                    if ((auxnode = rootNode.SelectSingleNode("nofpages")) != null)
                         info.NumberOfPages = auxnode.Parameter;
 
                     //Number of Chars
-                    if ((auxnode = this.rootNode.SelectSingleNode("nofchars")) != null)
+                    if ((auxnode = rootNode.SelectSingleNode("nofchars")) != null)
                         info.NumberOfChars = auxnode.Parameter;
 
                     //Number of Words
-                    if ((auxnode = this.rootNode.SelectSingleNode("nofwords")) != null)
+                    if ((auxnode = rootNode.SelectSingleNode("nofwords")) != null)
                         info.NumberOfWords = auxnode.Parameter;
 
                     //Id
-                    if ((auxnode = this.rootNode.SelectSingleNode("id")) != null)
+                    if ((auxnode = rootNode.SelectSingleNode("id")) != null)
                         info.Id = auxnode.Parameter;
 
                     //Creation DateTime
-                    if ((auxnode = this.rootNode.SelectSingleNode("creatim")) != null)
+                    if ((auxnode = rootNode.SelectSingleNode("creatim")) != null)
                         info.CreationTime = parseDateTime(auxnode.ParentNode);
 
                     //Revision DateTime
-                    if ((auxnode = this.rootNode.SelectSingleNode("revtim")) != null)
+                    if ((auxnode = rootNode.SelectSingleNode("revtim")) != null)
                         info.RevisionTime = parseDateTime(auxnode.ParentNode);
                     
                     //Last Print Time
-                    if ((auxnode = this.rootNode.SelectSingleNode("printim")) != null)
+                    if ((auxnode = rootNode.SelectSingleNode("printim")) != null)
                         info.LastPrintTime = parseDateTime(auxnode.ParentNode);
 
                     //Backup Time
-                    if ((auxnode = this.rootNode.SelectSingleNode("buptim")) != null)
+                    if ((auxnode = rootNode.SelectSingleNode("buptim")) != null)
                         info.BackupTime = parseDateTime(auxnode.ParentNode);
                 }
 
@@ -700,7 +699,7 @@ namespace Net.Sgoliver.NRtfTree
                 StringBuilder res = new StringBuilder("");
 
                 RtfTreeNode pardNode =
-                    this.MainGroup.SelectSingleChildNode("pard");
+                    MainGroup.SelectSingleChildNode("pard");
 
                 for (int i = pardNode.Index; i < MainGroup.ChildNodes.Count; i++)
                 {

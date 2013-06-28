@@ -27,8 +27,6 @@
  * ******************************************************************************/
 
 using System;
-using System.Collections;
-using System.IO;
 using System.Text;
 
 namespace Net.Sgoliver.NRtfTree
@@ -84,8 +82,8 @@ namespace Net.Sgoliver.NRtfTree
             /// </summary>
             public RtfTreeNode()
             {
-                this.type = RtfNodeType.None;
-                this.key = "";
+                type = RtfNodeType.None;
+                key = "";
                 
 				/* Inicializados por defecto */
 				//this.param = 0;
@@ -102,14 +100,14 @@ namespace Net.Sgoliver.NRtfTree
             /// <param name="nodeType">Tipo del nodo que se va a crear.</param>
             public RtfTreeNode(RtfNodeType nodeType)
             {
-                this.type = nodeType;
-                this.key = "";
+                type = nodeType;
+                key = "";
 
                 if (nodeType == RtfNodeType.Group || nodeType == RtfNodeType.Root)
                     children = new RtfNodeCollection();
 
                 if (nodeType == RtfNodeType.Root)
-                    this.root = this;
+                    root = this;
                 
 				/* Inicializados por defecto */
 				//this.param = 0;
@@ -131,14 +129,14 @@ namespace Net.Sgoliver.NRtfTree
             {
                 this.type = type;
                 this.key = key;
-                this.hasParam = hasParameter;
-                this.param = parameter;
+                hasParam = hasParameter;
+                param = parameter;
 
                 if (type == RtfNodeType.Group || type == RtfNodeType.Root)
                     children = new RtfNodeCollection();
 
                 if (type == RtfNodeType.Root)
-                    this.root = this;
+                    root = this;
 
 				/* Inicializados por defecto */
                 //this.parent = null;
@@ -157,10 +155,10 @@ namespace Net.Sgoliver.NRtfTree
             /// <param name="token">Token RTF devuelto por el analizador léxico.</param>
             internal RtfTreeNode(RtfToken token)
             {
-                this.type = (RtfNodeType)token.Type;
-                this.key = token.Key;
-                this.hasParam = token.HasParameter;
-                this.param = token.Parameter;
+                type = (RtfNodeType)token.Type;
+                key = token.Key;
+                hasParam = token.HasParameter;
+                param = token.Parameter;
 
 				/* Inicializados por defecto */
                 //this.parent = null;
@@ -269,22 +267,22 @@ namespace Net.Sgoliver.NRtfTree
             {
                 RtfTreeNode clon = new RtfTreeNode();
 
-                clon.key = this.key;
-                clon.hasParam = this.hasParam;
-                clon.param = this.param;
+                clon.key = key;
+                clon.hasParam = hasParam;
+                clon.param = param;
                 clon.parent = null;
                 clon.root = null;
                 clon.tree = null;
-                clon.type = this.type;
+                clon.type = type;
 
                 //Se clonan también cada uno de los hijos
                 clon.children = null;
 
-                if (this.children != null)
+                if (children != null)
                 {
                     clon.children = new RtfNodeCollection();
 
-                    foreach (RtfTreeNode child in this.children)
+                    foreach (RtfTreeNode child in children)
                     {
                         RtfTreeNode childclon = child.CloneNode();
                         childclon.parent = clon;
@@ -834,7 +832,7 @@ namespace Net.Sgoliver.NRtfTree
             public RtfTreeNode SelectSibling(string keyword)
             {
                 RtfTreeNode node = null;
-                RtfTreeNode par = this.parent;
+                RtfTreeNode par = parent;
 
                 if (par != null)
                 {
@@ -866,7 +864,7 @@ namespace Net.Sgoliver.NRtfTree
             public RtfTreeNode SelectSibling(RtfNodeType nodeType)
             {
                 RtfTreeNode node = null;
-                RtfTreeNode par = this.parent;
+                RtfTreeNode par = parent;
 
                 if (par != null)
                 {
@@ -899,7 +897,7 @@ namespace Net.Sgoliver.NRtfTree
             public RtfTreeNode SelectSibling(string keyword, int param)
             {
                 RtfTreeNode node = null;
-                RtfTreeNode par = this.parent;
+                RtfTreeNode par = parent;
 
                 if (par != null)
                 {
@@ -973,7 +971,7 @@ namespace Net.Sgoliver.NRtfTree
 			/// <returns>Cadena de caracteres del tipo [TIPO, CLAVE, IND_PARAMETRO, VAL_PARAMETRO]</returns>
 			public override string ToString()
 			{
-				return "[" + this.type + ", " + this.key + ", " + this.hasParam + ", " + this.param + "]";
+				return "[" + type + ", " + key + ", " + hasParam + ", " + param + "]";
 			}
 
             #endregion
@@ -1000,7 +998,7 @@ namespace Net.Sgoliver.NRtfTree
             {
                 string res = "";
 
-                Encoding enc = this.tree.GetEncoding();
+                Encoding enc = tree.GetEncoding();
 
                 res = getRtfInm(this, null, enc);
 
@@ -1143,10 +1141,10 @@ namespace Net.Sgoliver.NRtfTree
             private void updateNodeRoot(RtfTreeNode node)
             {
                 //Se asigna el nodo raíz del documento
-                node.root = this.root;
+                node.root = root;
 
                 //Se asigna el árbol propietario del nodo
-                node.tree = this.tree;
+                node.tree = tree;
 
                 //Si el nodo actualizado tiene hijos se actualizan también
                 if (node.children != null)
@@ -1181,19 +1179,19 @@ namespace Net.Sgoliver.NRtfTree
             {
                 StringBuilder res = new StringBuilder("");
 
-                if (this.NodeType == RtfNodeType.Group)
+                if (NodeType == RtfNodeType.Group)
                 {
-                    int indkw = this.FirstChild.NodeKey.Equals("*") ? 1 : 0;
+                    int indkw = FirstChild.NodeKey.Equals("*") ? 1 : 0;
 
                     if (raw ||
-                       (!this.ChildNodes[indkw].NodeKey.Equals("fonttbl") &&
-                        !this.ChildNodes[indkw].NodeKey.Equals("colortbl") &&
-                        !this.ChildNodes[indkw].NodeKey.Equals("stylesheet") &&
-                        !this.ChildNodes[indkw].NodeKey.Equals("generator") &&
-                        !this.ChildNodes[indkw].NodeKey.Equals("info") &&
-                        !this.ChildNodes[indkw].NodeKey.Equals("pict") &&
-                        !this.ChildNodes[indkw].NodeKey.Equals("object") &&
-                        !this.ChildNodes[indkw].NodeKey.Equals("fldinst")))
+                       (!ChildNodes[indkw].NodeKey.Equals("fonttbl") &&
+                        !ChildNodes[indkw].NodeKey.Equals("colortbl") &&
+                        !ChildNodes[indkw].NodeKey.Equals("stylesheet") &&
+                        !ChildNodes[indkw].NodeKey.Equals("generator") &&
+                        !ChildNodes[indkw].NodeKey.Equals("info") &&
+                        !ChildNodes[indkw].NodeKey.Equals("pict") &&
+                        !ChildNodes[indkw].NodeKey.Equals("object") &&
+                        !ChildNodes[indkw].NodeKey.Equals("fldinst")))
                     {
                         if (ChildNodes != null)
                         {
@@ -1208,48 +1206,48 @@ namespace Net.Sgoliver.NRtfTree
                         }
                     }
                 }
-                else if (this.NodeType == RtfNodeType.Control)
+                else if (NodeType == RtfNodeType.Control)
                 {
-                    if (this.NodeKey == "'")
-                        res.Append(DecodeControlChar(this.Parameter, this.tree.GetEncoding()));
-                    else if (this.NodeKey == "~")  // non-breaking space
+                    if (NodeKey == "'")
+                        res.Append(DecodeControlChar(Parameter, tree.GetEncoding()));
+                    else if (NodeKey == "~")  // non-breaking space
                         res.Append(" ");
                 }
-                else if (this.NodeType == RtfNodeType.Text)
+                else if (NodeType == RtfNodeType.Text)
                 {
-                    string newtext = this.NodeKey;
+                    string newtext = NodeKey;
 
                     //Si el elemento anterior era un caracater Unicode (\uN) ignoramos los siguientes N caracteres
                     //según la última etiqueta \ucN
-                    if (this.PreviousNode.NodeType == RtfNodeType.Keyword &&
-                        this.PreviousNode.NodeKey.Equals("u"))
+                    if (PreviousNode.NodeType == RtfNodeType.Keyword &&
+                        PreviousNode.NodeKey.Equals("u"))
                     {
                         newtext = newtext.Substring(ignoreNchars);
                     }
 
                     res.Append(newtext);
                 }
-                else if (this.NodeType == RtfNodeType.Keyword)
+                else if (NodeType == RtfNodeType.Keyword)
                 {
-                    if (this.NodeKey.Equals("par"))
+                    if (NodeKey.Equals("par"))
                         res.AppendLine("");
-                    else if (this.NodeKey.Equals("tab"))
+                    else if (NodeKey.Equals("tab"))
                         res.Append("\t");
-                    else if (this.NodeKey.Equals("line"))
+                    else if (NodeKey.Equals("line"))
                         res.AppendLine("");
-                    else if (this.NodeKey.Equals("lquote"))
+                    else if (NodeKey.Equals("lquote"))
                         res.Append("‘");
-                    else if (this.NodeKey.Equals("rquote"))
+                    else if (NodeKey.Equals("rquote"))
                         res.Append("’");
-                    else if (this.NodeKey.Equals("ldblquote"))
+                    else if (NodeKey.Equals("ldblquote"))
                         res.Append("“");
-                    else if (this.NodeKey.Equals("rdblquote"))
+                    else if (NodeKey.Equals("rdblquote"))
                         res.Append("”");
-                    else if (this.NodeKey.Equals("emdash"))
+                    else if (NodeKey.Equals("emdash"))
                         res.Append("—");
-                    else if (this.NodeKey.Equals("u"))
+                    else if (NodeKey.Equals("u"))
                     {
-                        res.Append(Char.ConvertFromUtf32(this.Parameter));
+                        res.Append(Char.ConvertFromUtf32(Parameter));
                     }
                 }
 
@@ -1401,7 +1399,7 @@ namespace Net.Sgoliver.NRtfTree
             {
                 get
                 {
-                    return this.SelectSingleChildNode(keyword);
+                    return SelectSingleChildNode(keyword);
                 }
             }
 
@@ -1506,21 +1504,21 @@ namespace Net.Sgoliver.NRtfTree
                 {
                     RtfTreeNode res = null;
 
-                    if (this.NodeType == RtfNodeType.Root)
+                    if (NodeType == RtfNodeType.Root)
                     {
-                        res = this.FirstChild;
+                        res = FirstChild;
                     }
                     else if (parent != null && parent.children != null)
                     {
-                        if (this.NodeType == RtfNodeType.Group && this.children.Count > 0)
+                        if (NodeType == RtfNodeType.Group && children.Count > 0)
                         {
-                            res = this.FirstChild;
+                            res = FirstChild;
                         }
                         else
                         {
-                            if (this.Index < (parent.children.Count - 1))
+                            if (Index < (parent.children.Count - 1))
                             {
-                                res = this.NextSibling;
+                                res = NextSibling;
                             }
                             else
                             {
@@ -1542,21 +1540,21 @@ namespace Net.Sgoliver.NRtfTree
                 {
                     RtfTreeNode res = null;
 
-                    if (this.NodeType == RtfNodeType.Root)
+                    if (NodeType == RtfNodeType.Root)
                     {
                         res = null;
                     }
                     else if (parent != null && parent.children != null)
                     {
-                        if (this.Index > 0)
+                        if (Index > 0)
                         {
-                            if (this.PreviousSibling.NodeType == RtfNodeType.Group)
+                            if (PreviousSibling.NodeType == RtfNodeType.Group)
                             {
-                                res = this.PreviousSibling.LastChild;
+                                res = PreviousSibling.LastChild;
                             }
                             else
                             {
-                                res = this.PreviousSibling;
+                                res = PreviousSibling;
                             }
                         }
                         else

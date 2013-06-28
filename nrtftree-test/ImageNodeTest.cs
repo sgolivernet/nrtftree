@@ -102,13 +102,12 @@ namespace Net.Sgoliver.NRtfTree.Test
 
             ImageNode imgNode = new ImageNode(pictNode);
 
-            imgNode.SaveImage("..\\..\\testdocs\\img-result.png");
+            imgNode.SaveImage("..\\..\\testdocs\\img-result.png", ImageFormat.Jpeg);
 
-            FileStream fs1 = new FileStream("..\\..\\testdocs\\img-result.png", FileMode.Open);
-            FileStream fs2 = new FileStream("..\\..\\testdocs\\image1.png", FileMode.Open);
-            FileStream fs3 = new FileStream("..\\..\\testdocs\\image2.png", FileMode.Open);
+            Stream fs1 = new FileStream("..\\..\\testdocs\\img-result.jpg", FileMode.Open);
+            Stream fs2 = new FileStream("..\\..\\testdocs\\image1.jpg", FileMode.Open);
 
-            Assert.That(fs1, Is.EqualTo(fs2) | Is.EqualTo(fs3));
+            Assert.That(fs1, Is.EqualTo(fs2));
         }
     }
 }

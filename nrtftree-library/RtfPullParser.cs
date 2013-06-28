@@ -26,9 +26,6 @@
  * Description:	Pull parser para documentos RTF.
  * ******************************************************************************/
 
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.IO;
 
 namespace Net.Sgoliver.NRtfTree
@@ -91,7 +88,7 @@ namespace Net.Sgoliver.NRtfTree
             /// <summary>
             /// Carga una cadena de Texto con formato RTF.
             /// </summary>
-            /// <param name="path">Cadena de Texto que contiene el documento.</param>
+            /// <param name="text">Cadena de Texto que contiene el documento.</param>
             public int LoadRtfText(string text)
             {
                 int res = 0;

@@ -26,8 +26,6 @@
  * Description:	Tipos de alineación de texto.
  * ******************************************************************************/
 
-using System;
-
 namespace Net.Sgoliver.NRtfTree
 {
     namespace Util

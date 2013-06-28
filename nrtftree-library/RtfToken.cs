@@ -26,8 +26,6 @@
  * Description:	Token leido por el analizador léxico para documentos RTF.
  * ******************************************************************************/
 
-using System;
-
 namespace Net.Sgoliver.NRtfTree
 {
     namespace Core

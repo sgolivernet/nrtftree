@@ -27,7 +27,6 @@
  * ******************************************************************************/
 
 using System;
-using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 using System.Globalization;
@@ -90,7 +89,7 @@ namespace Net.Sgoliver.NRtfTree
             /// <param name="enc">Codificación del documento a generar.</param>
             public RtfDocument(Encoding enc)
             {
-                this.encoding = enc;
+                encoding = enc;
 
                 fontTable = new RtfFontTable();
                 fontTable.AddFont("Arial");  //Default font
@@ -110,10 +109,8 @@ namespace Net.Sgoliver.NRtfTree
             /// <summary>
             /// Constructor de la clase RtfDocument. Se utilizará la codificación por defecto del sistema.
             /// </summary>
-            /// <param name="path">Ruta del fichero a generar.</param>
             public RtfDocument() : this(Encoding.Default)
             {
-                ;
             }
 
             #endregion
@@ -254,8 +251,8 @@ namespace Net.Sgoliver.NRtfTree
                 }
                 finally
                 {
-                    br.Close();
-                    fStream.Close();
+                    if (br != null) br.Close();
+                    if (fStream != null) fStream.Close();
                 }
             }
 

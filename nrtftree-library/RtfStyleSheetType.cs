@@ -26,8 +26,6 @@
  * Description:	Tipos de hojas de estilo de documento RTF.
  * ******************************************************************************/
 
-using System;
-
 namespace Net.Sgoliver.NRtfTree
 {
     namespace Util

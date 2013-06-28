@@ -26,9 +26,6 @@
  * Description:	Representa una hoja de estilo de un documento RTF.
  * ******************************************************************************/
 
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Net.Sgoliver.NRtfTree.Core;
 
 namespace Net.Sgoliver.NRtfTree

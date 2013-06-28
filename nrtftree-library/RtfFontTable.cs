@@ -26,9 +26,7 @@
  * Description:	Tabla de Fuentes de un documento RTF.
  * ******************************************************************************/
 
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Collections;
 
 namespace Net.Sgoliver.NRtfTree
@@ -43,7 +41,7 @@ namespace Net.Sgoliver.NRtfTree
             /// <summary>
             /// Lista interna de fuentes.
             /// </summary>
-            Dictionary<int,string> fonts;
+            private Dictionary<int,string> fonts;
 
             /// <summary>
             /// Constructor de la clase RtfFontTable.
@@ -107,7 +105,7 @@ namespace Net.Sgoliver.NRtfTree
                 IEnumerator fntIndex = fonts.GetEnumerator();
 
                 fntIndex.Reset();
-                while (fntIndex.MoveNext() == true)
+                while (fntIndex.MoveNext())
                 {
                     if (((KeyValuePair<int,string>)fntIndex.Current).Value.Equals(name))
                     {
@@ -129,7 +127,7 @@ namespace Net.Sgoliver.NRtfTree
                 IEnumerator fntIndex = fonts.GetEnumerator();
 
                 fntIndex.Reset();
-                while (fntIndex.MoveNext() == true)
+                while (fntIndex.MoveNext())
                 {
                     if ((int)((KeyValuePair<int, string>)fntIndex.Current).Key > intIndex)
                         intIndex = (int)((KeyValuePair<int, string>)fntIndex.Current).Key;
