@@ -2,6 +2,36 @@
 HISTORIAL DE VERSIONES - NRtfTree
 
 -----------------------------------------
+Version 0.4.0 (29/06/2013)
+-----------------------------------------
+
+[Nuevo] Nueva clase RtfPullParser.
+[Nuevo] Novedades de la clase RtfTreeNode:
+		  - Nuevas propiedades Text y RawText
+		  - Nuevas propiedades NextNode y PreviousNode
+		  - Nuevos métodos SelectXXXGroup(..., ignoreSpecial) para buscar grupos ignorando palabras de control '\*'
+[Nuevo] Novedades de la clase RtfMerger:
+		  - Nuevo constructor sin parámetros
+		  - Nuevo constructor RtfMerger(RtfTree tamplateTree)
+		  - Nueva propiedad Placeholders
+		  - Nueva propiedad Template
+		  - Nuevo método AddPlaceholder(string, RtfTree)
+[Nuevo] Novedades de la clase RtfDocument:
+		  - Nuevas propiedades Text, Rtf y Tree.
+		  - Nuevo método Save(path) para guardar el documento como fichero.
+[Nuevo] Soporte básico para caracteres unicode en el RTF (palabras de control '\u') en RtfTreeNode y RtfDocument
+		  
+[Actualizado] El método RtfMerger.MergeRtfDoc() ha sido renombrado a Merge() y ya no guarda los documentos a fichero, sino que devuelve un objeto RtfTree.
+[Actualizado] El parámetro RemoveLastPar de RtfMerger se ha movido también al método Merge()
+[Actualizado] La clase RtfDocument ahora trabaja con documentos en memoria y no en disco.
+[Actualizado] Sustituido el método Close() de RtfDocument por el método Save(path) para guardar el documento a fichero.
+
+[Corregido] El método RtfTreeNode.CloneNode() ahora siempre clona los nodos hijos y establece a null las propiedades Parent, Tree y Root
+[Corregido] Corregida la conversión a texto de la palabra de control '\line' en RtfTreeNode
+[Corregido] Corregida la inserción de tabuladores y retornos de carro en el método RtfDocument.InsertText()
+
+
+----------------------------------------
 Version 0.3 Final (0.3.3503) (04/08/2009)
 -----------------------------------------
 

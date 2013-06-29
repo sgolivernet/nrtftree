@@ -10,8 +10,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>nrtftree_library</RootNamespace>
     <AssemblyName>nrtftree-library</AssemblyName>
-    <TargetFrameworkVersion>v3.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -51,6 +52,7 @@
     <Compile Include="RtfNodeCollection.cs" />
     <Compile Include="RtfNodeType.cs" />
     <Compile Include="RtfParFormat.cs" />
+    <Compile Include="RtfPullParser.cs" />
     <Compile Include="RtfReader.cs" />
     <Compile Include="RtfStyleSheet.cs" />
     <Compile Include="RtfStyleSheetTable.cs" />

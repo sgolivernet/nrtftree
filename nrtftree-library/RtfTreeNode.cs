@@ -17,9 +17,9 @@
 
 /********************************************************************************
  * Library:		NRtfTree
- * Version:     v0.3
- * Date:		20/09/2012
- * Copyright:   2006-2012 Salvador Gomez
+ * Version:     v0.4
+ * Date:		29/06/2013
+ * Copyright:   2006-2013 Salvador Gomez
  * Home Page:	http://www.sgoliver.net
  * GitHub:	    https://github.com/sgolivernet/nrtftree
  * Class:		RtfTreeNode
@@ -27,8 +27,6 @@
  * ******************************************************************************/
 
 using System;
-using System.Collections;
-using System.IO;
 using System.Text;
 
 namespace Net.Sgoliver.NRtfTree
@@ -84,8 +82,8 @@ namespace Net.Sgoliver.NRtfTree
             /// </summary>
             public RtfTreeNode()
             {
-                this.type = RtfNodeType.None;
-                this.key = "";
+                type = RtfNodeType.None;
+                key = "";
                 
 				/* Inicializados por defecto */
 				//this.param = 0;
@@ -102,14 +100,14 @@ namespace Net.Sgoliver.NRtfTree
             /// <param name="nodeType">Tipo del nodo que se va a crear.</param>
             public RtfTreeNode(RtfNodeType nodeType)
             {
-                this.type = nodeType;
-                this.key = "";
+                type = nodeType;
+                key = "";
 
                 if (nodeType == RtfNodeType.Group || nodeType == RtfNodeType.Root)
                     children = new RtfNodeCollection();
 
                 if (nodeType == RtfNodeType.Root)
-                    this.root = this;
+                    root = this;
                 
 				/* Inicializados por defecto */
 				//this.param = 0;
@@ -131,14 +129,14 @@ namespace Net.Sgoliver.NRtfTree
             {
                 this.type = type;
                 this.key = key;
-                this.hasParam = hasParameter;
-                this.param = parameter;
+                hasParam = hasParameter;
+                param = parameter;
 
                 if (type == RtfNodeType.Group || type == RtfNodeType.Root)
                     children = new RtfNodeCollection();
 
                 if (type == RtfNodeType.Root)
-                    this.root = this;
+                    root = this;
 
 				/* Inicializados por defecto */
                 //this.parent = null;
@@ -157,10 +155,10 @@ namespace Net.Sgoliver.NRtfTree
             /// <param name="token">Token RTF devuelto por el analizador léxico.</param>
             internal RtfTreeNode(RtfToken token)
             {
-                this.type = (RtfNodeType)token.Type;
-                this.key = token.Key;
-                this.hasParam = token.HasParameter;
-                this.param = token.Parameter;
+                type = (RtfNodeType)token.Type;
+                key = token.Key;
+                hasParam = token.HasParameter;
+                param = token.Parameter;
 
 				/* Inicializados por defecto */
                 //this.parent = null;
@@ -264,37 +262,32 @@ namespace Net.Sgoliver.NRtfTree
             /// <summary>
             /// Realiza una copia exacta del nodo actual.
             /// </summary>
-            /// <param name="cloneChildren">Si este parámetro recibe el valor true se clonarán también todos los nodos hijo del nodo actual.</param>
             /// <returns>Devuelve una copia exacta del nodo actual.</returns>
-            public RtfTreeNode CloneNode(bool cloneChildren)
+            public RtfTreeNode CloneNode()
             {
                 RtfTreeNode clon = new RtfTreeNode();
 
-                clon.key = this.key;
-                clon.hasParam = this.hasParam;
-                clon.param = this.param;
-                clon.parent = this.parent;
-                clon.root = this.root;
-                clon.tree = this.tree;
-                clon.type = this.type;
+                clon.key = key;
+                clon.hasParam = hasParam;
+                clon.param = param;
+                clon.parent = null;
+                clon.root = null;
+                clon.tree = null;
+                clon.type = type;
 
-                //Si cloneChildren=false se copia directamente la lista de hijos
-                if (!cloneChildren)
-                {
-                    clon.children = this.children;
-                }
-                else  //En caso contrario se clonan también cada uno de los hijos, propagando el parámetro cloneChildren=true
-                {
-                    clon.children = null;
+                //Se clonan también cada uno de los hijos
+                clon.children = null;
 
-                    if (this.children != null)
+                if (children != null)
+                {
+                    clon.children = new RtfNodeCollection();
+
+                    foreach (RtfTreeNode child in children)
                     {
-                        clon.children = new RtfNodeCollection();
+                        RtfTreeNode childclon = child.CloneNode();
+                        childclon.parent = clon;
 
-                        foreach (RtfTreeNode child in this.children)
-                        {
-                            clon.children.Add(child.CloneNode(true));
-                        }
+                        clon.children.Add(childclon);
                     }
                 }
 
@@ -407,6 +400,17 @@ namespace Net.Sgoliver.NRtfTree
             /// <returns>Primer nodo grupo de la lista de nodos hijos del nodo actual cuya primera palabra clave es la indicada como parámetro.</returns>
             public RtfTreeNode SelectSingleChildGroup(string keyword)
             {
+                return SelectSingleChildGroup(keyword, false);
+            }
+
+            /// <summary>
+            /// Devuelve el primer nodo grupo de la lista de nodos hijos del nodo actual cuya primera palabra clave es la indicada como parámetro.
+            /// </summary>
+            /// <param name="keyword">Palabra clave buscada.</param>
+            /// <param name="ignoreSpecial">Si está activo se ignorarán los nodos de control '\*' previos a algunas palabras clave.</param>
+            /// <returns>Primer nodo grupo de la lista de nodos hijos del nodo actual cuya primera palabra clave es la indicada como parámetro.</returns>
+            public RtfTreeNode SelectSingleChildGroup(string keyword, bool ignoreSpecial)
+            {
                 int i = 0;
                 bool found = false;
                 RtfTreeNode node = null;
@@ -415,9 +419,11 @@ namespace Net.Sgoliver.NRtfTree
                 {
                     while (i < children.Count && !found)
                     {
-                        if (children[i].NodeType == RtfNodeType.Group &&
-                            children[i].HasChildNodes() &&
-                            children[i].FirstChild.NodeKey == keyword)
+                        if (children[i].NodeType == RtfNodeType.Group && children[i].HasChildNodes() &&
+                            (
+                             (children[i].FirstChild.NodeKey == keyword) ||
+                             (ignoreSpecial && children[i].ChildNodes[0].NodeKey == "*" && children[i].ChildNodes[1].NodeKey == keyword))
+                            )
                         {
                             node = children[i];
                             found = true;
@@ -511,6 +517,17 @@ namespace Net.Sgoliver.NRtfTree
             /// <returns>Primer nodo grupo del árbol, a partir del nodo actual, cuya primera palabra clave es la indicada como parámetro.</returns>
             public RtfTreeNode SelectSingleGroup(string keyword)
             {
+                return SelectSingleGroup(keyword, false);
+            }
+
+            /// <summary>
+            /// Devuelve el primer nodo grupo del árbol, a partir del nodo actual, cuya primera palabra clave es la indicada como parámetro.
+            /// </summary>
+            /// <param name="keyword">Palabra clave buscada.</param>
+            /// <param name="ignoreSpecial">Si está activo se ignorarán los nodos de control '\*' previos a algunas palabras clave.</param>
+            /// <returns>Primer nodo grupo del árbol, a partir del nodo actual, cuya primera palabra clave es la indicada como parámetro.</returns>
+            public RtfTreeNode SelectSingleGroup(string keyword, bool ignoreSpecial)
+            {
                 int i = 0;
                 bool found = false;
                 RtfTreeNode node = null;
@@ -519,16 +536,18 @@ namespace Net.Sgoliver.NRtfTree
                 {
                     while (i < children.Count && !found)
                     {
-                        if (children[i].NodeType == RtfNodeType.Group &&
-                            children[i].HasChildNodes() &&
-                            children[i].FirstChild.NodeKey == keyword)
+                        if (children[i].NodeType == RtfNodeType.Group && children[i].HasChildNodes() &&
+                            (
+                             (children[i].FirstChild.NodeKey == keyword) ||
+                             (ignoreSpecial && children[i].ChildNodes[0].NodeKey == "*" && children[i].ChildNodes[1].NodeKey == keyword))
+                            )
                         {
                             node = children[i];
                             found = true;
                         }
                         else
                         {
-                            node = children[i].SelectSingleGroup(keyword);
+                            node = children[i].SelectSingleGroup(keyword, ignoreSpecial);
 
                             if (node != null)
                             {
@@ -613,20 +632,33 @@ namespace Net.Sgoliver.NRtfTree
             /// <returns>Colección de nodos grupo, a partir del nodo actual, cuya primera palabra clave es la indicada como parámetro.</returns>
             public RtfNodeCollection SelectGroups(string keyword)
             {
+                return SelectGroups(keyword, false);
+            }
+
+            /// <summary>
+            /// Devuelve todos los nodos grupo, a partir del nodo actual, cuya primera palabra clave es la indicada como parámetro.
+            /// </summary>
+            /// <param name="keyword">Palabra clave buscada.</param>
+            /// <param name="ignoreSpecial">Si está activo se ignorarán los nodos de control '\*' previos a algunas palabras clave.</param>
+            /// <returns>Colección de nodos grupo, a partir del nodo actual, cuya primera palabra clave es la indicada como parámetro.</returns>
+            public RtfNodeCollection SelectGroups(string keyword, bool ignoreSpecial)
+            {
                 RtfNodeCollection nodes = new RtfNodeCollection();
 
                 if (children != null)
                 {
                     foreach (RtfTreeNode node in children)
                     {
-                        if (node.NodeType == RtfNodeType.Group &&
-                            node.HasChildNodes() &&
-                            node.FirstChild.NodeKey == keyword)
+                        if (node.NodeType == RtfNodeType.Group && node.HasChildNodes() &&
+                            (
+                             (node.FirstChild.NodeKey == keyword) ||
+                             (ignoreSpecial && node.ChildNodes[0].NodeKey == "*" && node.ChildNodes[1].NodeKey == keyword))
+                            )
                         {
                             nodes.Add(node);
                         }
 
-                        nodes.AddRange(node.SelectGroups(keyword));
+                        nodes.AddRange(node.SelectGroups(keyword, ignoreSpecial));
                     }
                 }
 
@@ -714,15 +746,28 @@ namespace Net.Sgoliver.NRtfTree
             /// <returns>Colección de nodos grupo de la lista de nodos hijos del nodo actual cuya primera palabra clave es la indicada como parámetro.</returns>
             public RtfNodeCollection SelectChildGroups(string keyword)
             {
+                return SelectChildGroups(keyword, false);
+            }
+
+            /// <summary>
+            /// Devuelve todos los nodos grupos de la lista de nodos hijos del nodo actual cuya primera palabra clave es la indicada como parámetro.
+            /// </summary>
+            /// <param name="keyword">Palabra clave buscada.</param>
+            /// <param name="ignoreSpecial">Si está activo se ignorarán los nodos de control '\*' previos a algunas palabras clave.</param>
+            /// <returns>Colección de nodos grupo de la lista de nodos hijos del nodo actual cuya primera palabra clave es la indicada como parámetro.</returns>
+            public RtfNodeCollection SelectChildGroups(string keyword, bool ignoreSpecial)
+            {
                 RtfNodeCollection nodes = new RtfNodeCollection();
 
                 if (children != null)
                 {
                     foreach (RtfTreeNode node in children)
                     {
-                        if (node.NodeType == RtfNodeType.Group &&
-                            node.HasChildNodes() &&
-                            node.FirstChild.NodeKey == keyword)
+                        if (node.NodeType == RtfNodeType.Group && node.HasChildNodes() &&
+                            (
+                             (node.FirstChild.NodeKey == keyword) ||
+                             (ignoreSpecial && node.ChildNodes[0].NodeKey == "*" && node.ChildNodes[1].NodeKey == keyword))
+                            )
                         {
                             nodes.Add(node);
                         }
@@ -787,7 +832,7 @@ namespace Net.Sgoliver.NRtfTree
             public RtfTreeNode SelectSibling(string keyword)
             {
                 RtfTreeNode node = null;
-                RtfTreeNode par = this.parent;
+                RtfTreeNode par = parent;
 
                 if (par != null)
                 {
@@ -819,7 +864,7 @@ namespace Net.Sgoliver.NRtfTree
             public RtfTreeNode SelectSibling(RtfNodeType nodeType)
             {
                 RtfTreeNode node = null;
-                RtfTreeNode par = this.parent;
+                RtfTreeNode par = parent;
 
                 if (par != null)
                 {
@@ -852,7 +897,7 @@ namespace Net.Sgoliver.NRtfTree
             public RtfTreeNode SelectSibling(string keyword, int param)
             {
                 RtfTreeNode node = null;
-                RtfTreeNode par = this.parent;
+                RtfTreeNode par = parent;
 
                 if (par != null)
                 {
@@ -926,12 +971,24 @@ namespace Net.Sgoliver.NRtfTree
 			/// <returns>Cadena de caracteres del tipo [TIPO, CLAVE, IND_PARAMETRO, VAL_PARAMETRO]</returns>
 			public override string ToString()
 			{
-				return "[" + this.type + ", " + this.key + ", " + this.hasParam + ", " + this.param + "]";
+				return "[" + type + ", " + key + ", " + hasParam + ", " + param + "]";
 			}
 
             #endregion
 
             #region Metodos Privados
+
+            /// <summary>
+            /// Decodifica un caracter especial indicado por su código decimal
+            /// </summary>
+            /// <param name="code">Código del caracter especial (\')</param>
+            /// <param name="enc">Codificación utilizada para decodificar el caracter especial.</param>
+            /// <returns>Caracter especial decodificado.</returns>
+            private string DecodeControlChar(int code, Encoding enc)
+            {
+                //Contributed by Jan Stuchlík
+                return enc.GetString(new byte[] { (byte)code });
+            }
 
             /// <summary>
             /// Obtiene el Texto RTF a partir de la representación en árbol del nodo actual.
@@ -941,7 +998,7 @@ namespace Net.Sgoliver.NRtfTree
             {
                 string res = "";
 
-                Encoding enc = this.tree.GetEncoding();
+                Encoding enc = tree.GetEncoding();
 
                 res = getRtfInm(this, null, enc);
 
@@ -1084,10 +1141,10 @@ namespace Net.Sgoliver.NRtfTree
             private void updateNodeRoot(RtfTreeNode node)
             {
                 //Se asigna el nodo raíz del documento
-                node.root = this.root;
+                node.root = root;
 
                 //Se asigna el árbol propietario del nodo
-                node.tree = this.tree;
+                node.tree = tree;
 
                 //Si el nodo actualizado tiene hijos se actualizan también
                 if (node.children != null)
@@ -1098,6 +1155,103 @@ namespace Net.Sgoliver.NRtfTree
                         updateNodeRoot(nod);
                     }
                 }
+            }
+
+            /// <summary>
+            /// Obtiene el texto contenido en el nodo actual.
+            /// </summary>
+            /// <param name="raw">Si este parámetro está activado se extraerá todo el texto contenido en el nodo, independientemente de si éste
+            /// forma parte del texto real del documento.</param>
+            /// <returns>Texto extraido del nodo.</returns>
+            private string GetText(bool raw)
+            {
+                return GetText(raw, 1);
+            }
+
+            /// <summary>
+            /// Obtiene el texto contenido en el nodo actual.
+            /// </summary>
+            /// <param name="raw">Si este parámetro está activado se extraerá todo el texto contenido en el nodo, independientemente de si éste
+            /// forma parte del texto real del documento.</param>
+            /// <param name="ignoreNchars">Ignore next N chars following \uN keyword</param>
+            /// <returns>Texto extraido del nodo.</returns>
+            private string GetText(bool raw, int ignoreNchars)
+            {
+                StringBuilder res = new StringBuilder("");
+
+                if (NodeType == RtfNodeType.Group)
+                {
+                    int indkw = FirstChild.NodeKey.Equals("*") ? 1 : 0;
+
+                    if (raw ||
+                       (!ChildNodes[indkw].NodeKey.Equals("fonttbl") &&
+                        !ChildNodes[indkw].NodeKey.Equals("colortbl") &&
+                        !ChildNodes[indkw].NodeKey.Equals("stylesheet") &&
+                        !ChildNodes[indkw].NodeKey.Equals("generator") &&
+                        !ChildNodes[indkw].NodeKey.Equals("info") &&
+                        !ChildNodes[indkw].NodeKey.Equals("pict") &&
+                        !ChildNodes[indkw].NodeKey.Equals("object") &&
+                        !ChildNodes[indkw].NodeKey.Equals("fldinst")))
+                    {
+                        if (ChildNodes != null)
+                        {
+                            int uc = ignoreNchars;
+                            foreach (RtfTreeNode node in ChildNodes)
+                            {
+                                res.Append(node.GetText(raw, uc));
+
+                                if (node.NodeType == RtfNodeType.Keyword && node.NodeKey.Equals("uc"))
+                                    uc = node.Parameter;
+                            }
+                        }
+                    }
+                }
+                else if (NodeType == RtfNodeType.Control)
+                {
+                    if (NodeKey == "'")
+                        res.Append(DecodeControlChar(Parameter, tree.GetEncoding()));
+                    else if (NodeKey == "~")  // non-breaking space
+                        res.Append(" ");
+                }
+                else if (NodeType == RtfNodeType.Text)
+                {
+                    string newtext = NodeKey;
+
+                    //Si el elemento anterior era un caracater Unicode (\uN) ignoramos los siguientes N caracteres
+                    //según la última etiqueta \ucN
+                    if (PreviousNode.NodeType == RtfNodeType.Keyword &&
+                        PreviousNode.NodeKey.Equals("u"))
+                    {
+                        newtext = newtext.Substring(ignoreNchars);
+                    }
+
+                    res.Append(newtext);
+                }
+                else if (NodeType == RtfNodeType.Keyword)
+                {
+                    if (NodeKey.Equals("par"))
+                        res.AppendLine("");
+                    else if (NodeKey.Equals("tab"))
+                        res.Append("\t");
+                    else if (NodeKey.Equals("line"))
+                        res.AppendLine("");
+                    else if (NodeKey.Equals("lquote"))
+                        res.Append("‘");
+                    else if (NodeKey.Equals("rquote"))
+                        res.Append("’");
+                    else if (NodeKey.Equals("ldblquote"))
+                        res.Append("“");
+                    else if (NodeKey.Equals("rdblquote"))
+                        res.Append("”");
+                    else if (NodeKey.Equals("emdash"))
+                        res.Append("—");
+                    else if (NodeKey.Equals("u"))
+                    {
+                        res.Append(Char.ConvertFromUtf32(Parameter));
+                    }
+                }
+
+                return res.ToString();
             }
 
             #endregion
@@ -1245,7 +1399,7 @@ namespace Net.Sgoliver.NRtfTree
             {
                 get
                 {
-                    return this.SelectSingleChildNode(keyword);
+                    return SelectSingleChildNode(keyword);
                 }
             }
 
@@ -1342,6 +1496,78 @@ namespace Net.Sgoliver.NRtfTree
             }
 
             /// <summary>
+            /// Devuelve el siguiente nodo del árbol. 
+            /// </summary>
+            public RtfTreeNode NextNode
+            {
+                get
+                {
+                    RtfTreeNode res = null;
+
+                    if (NodeType == RtfNodeType.Root)
+                    {
+                        res = FirstChild;
+                    }
+                    else if (parent != null && parent.children != null)
+                    {
+                        if (NodeType == RtfNodeType.Group && children.Count > 0)
+                        {
+                            res = FirstChild;
+                        }
+                        else
+                        {
+                            if (Index < (parent.children.Count - 1))
+                            {
+                                res = NextSibling;
+                            }
+                            else
+                            {
+                                res = parent.NextSibling;
+                            }
+                        }
+                    }
+
+                    return res;
+                }
+            }
+
+            /// <summary>
+            /// Devuelve el nodo anterior del árbol.
+            /// </summary>
+            public RtfTreeNode PreviousNode
+            {
+                get
+                {
+                    RtfTreeNode res = null;
+
+                    if (NodeType == RtfNodeType.Root)
+                    {
+                        res = null;
+                    }
+                    else if (parent != null && parent.children != null)
+                    {
+                        if (Index > 0)
+                        {
+                            if (PreviousSibling.NodeType == RtfNodeType.Group)
+                            {
+                                res = PreviousSibling.LastChild;
+                            }
+                            else
+                            {
+                                res = PreviousSibling;
+                            }
+                        }
+                        else
+                        {
+                            res = parent;
+                        }
+                    }
+
+                    return res;
+                }
+            }
+
+            /// <summary>
             /// Devuelve el código RTF del nodo actual y todos sus nodos hijos.
             /// </summary>
             public string Rtf
@@ -1365,6 +1591,28 @@ namespace Net.Sgoliver.NRtfTree
                         res = parent.children.IndexOf(this);
 
                     return res;
+                }
+            }
+
+            /// <summary>
+            /// Devuelve el fragmento de texto del documento contenido en el nodo actual.
+            /// </summary>
+            public string Text
+            {
+                get
+                {
+                    return GetText(false);
+                }
+            }
+
+            /// <summary>
+            /// Devuelve todo el texto contenido en el nodo actual.
+            /// </summary>
+            public string RawText
+            {
+                get
+                {
+                    return GetText(true);
                 }
             }
 

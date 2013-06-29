@@ -17,9 +17,9 @@
 
 /********************************************************************************
  * Library:		NRtfTree
- * Version:     v0.3
- * Date:		20/09/2012
- * Copyright:   2006-2012 Salvador Gomez
+ * Version:     v0.4
+ * Date:		29/06/2013
+ * Copyright:   2006-2013 Salvador Gomez
  * Home Page:	http://www.sgoliver.net
  * GitHub:	    https://github.com/sgolivernet/nrtftree
  * Class:		ImageNodeTest
@@ -102,10 +102,10 @@ namespace Net.Sgoliver.NRtfTree.Test
 
             ImageNode imgNode = new ImageNode(pictNode);
 
-            imgNode.SaveImage("..\\..\\testdocs\\img-result.png");
+            imgNode.SaveImage("..\\..\\testdocs\\img-result.png", ImageFormat.Jpeg);
 
-            FileStream fs1 = new FileStream("..\\..\\testdocs\\img-result.png", FileMode.Open);
-            FileStream fs2 = new FileStream("..\\..\\testdocs\\image.png", FileMode.Open);
+            Stream fs1 = new FileStream("..\\..\\testdocs\\img-result.jpg", FileMode.Open);
+            Stream fs2 = new FileStream("..\\..\\testdocs\\image1.jpg", FileMode.Open);
 
             Assert.That(fs1, Is.EqualTo(fs2));
         }

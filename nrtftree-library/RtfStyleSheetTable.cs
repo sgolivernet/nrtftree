@@ -17,20 +17,17 @@
 
 /********************************************************************************
  * Library:		NRtfTree
- * Version:     v0.3
- * Date:		20/09/2012
- * Copyright:   2006-2012 Salvador Gomez
+ * Version:     v0.4
+ * Date:		29/06/2013
+ * Copyright:   2006-2013 Salvador Gomez
  * Home Page:	http://www.sgoliver.net
  * GitHub:	    https://github.com/sgolivernet/nrtftree
  * Class:		RtfStyleSheetTable
  * Description:	Representa la tabla de hojas de estilo de un documento RTF.
  * ******************************************************************************/
 
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Collections;
-using Net.Sgoliver.NRtfTree.Core;
 
 namespace Net.Sgoliver.NRtfTree
 {
@@ -137,7 +134,7 @@ namespace Net.Sgoliver.NRtfTree
                 IEnumerator fntIndex = stylesheets.GetEnumerator();
 
                 fntIndex.Reset();
-                while (fntIndex.MoveNext() == true)
+                while (fntIndex.MoveNext())
                 {
                     if (((KeyValuePair<int, RtfStyleSheet>)fntIndex.Current).Value.Name.Equals(name))
                     {
@@ -159,7 +156,7 @@ namespace Net.Sgoliver.NRtfTree
                 IEnumerator fntIndex = stylesheets.GetEnumerator();
 
                 fntIndex.Reset();
-                while (fntIndex.MoveNext() == true)
+                while (fntIndex.MoveNext())
                 {
                     if ((int)((KeyValuePair<int, RtfStyleSheet>)fntIndex.Current).Key > intIndex)
                         intIndex = (int)((KeyValuePair<int, RtfStyleSheet>)fntIndex.Current).Key;

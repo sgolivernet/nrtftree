@@ -17,9 +17,9 @@
 
 /********************************************************************************
  * Library:		NRtfTree
- * Version:     v0.3
- * Date:		20/09/2012
- * Copyright:   2006-2012 Salvador Gomez
+ * Version:     v0.4
+ * Date:		29/06/2013
+ * Copyright:   2006-2013 Salvador Gomez
  * Home Page:	http://www.sgoliver.net
  * GitHub:	    https://github.com/sgolivernet/nrtftree
  * Class:		RtfTreeNodeTest
@@ -76,6 +76,63 @@ namespace Net.Sgoliver.NRtfTree.Test
 
             Assert.That(node.ToString(), Is.EqualTo("[Keyword, b, True, 3]"));
             Assert.That(node2.ToString(), Is.EqualTo("[Root, , False, 0]"));
+        }
+
+        [Test]
+        public void TextExtraction()
+        {
+            RtfTree tree = new RtfTree();
+
+            int res = tree.LoadRtfFile("..\\..\\testdocs\\testdoc4.rtf");
+
+            RtfTreeNode simpleGroup = tree.MainGroup.SelectSingleGroup("ul");
+            RtfTreeNode nestedGroups = tree.MainGroup.SelectSingleGroup("cf");
+            RtfTreeNode keyword = tree.MainGroup.SelectSingleChildNode("b");
+            RtfTreeNode control = tree.MainGroup.SelectSingleChildNode("'");
+            RtfTreeNode root = tree.RootNode;
+
+            Assert.That(simpleGroup.Text, Is.EqualTo("underline1"));
+            Assert.That(nestedGroups.Text, Is.EqualTo("blue1 luctus. Fusce in interdum ipsum. Cum sociis natoque penatibus et italic1 dis parturient montes, nascetur ridiculus mus."));
+            Assert.That(keyword.Text, Is.EqualTo(""));
+            Assert.That(control.Text, Is.EqualTo("é"));
+            Assert.That(root.Text, Is.EqualTo(""));
+
+            Assert.That(simpleGroup.RawText, Is.EqualTo("underline1"));
+            Assert.That(nestedGroups.RawText, Is.EqualTo("blue1 luctus. Fusce in interdum ipsum. Cum sociis natoque penatibus et italic1 dis parturient montes, nascetur ridiculus mus."));
+            Assert.That(keyword.RawText, Is.EqualTo(""));
+            Assert.That(control.RawText, Is.EqualTo("é"));
+            Assert.That(root.RawText, Is.EqualTo(""));
+
+            RtfTreeNode fontsGroup = tree.MainGroup.SelectSingleGroup("fonttbl");
+            RtfTreeNode generatorGroup = tree.MainGroup.SelectSingleGroup("*");
+
+            Assert.That(fontsGroup.Text, Is.EqualTo(""));
+            Assert.That(generatorGroup.Text, Is.EqualTo(""));
+
+            Assert.That(fontsGroup.RawText, Is.EqualTo("Times New Roman;Arial;Arial;"));
+            Assert.That(generatorGroup.RawText, Is.EqualTo("Msftedit 5.41.15.1515;"));
+        }
+
+        [Test]
+        public void TextExtractionSpecial()
+        {
+            RtfTree tree = new RtfTree();
+
+            int res = tree.LoadRtfFile("..\\..\\testdocs\\testdoc5.rtf");
+
+            Assert.That(tree.Text, Is.EqualTo("Esto es una ‘prueba’\r\n\t y otra “prueba” y otra—prueba." + Environment.NewLine));
+            Assert.That(tree.MainGroup.Text, Is.EqualTo("Esto es una ‘prueba’\r\n\t y otra “prueba” y otra—prueba." + Environment.NewLine));
+            Assert.That(tree.MainGroup.RawText, Is.EqualTo("Arial;Msftedit 5.41.15.1515;Esto es una ‘prueba’\r\n\t y otra “prueba” y otra—prueba." + Environment.NewLine));
+        }
+
+        [Test]
+        public void TextExtractionUnicode()
+        {
+            RtfTree tree = new RtfTree();
+
+            int res = tree.LoadRtfFile("..\\..\\testdocs\\unicodedoc.rtf");
+
+            Assert.That(tree.Text, Is.EqualTo("Prueba Unicode: Вова Петя\r\nSin ignorar caracteres: Вова Петя\r\n"));
         }
     }
 }

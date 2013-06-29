@@ -1,6 +1,38 @@
 ﻿
 CHANGELOG - NRtfTree
 
+-----------------------------------
+NRtfTree v0.4.0 (29/06/2013)
+-----------------------------------
+
+New:
+- New class RtfPullParser
+- Basic Unicode support in RtfTreeNode and RtfDocument
+- Class RtfTreeNode:
+	- New Text and RawText properties
+	- New NextNode and PreviousNode properties
+	- New SelectXXXGroup(..., ignoreSpecial) method to find groups ignoring \* control word.
+- Class RtfMerger:
+	- New default constructor
+	- New constructor RtfMerger(RtfTree template)
+	- New Placeholders property
+	- New Template property
+	- New method AddPlaceholder(string, RtfTree)
+- Class RtfDocument:
+	- New Text, Rtf and Tree properties
+	- New Save(path) method
+	
+Updated:
+	- Renamed RtfMerger.MergeRtfDoc() to Merge(). It now returns an RtfTree object.
+	- Moved RemoveLastPar parameter to the new Merge() method.
+	- RtfDocument class now works with in-memory documents.
+	- Updated RtfDocument.Close() method to Save(path).
+
+Bug fixes:
+	- Now, RtfTreeNode always clone child nodes and set Parent, Tree and Root properties to null.
+	- Fixed text conversion of '\line' control word in RtfTreeNode.
+	- Fixed text insertion in RtfDocument.InsertText() to escape TAB/CR characters correctly.
+
 ------------------------------
 NRtfTree v0.3 Final (0.3.3503)
 ------------------------------

@@ -17,9 +17,9 @@
 
 /********************************************************************************
  * Library:		NRtfTree
- * Version:     v0.3
- * Date:		20/09/2012
- * Copyright:   2006-2012 Salvador Gomez
+ * Version:     v0.4
+ * Date:		29/06/2013
+ * Copyright:   2006-2013 Salvador Gomez
  * Home Page:	http://www.sgoliver.net
  * GitHub:	    https://github.com/sgolivernet/nrtftree
  * Class:		SelectNodesTest
@@ -347,6 +347,46 @@ namespace Net.Sgoliver.NRtfTree.Test
 
             Assert.That(node1, Is.SameAs(tree.MainGroup[5].ChildNodes[1]));
             Assert.That(node2, Is.SameAs(tree.MainGroup[5].ChildNodes[1]));
+        }
+
+        [Test]
+        public void SelectSpecialGroups()
+        {
+            RtfTree tree = new RtfTree();
+
+            int res = tree.LoadRtfFile("..\\..\\testdocs\\testdoc1.rtf");
+
+            RtfNodeCollection list1 = tree.MainGroup.SelectChildGroups("generator");
+            RtfNodeCollection list2 = tree.MainGroup.SelectChildGroups("generator", false);
+            RtfNodeCollection list3 = tree.MainGroup.SelectChildGroups("generator", true);
+
+            RtfNodeCollection list4 = tree.MainGroup.SelectGroups("generator");
+            RtfNodeCollection list5 = tree.MainGroup.SelectGroups("generator", false);
+            RtfNodeCollection list6 = tree.MainGroup.SelectGroups("generator", true);
+
+            RtfTreeNode node1 = tree.MainGroup.SelectSingleChildGroup("generator");
+            RtfTreeNode node2 = tree.MainGroup.SelectSingleChildGroup("generator", false);
+            RtfTreeNode node3 = tree.MainGroup.SelectSingleChildGroup("generator", true);
+
+            RtfTreeNode node4 = tree.MainGroup.SelectSingleGroup("generator");
+            RtfTreeNode node5 = tree.MainGroup.SelectSingleGroup("generator", false);
+            RtfTreeNode node6 = tree.MainGroup.SelectSingleGroup("generator", true);
+
+            Assert.That(list1.Count, Is.EqualTo(0));
+            Assert.That(list2.Count, Is.EqualTo(0));
+            Assert.That(list3.Count, Is.EqualTo(1));
+
+            Assert.That(list4.Count, Is.EqualTo(0));
+            Assert.That(list5.Count, Is.EqualTo(0));
+            Assert.That(list6.Count, Is.EqualTo(1));
+
+            Assert.That(node1, Is.Null);
+            Assert.That(node2, Is.Null);
+            Assert.That(node3, Is.Not.Null);
+
+            Assert.That(node4, Is.Null);
+            Assert.That(node5, Is.Null);
+            Assert.That(node6, Is.Not.Null);
         }
 
         [Test]

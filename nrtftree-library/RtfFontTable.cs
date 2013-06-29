@@ -17,18 +17,16 @@
 
 /********************************************************************************
  * Library:		NRtfTree
- * Version:     v0.3
- * Date:		20/09/2012
- * Copyright:   2006-2012 Salvador Gomez
+ * Version:     v0.4
+ * Date:		29/06/2013
+ * Copyright:   2006-2013 Salvador Gomez
  * Home Page:	http://www.sgoliver.net
  * GitHub:	    https://github.com/sgolivernet/nrtftree
  * Class:		RtfFontTable
  * Description:	Tabla de Fuentes de un documento RTF.
  * ******************************************************************************/
 
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Collections;
 
 namespace Net.Sgoliver.NRtfTree
@@ -43,7 +41,7 @@ namespace Net.Sgoliver.NRtfTree
             /// <summary>
             /// Lista interna de fuentes.
             /// </summary>
-            Dictionary<int,string> fonts;
+            private Dictionary<int,string> fonts;
 
             /// <summary>
             /// Constructor de la clase RtfFontTable.
@@ -107,7 +105,7 @@ namespace Net.Sgoliver.NRtfTree
                 IEnumerator fntIndex = fonts.GetEnumerator();
 
                 fntIndex.Reset();
-                while (fntIndex.MoveNext() == true)
+                while (fntIndex.MoveNext())
                 {
                     if (((KeyValuePair<int,string>)fntIndex.Current).Value.Equals(name))
                     {
@@ -129,7 +127,7 @@ namespace Net.Sgoliver.NRtfTree
                 IEnumerator fntIndex = fonts.GetEnumerator();
 
                 fntIndex.Reset();
-                while (fntIndex.MoveNext() == true)
+                while (fntIndex.MoveNext())
                 {
                     if ((int)((KeyValuePair<int, string>)fntIndex.Current).Key > intIndex)
                         intIndex = (int)((KeyValuePair<int, string>)fntIndex.Current).Key;

@@ -17,18 +17,15 @@
 
 /********************************************************************************
  * Library:		NRtfTree
- * Version:     v0.3
- * Date:		20/09/2012
- * Copyright:   2006-2012 Salvador Gomez
+ * Version:     v0.4
+ * Date:		29/06/2013
+ * Copyright:   2006-2013 Salvador Gomez
  * Home Page:	http://www.sgoliver.net
  * GitHub:	    https://github.com/sgolivernet/nrtftree
  * Class:		RtfStyleSheet
  * Description:	Representa una hoja de estilo de un documento RTF.
  * ******************************************************************************/
 
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Net.Sgoliver.NRtfTree.Core;
 
 namespace Net.Sgoliver.NRtfTree

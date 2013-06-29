@@ -17,9 +17,9 @@
 
 /********************************************************************************
  * Library:		NRtfTree
- * Version:     v0.3
- * Date:		20/09/2012
- * Copyright:   2006-2012 Salvador Gomez
+ * Version:     v0.4
+ * Date:		29/06/2013
+ * Copyright:   2006-2013 Salvador Gomez
  * Home Page:	http://www.sgoliver.net
  * GitHub:	    https://github.com/sgolivernet/nrtftree
  * Class:		Demo
@@ -416,14 +416,15 @@ namespace Net.Sgoliver.NRtfTree
 
             private static void MergeDocuments()
             {
-                RtfMerger merger = new RtfMerger("..\\..\\testdocs\\test-doc3.rtf", "..\\..\\testdocs\\merge-result.rtf", true);
+                RtfMerger merger = new RtfMerger("..\\..\\testdocs\\test-doc3.rtf");
 
                 merger.AddPlaceHolder("[TagTextRTF1]", "..\\..\\testdocs\\merge1.rtf");
                 merger.AddPlaceHolder("[TagTextRTF2]", "..\\..\\testdocs\\merge2.rtf");
 
                 Console.WriteLine("Processing...");
 
-                merger.MergeRtfDoc();
+                RtfTree tree = merger.Merge();
+                tree.SaveRtf("..\\..\\testdocs\\merge-result.rtf");
 
                 Console.WriteLine("File 'merge-result.txt' created.");
 
