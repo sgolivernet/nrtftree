@@ -68,6 +68,19 @@ namespace Net.Sgoliver.NRtfTree
             /// <summary>
             /// Constructor de la clase RtfMerger. 
             /// </summary>
+            /// <param name="templateTree">Ruta del documento plantilla.</param>
+            public RtfMerger(RtfTree templateTree)
+            {
+                //Se carga el documento origen
+                baseRtfDoc = templateTree;
+
+                //Se crea la lista de parámetros de sustitución (placeholders)
+                placeHolder = new Dictionary<string, RtfTree>();
+            }
+
+            /// <summary>
+            /// Constructor de la clase RtfMerger. 
+            /// </summary>
             public RtfMerger()
             {
                 //Se crea la lista de parámetros de sustitución (placeholders)
