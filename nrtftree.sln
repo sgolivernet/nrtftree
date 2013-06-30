@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nrtftree-library", "nrtftree-library\nrtftree-library.csproj", "{7114E863-9D7D-4507-B38B-B859A0C1B836}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nrtftree-test", "nrtftree-test\nrtftree-test.csproj", "{932E07AC-75B1-4F13-8998-3CA4EAEE8E79}"
