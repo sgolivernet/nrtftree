@@ -116,11 +116,23 @@ namespace Net.Sgoliver.NRtfTree
             /// En caso contrario se devuelve el valor -1.</returns>
             public int LoadRtfFile(string path)
             {
+                return LoadRtfFile(path, Encoding.Default);
+            }
+
+            /// <summary>
+            /// Carga un fichero en formato RTF.
+            /// </summary>
+            /// <param name="path">Ruta del fichero con el documento.</param>
+            /// <param name="encoding"></param>
+            /// <returns>Se devuelve el valor 0 en caso de no producirse ningún error en la carga del documento.
+            /// En caso contrario se devuelve el valor -1.</returns>
+            public int LoadRtfFile(string path, Encoding encoding)
+            {
                 //Resultado de la carga
                 int res = 0;
 
                 //Se abre el fichero de entrada
-                rtf = new StreamReader(path);
+                rtf = new StreamReader(path, encoding);
 
                 //Se crea el analizador léxico para RTF
                 lex = new RtfLex(rtf);
