@@ -57,6 +57,8 @@ namespace Net.Sgoliver.NRtfTree
             /// </summary>
             private Format _currentFormat;
 
+            private Encoding _currentEncoding = Encoding.Default;
+
             /// <summary>
             /// Formato de texto ya escrito en el código HTML
             /// </summary>
@@ -339,7 +341,7 @@ namespace Net.Sgoliver.NRtfTree
 
                             if (nodo.NodeKey == "'") //Símbolos especiales, como tildes y "ñ"
                             {
-                                WriteText(Encoding.Default.GetString(new[] { (byte)nodo.Parameter }));
+                                WriteText(_currentEncoding.GetString(new[] { (byte)nodo.Parameter }));
                             }
                             break;
 
@@ -353,7 +355,10 @@ namespace Net.Sgoliver.NRtfTree
 
                                 case "f": //Tipo de fuente                                
                                     if (nodo.Parameter < _fontTable.Count)
-                                        _currentFormat.FontName = _fontTable[nodo.Parameter];
+                                    {
+                                        _currentFormat.FontName = _fontTable[nodo.Parameter].Name;
+                                        _currentEncoding = Encoding.GetEncoding(_fontTable[nodo.Parameter].CodePage);
+                                    }
                                     break;
 
                                 case "cf": //Color de fuente

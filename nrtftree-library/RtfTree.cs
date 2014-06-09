@@ -243,17 +243,22 @@ namespace Net.Sgoliver.NRtfTree
 
                     int indiceFuente = -1;
                     string nombreFuente = null;
+                    int codePage = Encoding.Default.CodePage;
 
                     foreach (RtfTreeNode nodo in fuente.ChildNodes)
                     {
-                        if (nodo.NodeKey == "f")
-                            indiceFuente = nodo.Parameter;
-
-                        if (nodo.NodeType == RtfNodeType.Text)
+                        if (nodo.NodeType == RtfNodeType.Keyword)
+                        {
+                            if (nodo.NodeKey == "f")
+                                indiceFuente = nodo.Parameter;
+                            else if(nodo.NodeKey == "fcharset")
+                                codePage = CharSetConvertor.ToCodePage(nodo.Parameter, codePage);
+                        }
+                        else if (nodo.NodeType == RtfNodeType.Text)
                             nombreFuente = nodo.NodeKey.Substring(0, nodo.NodeKey.Length - 1);
                     }
 
-                    tablaFuentes.AddFont(indiceFuente, nombreFuente);
+                    tablaFuentes.AddFont(indiceFuente, new RtfFont(nombreFuente, codePage));
                 }
 
                 return tablaFuentes;
