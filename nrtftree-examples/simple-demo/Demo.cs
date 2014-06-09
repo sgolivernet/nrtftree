@@ -435,6 +435,7 @@ namespace Net.Sgoliver.NRtfTree
             {
                 RtfTree tree = new RtfTree();
                 tree.LoadRtfFile("..\\..\\testdocs\\test-doc2.rtf");
+                //tree.LoadRtfFile("..\\..\\testdocs\\test-doc4.rtf"); //several character set 
 
                 Rtf2Html rtfToHtml = new Rtf2Html();
 
@@ -442,10 +443,12 @@ namespace Net.Sgoliver.NRtfTree
                 rtfToHtml.IncrustImages = false;
                 string html = rtfToHtml.Convert(tree.Rtf);
 
-                StreamWriter sw = new StreamWriter("..\\..\\testdocs\\test.html", false);
-                sw.Write(html);
-                sw.Flush();
-                sw.Close();
+                using(StreamWriter sw = new StreamWriter("..\\..\\testdocs\\test.html", false, Encoding.Default, 10000))
+                {
+                    sw.Write(html);
+                    sw.Flush();
+                    sw.Close();
+                }
 
                 Console.WriteLine("File 'test.html' created.");
 

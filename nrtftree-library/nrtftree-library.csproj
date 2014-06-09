@@ -39,6 +39,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CharSetConvertor.cs" />
+    <Compile Include="RtfFont.cs" />
     <Compile Include="ImageNode.cs" />
     <Compile Include="InfoGroup.cs" />
     <Compile Include="ObjectNode.cs" />

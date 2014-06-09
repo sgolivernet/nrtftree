@@ -396,7 +396,7 @@ namespace Net.Sgoliver.NRtfTree
                             parentNode.ChildNodes[iNdIndex].NodeKey == "af") &&
                             parentNode.ChildNodes[iNdIndex].HasParameter)
                         {
-                            parentNode.ChildNodes[iNdIndex].Parameter = getFontID(ref fontDestTbl, fontToCopyTbl[parentNode.ChildNodes[iNdIndex].Parameter]);
+                            parentNode.ChildNodes[iNdIndex].Parameter = getFontID(ref fontDestTbl, fontToCopyTbl[parentNode.ChildNodes[iNdIndex].Parameter].Name);
                         }
 
                         adjustFontRecursive(parentNode.ChildNodes[iNdIndex], fontDestTbl, fontToCopyTbl);
