@@ -289,6 +289,9 @@ namespace Net.Sgoliver.NRtfTree
 
                     i++;
                 }
+                
+                if(null == ntc.ChildNodes)
+                    return tablaColores;
 
                 //Rellenamos el array de colores
                 int rojo = 0;
