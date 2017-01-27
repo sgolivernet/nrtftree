@@ -57,7 +57,11 @@ namespace Net.Sgoliver.NRtfTree
             /// <param name="name">Nueva fuente a insertar.</param>
             public void AddFont(string name)
             {
-                fonts.Add(newFontIndex(),name);
+                try
+                {
+                    fonts.Add(newFontIndex(), name);
+                }
+                catch { }
             }
 
             /// <summary>

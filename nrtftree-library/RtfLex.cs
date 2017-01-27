@@ -181,7 +181,11 @@ namespace Net.Sgoliver.NRtfTree
 
                             token.HasParameter = true;
 
-                            token.Parameter = Convert.ToInt32(cod, 16);
+                            try
+                            {
+                                token.Parameter = Convert.ToInt32(cod, 16);
+                            }
+                            catch { }
                         }
 
                         //TODO: ¿Hay más símbolos de Control con parámetros?
@@ -224,7 +228,15 @@ namespace Net.Sgoliver.NRtfTree
                             c = rtf.Read();
                         }
 
-                        parametroInt = Convert.ToInt32(parsb.ToString());
+                        try
+                        {
+                            parametroInt = Convert.ToInt32(parsb.ToString());
+                        }
+                        catch (Exception)
+                        {
+                            parametroInt = -1;
+
+                        }
 
                         if (negativo)
                             parametroInt = -parametroInt;

@@ -520,8 +520,11 @@ namespace Net.Sgoliver.NRtfTree
                             level++;
                             break;
                         case RtfTokenType.GroupEnd:
-                            curNode = curNode.ParentNode;
-                            level--;
+                            if (curNode.ParentNode != null)
+                            {
+                                curNode = curNode.ParentNode;
+                                level--;
+                            }
                             break;
                         case RtfTokenType.Keyword:
                         case RtfTokenType.Control:

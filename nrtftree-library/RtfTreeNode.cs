@@ -1095,23 +1095,27 @@ namespace Net.Sgoliver.NRtfTree
 
                 for (int i = 0; i < s.Length; i++)
                 {
-                    int code = Char.ConvertToUtf32(s, i);
+                    try
+                    {
+                        int code = Char.ConvertToUtf32(s, i);
 
-                    if (code >= 128 || code < 32)
-                    {
-                        res.Append(@"\'");
-                        byte[] bytes = enc.GetBytes(new char[] { s[i] });
-                        res.Append(GetHexa(bytes[0]));
-                    }
-                    else
-                    {
-                        if ((s[i] == '{') || (s[i] == '}') || (s[i] == '\\'))
+                        if (code >= 128 || code < 32)
                         {
-                            res.Append(@"\");
+                            res.Append(@"\'");
+                            byte[] bytes = enc.GetBytes(new char[] { s[i] });
+                            res.Append(GetHexa(bytes[0]));
                         }
+                        else
+                        {
+                            if ((s[i] == '{') || (s[i] == '}') || (s[i] == '\\'))
+                            {
+                                res.Append(@"\");
+                            }
 
-                        res.Append(s[i]);
+                            res.Append(s[i]);
+                        }
                     }
+                    catch { }
                 }
             }
 
