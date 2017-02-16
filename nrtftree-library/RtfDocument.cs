@@ -132,23 +132,25 @@ namespace Net.Sgoliver.NRtfTree
             /// </summary>
             /// <param name="text">Texto a insertar.</param>
             /// <param name="format">Formato del texto a insertar.</param>
-            public void AddText(string text, RtfCharFormat format)
+            /// <param name="highlight">Resaltar el texto?</param>
+            public void AddText(string text, RtfCharFormat format, bool highlight = false)
             {
                 UpdateFontTable(format);
                 UpdateColorTable(format);
 
                 UpdateCharFormat(format);
 
-                InsertText(text);
+                InsertText(text, highlight);
             }
 
             /// <summary>
             /// Inserta un fragmento de texto en el documento con el formato de texto actual.
             /// </summary>
             /// <param name="text">Texto a insertar.</param>
-            public void AddText(string text)
+            /// <param name="highlight">Resaltar el texto?</param>
+            public void AddText(string text, bool highlight = false)
             {
-                InsertText(text);
+                InsertText(text, highlight);
             }
 
             /// <summary>
@@ -650,10 +652,27 @@ namespace Net.Sgoliver.NRtfTree
             /// Inserta todos los nodos de texto y control necesarios para representar un texto determinado.
             /// </summary>
             /// <param name="text">Texto a insertar.</param>
-            private void InsertText(string text)
+            /// <param name="highlight">Resaltar el texto?</param>
+            private void InsertText(string text, bool highlight = false)
             {
                 int i = 0;
                 int code = 0;
+
+                RtfTreeNode textGroup = mainGroup;
+
+                if (highlight && text.Length > 0)
+                {
+                    int indColor = colorTable.IndexOf(Color.Yellow);
+
+                    if (indColor == -1)
+                    {
+                        colorTable.AddColor(Color.Yellow);
+                        indColor = colorTable.IndexOf(Color.Yellow);
+                    }
+
+                    textGroup = new RtfTreeNode(RtfNodeType.Group);
+                    textGroup.AppendChild(new RtfTreeNode(RtfNodeType.Keyword, String.Format("highlight{0}", indColor), false, 0));
+                }
 
                 while(i < text.Length)
                 {
@@ -673,17 +692,17 @@ namespace Net.Sgoliver.NRtfTree
                                 code = Char.ConvertToUtf32(text, i);
                         }
 
-                        mainGroup.AppendChild(new RtfTreeNode(RtfNodeType.Text, s.ToString(), false, 0));
+                        textGroup.AppendChild(new RtfTreeNode(RtfNodeType.Text, s.ToString(), false, 0));
                     }
                     else
                     {
                         if (text[i] == '\t')
                         {
-                            mainGroup.AppendChild(new RtfTreeNode(RtfNodeType.Keyword, "tab", false, 0));
+                            textGroup.AppendChild(new RtfTreeNode(RtfNodeType.Keyword, "tab", false, 0));
                         }
                         else if (text[i] == '\n')
                         {
-                            mainGroup.AppendChild(new RtfTreeNode(RtfNodeType.Keyword, "line", false, 0));
+                            textGroup.AppendChild(new RtfTreeNode(RtfNodeType.Keyword, "line", false, 0));
                         }
                         else
                         {
@@ -691,17 +710,22 @@ namespace Net.Sgoliver.NRtfTree
                             {
                                 byte[] bytes = encoding.GetBytes(new char[] { text[i] });
 
-                                mainGroup.AppendChild(new RtfTreeNode(RtfNodeType.Control, "'", true, bytes[0]));
+                                textGroup.AppendChild(new RtfTreeNode(RtfNodeType.Control, "'", true, bytes[0]));
                             }
                             else
                             {
-                                mainGroup.AppendChild(new RtfTreeNode(RtfNodeType.Keyword, "u", true, code));
-                                mainGroup.AppendChild(new RtfTreeNode(RtfNodeType.Text, "?", false, 0));
+                                textGroup.AppendChild(new RtfTreeNode(RtfNodeType.Keyword, "u", true, code));
+                                textGroup.AppendChild(new RtfTreeNode(RtfNodeType.Text, "?", false, 0));
                             }
                         }
 
                         i++;
                     }
+                }
+
+                if (highlight && text.Length > 0)
+                {
+                    mainGroup.AppendChild(textGroup);
                 }
             }
 
