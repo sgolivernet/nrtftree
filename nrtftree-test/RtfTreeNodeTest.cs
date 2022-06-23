@@ -35,7 +35,7 @@ namespace Net.Sgoliver.NRtfTree.Test
     [TestFixture]
     public class RtfTreeNodeTest
     {
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void InitTestFixture()
         {
             ;
@@ -83,7 +83,7 @@ namespace Net.Sgoliver.NRtfTree.Test
         {
             RtfTree tree = new RtfTree();
 
-            int res = tree.LoadRtfFile("..\\..\\testdocs\\testdoc4.rtf");
+            int res = tree.LoadRtfFile("testdocs\\testdoc4.rtf");
 
             RtfTreeNode simpleGroup = tree.MainGroup.SelectSingleGroup("ul");
             RtfTreeNode nestedGroups = tree.MainGroup.SelectSingleGroup("cf");
@@ -118,7 +118,7 @@ namespace Net.Sgoliver.NRtfTree.Test
         {
             RtfTree tree = new RtfTree();
 
-            int res = tree.LoadRtfFile("..\\..\\testdocs\\testdoc5.rtf");
+            int res = tree.LoadRtfFile("testdocs\\testdoc5.rtf");
 
             Assert.That(tree.Text, Is.EqualTo("Esto es una ‘prueba’\r\n\t y otra “prueba” y otra—prueba." + Environment.NewLine));
             Assert.That(tree.MainGroup.Text, Is.EqualTo("Esto es una ‘prueba’\r\n\t y otra “prueba” y otra—prueba." + Environment.NewLine));
@@ -130,7 +130,7 @@ namespace Net.Sgoliver.NRtfTree.Test
         {
             RtfTree tree = new RtfTree();
 
-            int res = tree.LoadRtfFile("..\\..\\testdocs\\unicodedoc.rtf");
+            int res = tree.LoadRtfFile("testdocs\\unicodedoc.rtf");
 
             Assert.That(tree.Text, Is.EqualTo("Prueba Unicode: Вова Петя\r\nSin ignorar caracteres: Вова Петя\r\n"));
         }

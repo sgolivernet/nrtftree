@@ -40,11 +40,11 @@ namespace Net.Sgoliver.NRtfTree.Test
     {
         RtfTree tree = null;
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void InitTestFixture()
         {
             tree = new RtfTree();
-            tree.LoadRtfFile("..\\..\\testdocs\\testdoc2.rtf");
+            tree.LoadRtfFile("testdocs\\testdoc2.rtf");
         }
 
         [SetUp]
@@ -153,7 +153,7 @@ namespace Net.Sgoliver.NRtfTree.Test
             //sw.Flush();
             //sw.Close();
 
-            StreamReader sr = new StreamReader("..\\..\\testdocs\\infogroup.txt");
+            StreamReader sr = new StreamReader("testdocs\\infogroup.txt");
             string infoString = sr.ReadToEnd();
             sr.Close();
 

@@ -36,7 +36,7 @@ namespace Net.Sgoliver.NRtfTree.Test
     [TestFixture]
     public class LoadRtfTest
     {
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void InitTestFixture()
         {
             ;
@@ -53,7 +53,7 @@ namespace Net.Sgoliver.NRtfTree.Test
         {
             RtfTree tree = new RtfTree();
 
-            int res = tree.LoadRtfFile("..\\..\\testdocs\\testdoc1.rtf");
+            int res = tree.LoadRtfFile("testdocs\\testdoc1.rtf");
 
             //StreamWriter sw = null;
             //sw = new StreamWriter("testdocs\\result1-1.txt");
@@ -75,19 +75,19 @@ namespace Net.Sgoliver.NRtfTree.Test
 
             StreamReader sr = null;
 
-            sr = new StreamReader("..\\..\\testdocs\\result1-1.txt");
+            sr = new StreamReader("testdocs\\result1-1.txt");
             string strTree1 = sr.ReadToEnd();
             sr.Close();
 
-            sr = new StreamReader("..\\..\\testdocs\\result1-2.txt");
+            sr = new StreamReader("testdocs\\result1-2.txt");
             string strTree2 = sr.ReadToEnd();
             sr.Close();
 
-            sr = new StreamReader("..\\..\\testdocs\\rtf1.txt");
+            sr = new StreamReader("testdocs\\rtf1.txt");
             string rtf1 = sr.ReadToEnd();
             sr.Close();
 
-            sr = new StreamReader("..\\..\\testdocs\\text1.txt");
+            sr = new StreamReader("testdocs\\text1.txt");
             string text1 = sr.ReadToEnd();
             sr.Close();
 
@@ -104,7 +104,7 @@ namespace Net.Sgoliver.NRtfTree.Test
         {
             RtfTree tree = new RtfTree();
 
-            int res = tree.LoadRtfFile("..\\..\\testdocs\\testdoc3.rtf");
+            int res = tree.LoadRtfFile("testdocs\\testdoc3.rtf");
 
             //StreamWriter sw = null;
             //sw = new StreamWriter("testdocs\\rtf5.txt");
@@ -114,11 +114,11 @@ namespace Net.Sgoliver.NRtfTree.Test
 
             StreamReader sr = null;
 
-            sr = new StreamReader("..\\..\\testdocs\\rtf5.txt");
+            sr = new StreamReader("testdocs\\rtf5.txt");
             string rtf5 = sr.ReadToEnd();
             sr.Close();
 
-            sr = new StreamReader("..\\..\\testdocs\\text2.txt");
+            sr = new StreamReader("testdocs\\text2.txt");
             string text2 = sr.ReadToEnd();
             sr.Close();
 
@@ -135,7 +135,7 @@ namespace Net.Sgoliver.NRtfTree.Test
 
             tree.MergeSpecialCharacters = true;
 
-            int res = tree.LoadRtfFile("..\\..\\testdocs\\testdoc1.rtf");
+            int res = tree.LoadRtfFile("testdocs\\testdoc1.rtf");
 
             //StreamWriter sw = null;
             //sw = new StreamWriter("testdocs\\result1-3.txt");
@@ -149,19 +149,19 @@ namespace Net.Sgoliver.NRtfTree.Test
 
             StreamReader sr = null;
 
-            sr = new StreamReader("..\\..\\testdocs\\result1-3.txt");
+            sr = new StreamReader("testdocs\\result1-3.txt");
             string strTree1 = sr.ReadToEnd();
             sr.Close();
 
-            sr = new StreamReader("..\\..\\testdocs\\result1-4.txt");
+            sr = new StreamReader("testdocs\\result1-4.txt");
             string strTree2 = sr.ReadToEnd();
             sr.Close();
 
-            sr = new StreamReader("..\\..\\testdocs\\rtf1.txt");
+            sr = new StreamReader("testdocs\\rtf1.txt");
             string rtf1 = sr.ReadToEnd();
             sr.Close();
 
-            sr = new StreamReader("..\\..\\testdocs\\text1.txt");
+            sr = new StreamReader("testdocs\\text1.txt");
             string text1 = sr.ReadToEnd();
             sr.Close();
 
@@ -178,25 +178,25 @@ namespace Net.Sgoliver.NRtfTree.Test
         {
             RtfTree tree = new RtfTree();
 
-            StreamReader sr = new StreamReader("..\\..\\testdocs\\testdoc1.rtf");
+            StreamReader sr = new StreamReader("testdocs\\testdoc1.rtf");
             string strDoc = sr.ReadToEnd();
             sr.Close();
 
             int res = tree.LoadRtfText(strDoc);
 
-            sr = new StreamReader("..\\..\\testdocs\\result1-1.txt");
+            sr = new StreamReader("testdocs\\result1-1.txt");
             string strTree1 = sr.ReadToEnd();
             sr.Close();
 
-            sr = new StreamReader("..\\..\\testdocs\\result1-2.txt");
+            sr = new StreamReader("testdocs\\result1-2.txt");
             string strTree2 = sr.ReadToEnd();
             sr.Close();
 
-            sr = new StreamReader("..\\..\\testdocs\\rtf1.txt");
+            sr = new StreamReader("testdocs\\rtf1.txt");
             string rtf1 = sr.ReadToEnd();
             sr.Close();
 
-            sr = new StreamReader("..\\..\\testdocs\\text1.txt");
+            sr = new StreamReader("testdocs\\text1.txt");
             string text1 = sr.ReadToEnd();
             sr.Close();
 
@@ -214,25 +214,25 @@ namespace Net.Sgoliver.NRtfTree.Test
             RtfTree tree = new RtfTree();
             tree.MergeSpecialCharacters = true;
 
-            StreamReader sr = new StreamReader("..\\..\\testdocs\\testdoc1.rtf");
+            StreamReader sr = new StreamReader("testdocs\\testdoc1.rtf");
             string strDoc = sr.ReadToEnd();
             sr.Close();
 
             int res = tree.LoadRtfText(strDoc);
 
-            sr = new StreamReader("..\\..\\testdocs\\result1-3.txt");
+            sr = new StreamReader("testdocs\\result1-3.txt");
             string strTree1 = sr.ReadToEnd();
             sr.Close();
 
-            sr = new StreamReader("..\\..\\testdocs\\result1-4.txt");
+            sr = new StreamReader("testdocs\\result1-4.txt");
             string strTree2 = sr.ReadToEnd();
             sr.Close();
 
-            sr = new StreamReader("..\\..\\testdocs\\rtf1.txt");
+            sr = new StreamReader("testdocs\\rtf1.txt");
             string rtf1 = sr.ReadToEnd();
             sr.Close();
 
-            sr = new StreamReader("..\\..\\testdocs\\text1.txt");
+            sr = new StreamReader("testdocs\\text1.txt");
             string text1 = sr.ReadToEnd();
             sr.Close();
 

@@ -37,7 +37,7 @@ namespace Net.Sgoliver.NRtfTree.Test
     [TestFixture]
     public class RtfPullParserTest
     {
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void InitTestFixture()
         {
             ;
@@ -53,7 +53,7 @@ namespace Net.Sgoliver.NRtfTree.Test
         public void ParseSimpleDocument()
         {
             RtfPullParser parser = new RtfPullParser();
-            parser.LoadRtfFile("..\\..\\testdocs\\testdoc1.rtf");
+            parser.LoadRtfFile("testdocs\\testdoc1.rtf");
 
             parserTests(parser);
         }
@@ -62,7 +62,7 @@ namespace Net.Sgoliver.NRtfTree.Test
         public void ParseSimpleRtfText()
         {
             RtfTree tree = new RtfTree();
-            tree.LoadRtfFile("..\\..\\testdocs\\testdoc1.rtf");
+            tree.LoadRtfFile("testdocs\\testdoc1.rtf");
 
             RtfPullParser parser = new RtfPullParser();
             parser.LoadRtfText(tree.Rtf);

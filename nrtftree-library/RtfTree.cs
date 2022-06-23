@@ -470,7 +470,7 @@ namespace Net.Sgoliver.NRtfTree
             public Encoding GetEncoding()
             {
                 //Contributed by Jan Stuchlík
-
+                Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
                 Encoding encoding = Encoding.Default;
 
                 RtfTreeNode cpNode = RootNode.SelectSingleNode("ansicpg");

@@ -39,7 +39,7 @@ namespace Net.Sgoliver.NRtfTree.Test
     [TestFixture]
     public class RtfDocumentTest
     {
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void InitTestFixture()
         {
             ;
@@ -79,7 +79,7 @@ namespace Net.Sgoliver.NRtfTree.Test
             doc.AddText("Etiam vitae porttitor enim. Aenean molestie facilisis magna, quis tincidunt leo placerat in. Maecenas malesuada eleifend nunc vitae cursus.");
             doc.AddNewParagraph(2);
 
-            doc.Save("..\\..\\testdocs\\rtfdocument1.rtf");
+            doc.Save("testdocs\\rtfdocument1.rtf");
 
             string text1 = doc.Text;
             string rtfcode1 = doc.Rtf;
@@ -117,31 +117,31 @@ namespace Net.Sgoliver.NRtfTree.Test
             string text2 = doc.Text;
             string rtfcode2 = doc.Rtf;
 
-            doc.Save("..\\..\\testdocs\\rtfdocument2.rtf");
+            doc.Save("testdocs\\rtfdocument2.rtf");
 
             StreamReader sr = null;
-            sr = new StreamReader("..\\..\\testdocs\\rtfdocument1.rtf");
+            sr = new StreamReader("testdocs\\rtfdocument1.rtf");
             string rtf1 = sr.ReadToEnd();
             sr.Close();
 
             sr = null;
-            sr = new StreamReader("..\\..\\testdocs\\rtfdocument2.rtf");
+            sr = new StreamReader("testdocs\\rtfdocument2.rtf");
             string rtf2 = sr.ReadToEnd();
             sr.Close();
 
-            sr = new StreamReader("..\\..\\testdocs\\rtf4.txt");
+            sr = new StreamReader("testdocs\\rtf4.txt");
             string rtf4 = sr.ReadToEnd();
             sr.Close();
 
-            sr = new StreamReader("..\\..\\testdocs\\rtf6.txt");
+            sr = new StreamReader("testdocs\\rtf6.txt");
             string rtf6 = sr.ReadToEnd();
             sr.Close();
 
-            sr = new StreamReader("..\\..\\testdocs\\doctext1.txt");
+            sr = new StreamReader("testdocs\\doctext1.txt");
             string doctext1 = sr.ReadToEnd();
             sr.Close();
 
-            sr = new StreamReader("..\\..\\testdocs\\doctext2.txt");
+            sr = new StreamReader("testdocs\\doctext2.txt");
             string doctext2 = sr.ReadToEnd() + " Петяв ñáéíó\r\n\r\n\tStop.\r\n";
             sr.Close();
 

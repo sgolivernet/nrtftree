@@ -35,7 +35,7 @@ namespace Net.Sgoliver.NRtfTree.Test
     [TestFixture]
     public class NavigationTest
     {
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void InitTestFixture()
         {
             ;

@@ -39,7 +39,7 @@ namespace Net.Sgoliver.NRtfTree.Test
     [TestFixture]
     public class ImageNodeTest
     {
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void InitTestFixture()
         {
 
@@ -55,7 +55,7 @@ namespace Net.Sgoliver.NRtfTree.Test
         public void LoadImageNode()
         {
             RtfTree tree = new RtfTree();
-            tree.LoadRtfFile("..\\..\\testdocs\\testdoc3.rtf");
+            tree.LoadRtfFile("testdocs\\testdoc3.rtf");
 
             RtfTreeNode pictNode = tree.MainGroup.SelectNodes("pict")[2].ParentNode;
 
@@ -77,7 +77,7 @@ namespace Net.Sgoliver.NRtfTree.Test
         public void ImageHexData()
         {
             RtfTree tree = new RtfTree();
-            tree.LoadRtfFile("..\\..\\testdocs\\testdoc3.rtf");
+            tree.LoadRtfFile("testdocs\\testdoc3.rtf");
 
             RtfTreeNode pictNode = tree.MainGroup.SelectNodes("pict")[2].ParentNode;
 
@@ -85,7 +85,7 @@ namespace Net.Sgoliver.NRtfTree.Test
 
             StreamReader sr = null;
 
-            sr = new StreamReader("..\\..\\testdocs\\imghexdata.txt");
+            sr = new StreamReader("testdocs\\imghexdata.txt");
             string hexdata = sr.ReadToEnd();
             sr.Close();
 
@@ -96,16 +96,16 @@ namespace Net.Sgoliver.NRtfTree.Test
         public void ImageBinData()
         {
             RtfTree tree = new RtfTree();
-            tree.LoadRtfFile("..\\..\\testdocs\\testdoc3.rtf");
+            tree.LoadRtfFile("testdocs\\testdoc3.rtf");
 
             RtfTreeNode pictNode = tree.MainGroup.SelectNodes("pict")[2].ParentNode;
 
             ImageNode imgNode = new ImageNode(pictNode);
 
-            imgNode.SaveImage("..\\..\\testdocs\\img-result.png", ImageFormat.Jpeg);
+            imgNode.SaveImage("testdocs\\img-result.png", ImageFormat.Jpeg);
 
-            Stream fs1 = new FileStream("..\\..\\testdocs\\img-result.jpg", FileMode.Open);
-            Stream fs2 = new FileStream("..\\..\\testdocs\\image1.jpg", FileMode.Open);
+            Stream fs1 = new FileStream("testdocs\\img-result.jpg", FileMode.Open);
+            Stream fs2 = new FileStream("testdocs\\image1.jpg", FileMode.Open);
 
             Assert.That(fs1, Is.EqualTo(fs2));
         }

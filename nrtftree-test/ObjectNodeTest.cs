@@ -39,7 +39,7 @@ namespace Net.Sgoliver.NRtfTree.Test
     [TestFixture]
     public class ObjectNodeTest
     {
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void InitTestFixture()
         {
 
@@ -55,7 +55,7 @@ namespace Net.Sgoliver.NRtfTree.Test
         public void LoadObjectNode()
         {
             RtfTree tree = new RtfTree();
-            tree.LoadRtfFile("..\\..\\testdocs\\testdoc3.rtf");
+            tree.LoadRtfFile("testdocs\\testdoc3.rtf");
 
             RtfTreeNode node = tree.MainGroup.SelectSingleNode("object").ParentNode;
 
@@ -69,7 +69,7 @@ namespace Net.Sgoliver.NRtfTree.Test
         public void ObjectHexData()
         {
             RtfTree tree = new RtfTree();
-            tree.LoadRtfFile("..\\..\\testdocs\\testdoc3.rtf");
+            tree.LoadRtfFile("testdocs\\testdoc3.rtf");
 
             RtfTreeNode node = tree.MainGroup.SelectSingleNode("object").ParentNode;
 
@@ -77,7 +77,7 @@ namespace Net.Sgoliver.NRtfTree.Test
 
             StreamReader sr = null;
 
-            sr = new StreamReader("..\\..\\testdocs\\objhexdata.txt");
+            sr = new StreamReader("testdocs\\objhexdata.txt");
             string hexdata = sr.ReadToEnd();
             sr.Close();
 
@@ -88,19 +88,19 @@ namespace Net.Sgoliver.NRtfTree.Test
         public void ObjectBinData()
         {
             RtfTree tree = new RtfTree();
-            tree.LoadRtfFile("..\\..\\testdocs\\testdoc3.rtf");
+            tree.LoadRtfFile("testdocs\\testdoc3.rtf");
 
             RtfTreeNode node = tree.MainGroup.SelectSingleNode("object").ParentNode;
 
             ObjectNode objNode = new ObjectNode(node);
 
-            BinaryWriter bw = new BinaryWriter(new FileStream("..\\..\\testdocs\\objbindata-result.dat", FileMode.Create));
+            BinaryWriter bw = new BinaryWriter(new FileStream("testdocs\\objbindata-result.dat", FileMode.Create));
             foreach (byte b in objNode.GetByteData())
                 bw.Write(b);
             bw.Close();
 
-            FileStream fs1 = new FileStream("..\\..\\testdocs\\objbindata-result.dat", FileMode.Open);
-            FileStream fs2 = new FileStream("..\\..\\testdocs\\objbindata.dat", FileMode.Open);
+            FileStream fs1 = new FileStream("testdocs\\objbindata-result.dat", FileMode.Open);
+            FileStream fs2 = new FileStream("testdocs\\objbindata.dat", FileMode.Open);
 
             Assert.That(fs1, Is.EqualTo(fs2));
         }
@@ -109,7 +109,7 @@ namespace Net.Sgoliver.NRtfTree.Test
         public void ResultNode()
         {
             RtfTree tree = new RtfTree();
-            tree.LoadRtfFile("..\\..\\testdocs\\testdoc3.rtf");
+            tree.LoadRtfFile("testdocs\\testdoc3.rtf");
 
             RtfTreeNode node = tree.MainGroup.SelectSingleNode("object").ParentNode;
 
