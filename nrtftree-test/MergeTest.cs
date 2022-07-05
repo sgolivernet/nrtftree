@@ -36,7 +36,7 @@ namespace Net.Sgoliver.NRtfTree.Test
     [TestFixture]
     public class MergeTest
     {
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void InitTestFixture()
         {
             ;
@@ -51,13 +51,13 @@ namespace Net.Sgoliver.NRtfTree.Test
         [Test]
         public void MergeDocumentsFile()
         {
-            RtfMerger merger = new RtfMerger("..\\..\\testdocs\\merge-template.rtf");
-            merger.AddPlaceHolder("$doc1$", "..\\..\\testdocs\\merge-doc1.rtf");
-            merger.AddPlaceHolder("$doc2$", "..\\..\\testdocs\\merge-doc2.rtf");
+            RtfMerger merger = new RtfMerger("testdocs\\merge-template.rtf");
+            merger.AddPlaceHolder("$doc1$", "testdocs\\merge-doc1.rtf");
+            merger.AddPlaceHolder("$doc2$", "testdocs\\merge-doc2.rtf");
 
             Assert.That(merger.Placeholders.Count, Is.EqualTo(2));
 
-            merger.AddPlaceHolder("$doc3$", "..\\..\\testdocs\\merge-doc2.rtf");
+            merger.AddPlaceHolder("$doc3$", "testdocs\\merge-doc2.rtf");
 
             Assert.That(merger.Placeholders.Count, Is.EqualTo(3));
 
@@ -66,14 +66,14 @@ namespace Net.Sgoliver.NRtfTree.Test
             Assert.That(merger.Placeholders.Count, Is.EqualTo(2));
 
             RtfTree tree = merger.Merge();
-            tree.SaveRtf("..\\..\\testdocs\\merge-result-1.rtf");
+            tree.SaveRtf("testdocs\\merge-result-1.rtf");
 
             StreamReader sr = null;
-            sr = new StreamReader("..\\..\\testdocs\\merge-result-1.rtf");
+            sr = new StreamReader("testdocs\\merge-result-1.rtf");
             string rtf1 = sr.ReadToEnd();
             sr.Close();
 
-            sr = new StreamReader("..\\..\\testdocs\\rtf3.txt");
+            sr = new StreamReader("testdocs\\rtf3.txt");
             string rtf3 = sr.ReadToEnd();
             sr.Close();
 
@@ -86,15 +86,15 @@ namespace Net.Sgoliver.NRtfTree.Test
             RtfMerger merger = new RtfMerger();
 
             RtfTree tree = new RtfTree();
-            tree.LoadRtfFile("..\\..\\testdocs\\merge-template.rtf");
+            tree.LoadRtfFile("testdocs\\merge-template.rtf");
 
             merger.Template = tree;
 
             RtfTree ph1 = new RtfTree();
-            ph1.LoadRtfFile("..\\..\\testdocs\\merge-doc1.rtf");
+            ph1.LoadRtfFile("testdocs\\merge-doc1.rtf");
 
             RtfTree ph2 = new RtfTree();
-            ph2.LoadRtfFile("..\\..\\testdocs\\merge-doc2.rtf");
+            ph2.LoadRtfFile("testdocs\\merge-doc2.rtf");
 
             merger.AddPlaceHolder("$doc1$", ph1);
             merger.AddPlaceHolder("$doc2$", ph2);
@@ -102,7 +102,7 @@ namespace Net.Sgoliver.NRtfTree.Test
             Assert.That(merger.Placeholders.Count, Is.EqualTo(2));
 
             RtfTree ph3 = new RtfTree();
-            ph3.LoadRtfFile("..\\..\\testdocs\\merge-doc2.rtf");
+            ph3.LoadRtfFile("testdocs\\merge-doc2.rtf");
 
             merger.AddPlaceHolder("$doc3$", ph3);
 
@@ -113,14 +113,14 @@ namespace Net.Sgoliver.NRtfTree.Test
             Assert.That(merger.Placeholders.Count, Is.EqualTo(2));
 
             RtfTree resTree = merger.Merge();
-            resTree.SaveRtf("..\\..\\testdocs\\merge-result-2.rtf");
+            resTree.SaveRtf("testdocs\\merge-result-2.rtf");
 
             StreamReader sr = null;
-            sr = new StreamReader("..\\..\\testdocs\\merge-result-2.rtf");
+            sr = new StreamReader("testdocs\\merge-result-2.rtf");
             string rtf1 = sr.ReadToEnd();
             sr.Close();
 
-            sr = new StreamReader("..\\..\\testdocs\\rtf3.txt");
+            sr = new StreamReader("testdocs\\rtf3.txt");
             string rtf3 = sr.ReadToEnd();
             sr.Close();
 

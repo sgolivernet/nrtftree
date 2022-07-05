@@ -36,7 +36,7 @@ namespace Net.Sgoliver.NRtfTree.Test
     [TestFixture]
     public class SelectNodesTest
     {
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void InitTestFixture()
         {
             ;
@@ -53,7 +53,7 @@ namespace Net.Sgoliver.NRtfTree.Test
         {
             RtfTree tree = new RtfTree();
 
-            int res = tree.LoadRtfFile("..\\..\\testdocs\\testdoc1.rtf");
+            int res = tree.LoadRtfFile("testdocs\\testdoc1.rtf");
 
             RtfNodeCollection lista1 = tree.MainGroup.SelectChildNodes(RtfNodeType.Keyword);  //48 nodes
             RtfNodeCollection lista2 = tree.MainGroup.SelectChildNodes(RtfNodeType.Control);  //3 nodes
@@ -84,7 +84,7 @@ namespace Net.Sgoliver.NRtfTree.Test
         {
             RtfTree tree = new RtfTree();
 
-            int res = tree.LoadRtfFile("..\\..\\testdocs\\testdoc1.rtf");
+            int res = tree.LoadRtfFile("testdocs\\testdoc1.rtf");
 
             RtfNodeCollection lista1 = tree.MainGroup.SelectNodes(RtfNodeType.Keyword);  //68 nodes
             RtfNodeCollection lista2 = tree.MainGroup.SelectNodes(RtfNodeType.Control);  //4 nodes
@@ -118,7 +118,7 @@ namespace Net.Sgoliver.NRtfTree.Test
         {
             RtfTree tree = new RtfTree();
 
-            int res = tree.LoadRtfFile("..\\..\\testdocs\\testdoc1.rtf");
+            int res = tree.LoadRtfFile("testdocs\\testdoc1.rtf");
 
             RtfTreeNode node1 = tree.MainGroup.SelectSingleNode(RtfNodeType.Keyword); //rtf1
             RtfTreeNode node2 = tree.MainGroup.SelectSingleNode(RtfNodeType.Control); //* generator
@@ -138,7 +138,7 @@ namespace Net.Sgoliver.NRtfTree.Test
         {
             RtfTree tree = new RtfTree();
 
-            int res = tree.LoadRtfFile("..\\..\\testdocs\\testdoc1.rtf");
+            int res = tree.LoadRtfFile("testdocs\\testdoc1.rtf");
 
             RtfTreeNode node1 = tree.MainGroup.SelectSingleChildNode(RtfNodeType.Keyword); //rtf1
             RtfTreeNode node2 = tree.MainGroup.SelectSingleChildNode(RtfNodeType.Control); //'233
@@ -158,7 +158,7 @@ namespace Net.Sgoliver.NRtfTree.Test
         {
             RtfTree tree = new RtfTree();
 
-            int res = tree.LoadRtfFile("..\\..\\testdocs\\testdoc1.rtf");
+            int res = tree.LoadRtfFile("testdocs\\testdoc1.rtf");
 
             RtfNodeCollection lista1 = tree.MainGroup.SelectChildNodes("fs");  //5 nodes
             RtfNodeCollection lista2 = tree.MainGroup.SelectChildNodes("f");   //3 nodes
@@ -182,7 +182,7 @@ namespace Net.Sgoliver.NRtfTree.Test
         {
             RtfTree tree = new RtfTree();
 
-            int res = tree.LoadRtfFile("..\\..\\testdocs\\testdoc1.rtf");
+            int res = tree.LoadRtfFile("testdocs\\testdoc1.rtf");
 
             RtfNodeCollection lista1 = tree.MainGroup.SelectNodes("fs");  //5 nodes
             RtfNodeCollection lista2 = tree.MainGroup.SelectNodes("f");   //6 nodes
@@ -209,7 +209,7 @@ namespace Net.Sgoliver.NRtfTree.Test
         {
             RtfTree tree = new RtfTree();
 
-            int res = tree.LoadRtfFile("..\\..\\testdocs\\testdoc1.rtf");
+            int res = tree.LoadRtfFile("testdocs\\testdoc1.rtf");
 
             RtfTreeNode node1 = tree.MainGroup.SelectSingleNode("fs"); 
             RtfTreeNode node2 = tree.MainGroup.SelectSingleNode("f");  
@@ -223,7 +223,7 @@ namespace Net.Sgoliver.NRtfTree.Test
         {
             RtfTree tree = new RtfTree();
 
-            int res = tree.LoadRtfFile("..\\..\\testdocs\\testdoc1.rtf");
+            int res = tree.LoadRtfFile("testdocs\\testdoc1.rtf");
 
             RtfTreeNode node1 = tree.MainGroup.SelectSingleChildNode("fs");
             RtfTreeNode node2 = tree.MainGroup.SelectSingleChildNode("f");
@@ -237,7 +237,7 @@ namespace Net.Sgoliver.NRtfTree.Test
         {
             RtfTree tree = new RtfTree();
 
-            int res = tree.LoadRtfFile("..\\..\\testdocs\\testdoc1.rtf");
+            int res = tree.LoadRtfFile("testdocs\\testdoc1.rtf");
 
             RtfNodeCollection lista1 = tree.MainGroup.SelectChildNodes("fs", 24);  //2 nodes
             RtfNodeCollection lista2 = tree.MainGroup.SelectChildNodes("f", 1);    //1 nodes
@@ -256,7 +256,7 @@ namespace Net.Sgoliver.NRtfTree.Test
         {
             RtfTree tree = new RtfTree();
 
-            int res = tree.LoadRtfFile("..\\..\\testdocs\\testdoc1.rtf");
+            int res = tree.LoadRtfFile("testdocs\\testdoc1.rtf");
 
             RtfNodeCollection lista1 = tree.MainGroup.SelectNodes("fs", 24);  //2 nodes
             RtfNodeCollection lista2 = tree.MainGroup.SelectNodes("f", 1);    //2 nodes
@@ -276,7 +276,7 @@ namespace Net.Sgoliver.NRtfTree.Test
         {
             RtfTree tree = new RtfTree();
 
-            int res = tree.LoadRtfFile("..\\..\\testdocs\\testdoc1.rtf");
+            int res = tree.LoadRtfFile("testdocs\\testdoc1.rtf");
 
             RtfTreeNode node1 = tree.MainGroup.SelectSingleNode("fs", 24);
             RtfTreeNode node2 = tree.MainGroup.SelectSingleNode("f", 1);
@@ -290,7 +290,7 @@ namespace Net.Sgoliver.NRtfTree.Test
         {
             RtfTree tree = new RtfTree();
 
-            int res = tree.LoadRtfFile("..\\..\\testdocs\\testdoc1.rtf");
+            int res = tree.LoadRtfFile("testdocs\\testdoc1.rtf");
 
             RtfTreeNode node1 = tree.MainGroup.SelectSingleChildNode("fs", 24);
             RtfTreeNode node2 = tree.MainGroup.SelectSingleChildNode("f", 1);
@@ -304,7 +304,7 @@ namespace Net.Sgoliver.NRtfTree.Test
         {
             RtfTree tree = new RtfTree();
 
-            int res = tree.LoadRtfFile("..\\..\\testdocs\\testdoc1.rtf");
+            int res = tree.LoadRtfFile("testdocs\\testdoc1.rtf");
 
             RtfNodeCollection lista1 = tree.MainGroup.SelectChildGroups("colortbl");  //1 node
             RtfNodeCollection lista2 = tree.MainGroup.SelectChildGroups("f");         //0 nodes
@@ -320,7 +320,7 @@ namespace Net.Sgoliver.NRtfTree.Test
         {
             RtfTree tree = new RtfTree();
 
-            int res = tree.LoadRtfFile("..\\..\\testdocs\\testdoc1.rtf");
+            int res = tree.LoadRtfFile("testdocs\\testdoc1.rtf");
 
             RtfNodeCollection lista1 = tree.MainGroup.SelectGroups("colortbl");  //1 node
             RtfNodeCollection lista2 = tree.MainGroup.SelectGroups("f");         //3 nodes
@@ -340,7 +340,7 @@ namespace Net.Sgoliver.NRtfTree.Test
         {
             RtfTree tree = new RtfTree();
 
-            int res = tree.LoadRtfFile("..\\..\\testdocs\\testdoc1.rtf");
+            int res = tree.LoadRtfFile("testdocs\\testdoc1.rtf");
 
             RtfTreeNode node1 = tree.MainGroup.SelectSingleGroup("f");
             RtfTreeNode node2 = tree.MainGroup[5].SelectSingleChildGroup("f");
@@ -354,7 +354,7 @@ namespace Net.Sgoliver.NRtfTree.Test
         {
             RtfTree tree = new RtfTree();
 
-            int res = tree.LoadRtfFile("..\\..\\testdocs\\testdoc1.rtf");
+            int res = tree.LoadRtfFile("testdocs\\testdoc1.rtf");
 
             RtfNodeCollection list1 = tree.MainGroup.SelectChildGroups("generator");
             RtfNodeCollection list2 = tree.MainGroup.SelectChildGroups("generator", false);
@@ -394,7 +394,7 @@ namespace Net.Sgoliver.NRtfTree.Test
         {
             RtfTree tree = new RtfTree();
 
-            int res = tree.LoadRtfFile("..\\..\\testdocs\\testdoc1.rtf");
+            int res = tree.LoadRtfFile("testdocs\\testdoc1.rtf");
 
             RtfTreeNode node1 = tree.MainGroup.ChildNodes[4];               //deflang3082
             RtfTreeNode node2 = tree.MainGroup.ChildNodes[6].ChildNodes[2]; //colortbl/red
@@ -421,7 +421,7 @@ namespace Net.Sgoliver.NRtfTree.Test
         {
             RtfTree tree = new RtfTree();
 
-            int res = tree.LoadRtfFile("..\\..\\testdocs\\testdoc1.rtf");
+            int res = tree.LoadRtfFile("testdocs\\testdoc1.rtf");
 
             RtfNodeCollection list1 = tree.MainGroup.FindText("Italic");
 
@@ -439,12 +439,12 @@ namespace Net.Sgoliver.NRtfTree.Test
         {
             RtfTree tree = new RtfTree();
 
-            int res = tree.LoadRtfFile("..\\..\\testdocs\\testdoc1.rtf");
+            int res = tree.LoadRtfFile("testdocs\\testdoc1.rtf");
 
             tree.MainGroup.ReplaceText("Italic", "REPLACED");
 
             StreamReader sr = null;
-            sr = new StreamReader("..\\..\\testdocs\\rtf2.txt");
+            sr = new StreamReader("testdocs\\rtf2.txt");
             string rtf2 = sr.ReadToEnd();
             sr.Close();
 

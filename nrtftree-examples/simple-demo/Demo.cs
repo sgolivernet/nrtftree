@@ -182,7 +182,7 @@ namespace Net.Sgoliver.NRtfTree
             public static void ExtractDocumentProperties()
             {
                 RtfTree tree = new RtfTree();
-                tree.LoadRtfFile("..\\..\\testdocs\\test-doc.rtf");
+                tree.LoadRtfFile("testdocs\\test-doc.rtf");
 
                 InfoGroup info = tree.GetInfoGroup();
 
@@ -201,9 +201,9 @@ namespace Net.Sgoliver.NRtfTree
             public static void GenerateRtfTree()
             {
                 RtfTree tree = new RtfTree();
-                tree.LoadRtfFile("..\\..\\testdocs\\test-doc.rtf");
+                tree.LoadRtfFile("testdocs\\test-doc.rtf");
 
-                StreamWriter sw = new StreamWriter("..\\..\\testdocs\\rtftree.txt");
+                StreamWriter sw = new StreamWriter("testdocs\\rtftree.txt");
 
                 Console.WriteLine("Generating RTF tree...");
 
@@ -219,9 +219,9 @@ namespace Net.Sgoliver.NRtfTree
             public static void ExtractPlainText()
             {
                 RtfTree tree = new RtfTree();
-                tree.LoadRtfFile("..\\..\\testdocs\\test-doc.rtf");
+                tree.LoadRtfFile("testdocs\\test-doc.rtf");
 
-                StreamWriter sw = new StreamWriter("..\\..\\testdocs\\rtftext.txt");
+                StreamWriter sw = new StreamWriter("testdocs\\rtftext.txt");
 
                 Console.WriteLine("Extracting text...");
 
@@ -237,7 +237,7 @@ namespace Net.Sgoliver.NRtfTree
             public static void ExtractDocumentOutline()
             {
                 RtfTree tree = new RtfTree();
-                tree.LoadRtfFile("..\\..\\testdocs\\test-doc.rtf");
+                tree.LoadRtfFile("testdocs\\test-doc.rtf");
 
                 RtfStyleSheetTable sst = tree.GetStyleSheetTable();
 
@@ -284,7 +284,7 @@ namespace Net.Sgoliver.NRtfTree
             private static void ExtractHyperlinks()
             {
                 RtfTree tree = new RtfTree();
-                tree.LoadRtfFile("..\\..\\testdocs\\test-doc.rtf");
+                tree.LoadRtfFile("testdocs\\test-doc.rtf");
 
                 RtfNodeCollection fields = tree.MainGroup.SelectGroups("field");
 
@@ -326,7 +326,7 @@ namespace Net.Sgoliver.NRtfTree
             private static void ExtractImages()
             {
                 RtfTree tree = new RtfTree();
-                tree.LoadRtfFile("..\\..\\testdocs\\test-doc.rtf");
+                tree.LoadRtfFile("testdocs\\test-doc.rtf");
 
                 RtfNodeCollection imageNodes = tree.RootNode.SelectNodes("pict");
 
@@ -339,7 +339,7 @@ namespace Net.Sgoliver.NRtfTree
 
                     if (imageNode.ImageFormat == ImageFormat.Png)
                     {
-                        imageNode.SaveImage("..\\..\\testdocs\\image" + i + ".png");
+                        imageNode.SaveImage("testdocs\\image" + i + ".png");
 
                         Console.WriteLine("File '" + "image" + i + ".png" + "' created.");
 
@@ -353,7 +353,7 @@ namespace Net.Sgoliver.NRtfTree
             private static void ExtractObjects()
             {
                 RtfTree tree = new RtfTree();
-                tree.LoadRtfFile("..\\..\\testdocs\\test-doc.rtf");
+                tree.LoadRtfFile("testdocs\\test-doc.rtf");
 
                 //Busca el primer nodo de tipo objeto.
                 RtfNodeCollection objects = tree.RootNode.SelectGroups("object");
@@ -372,7 +372,7 @@ namespace Net.Sgoliver.NRtfTree
 
                     byte[] data = objectNode.GetByteData();
 
-                    FileStream binaryFile = new FileStream("..\\..\\testdocs\\object" + i + ".xls", FileMode.Create, FileAccess.ReadWrite);
+                    FileStream binaryFile = new FileStream("testdocs\\object" + i + ".xls", FileMode.Create, FileAccess.ReadWrite);
                     BinaryWriter bw = new BinaryWriter(binaryFile);
 
                     for (int j = 38; j < data.Length; j++)
@@ -398,13 +398,13 @@ namespace Net.Sgoliver.NRtfTree
 
                 RtfReader reader = new RtfReader(parser);
 
-                reader.LoadRtfFile("..\\..\\testdocs\\test-doc2.rtf");
+                reader.LoadRtfFile("testdocs\\test-doc2.rtf");
 
                 Console.WriteLine("Processing...");
 
                 reader.Parse();
 
-                StreamWriter sw = new StreamWriter("..\\..\\testdocs\\taggedfile.txt");
+                StreamWriter sw = new StreamWriter("testdocs\\taggedfile.txt");
                 sw.Write(parser.doc);
                 sw.Flush();
                 sw.Close();
@@ -416,15 +416,15 @@ namespace Net.Sgoliver.NRtfTree
 
             private static void MergeDocuments()
             {
-                RtfMerger merger = new RtfMerger("..\\..\\testdocs\\test-doc3.rtf");
+                RtfMerger merger = new RtfMerger("testdocs\\test-doc3.rtf");
 
-                merger.AddPlaceHolder("[TagTextRTF1]", "..\\..\\testdocs\\merge1.rtf");
-                merger.AddPlaceHolder("[TagTextRTF2]", "..\\..\\testdocs\\merge2.rtf");
+                merger.AddPlaceHolder("[TagTextRTF1]", "testdocs\\merge1.rtf");
+                merger.AddPlaceHolder("[TagTextRTF2]", "testdocs\\merge2.rtf");
 
                 Console.WriteLine("Processing...");
 
                 RtfTree tree = merger.Merge();
-                tree.SaveRtf("..\\..\\testdocs\\merge-result.rtf");
+                tree.SaveRtf("testdocs\\merge-result.rtf");
 
                 Console.WriteLine("File 'merge-result.txt' created.");
 
@@ -434,7 +434,7 @@ namespace Net.Sgoliver.NRtfTree
             private static void ConvertToHtml()
             {
                 RtfTree tree = new RtfTree();
-                tree.LoadRtfFile("..\\..\\testdocs\\test-doc2.rtf");
+                tree.LoadRtfFile("testdocs\\test-doc2.rtf");
 
                 Rtf2Html rtfToHtml = new Rtf2Html();
 
@@ -442,7 +442,7 @@ namespace Net.Sgoliver.NRtfTree
                 rtfToHtml.IncrustImages = false;
                 string html = rtfToHtml.Convert(tree.Rtf);
 
-                StreamWriter sw = new StreamWriter("..\\..\\testdocs\\test.html", false);
+                StreamWriter sw = new StreamWriter("testdocs\\test.html", false);
                 sw.Write(html);
                 sw.Flush();
                 sw.Close();
